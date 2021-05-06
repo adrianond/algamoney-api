@@ -1,0 +1,58 @@
+# Server Configuration
+server:
+  port: 8080
+  undertow:
+    worker-threads: 200
+  servlet:
+    session:
+      persistent: false
+      store-dir: /var/log/app
+
+# Oracle settings and Pool Connection
+spring:
+  profiles:
+    active: local
+  application:
+    name: algamoney-api
+  datasource:
+    url: jdbc:oracle:thin:@10.20.1.111:1522:OMNIDEV
+    username: WSALGAMONEY
+    password: omnidev
+    driver-class-name: oracle.jdbc.OracleDriver
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.Oracle10gDialect
+        show_sql: true
+        format_sql: true
+  liquibase:
+    contexts: local
+    change-log: classpath:db/changelog/master.xml
+  jackson:
+    deserialization:
+      fail-on-unknown-properties: true
+  rabbitmq:
+    addresses: 192.168.0.60 #localhost
+    port: 5672
+    username: adrianond
+    password: secret
+    virtual-host: adrianond
+app:
+  swagger.host: localhost:8080
+  algamoney:
+    rabbit:
+      config:
+        initialInterval: 60000 # 1min
+        maxInterval: 120000 # 2min
+        multiplier: 1 # linear, uma tentativa cada 'initialInterval'
+        retries: 6
+        consumers: 20
+      bindings:
+        -
+          topic: algamoney.event.save.phone
+          routing-key: algamoney.event.save.phone
+          queue: algamoney.event.save.phone.queue
+          dlx: algamoney.event.save.phone.dlx
+          dlq: algamoney.event.save.phone.dlq
+          declare: true
+

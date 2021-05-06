@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+
+    <include file="db/changelog/20212602235500_added_entity_categoria.xml"/>
+    <include file="db/changelog/20210503235500_insert_entity_categoria.xml"/>
+    <include file="db/changelog/20211603235500_added_entity_pessoa.xml"/>
+    <include file="db/changelog/20211204235500_added_entity_telefone.xml"/>
+    <include file="db/changelog/20210405235500_added_entity_lancamento.xml"/>
+
+</databaseChangeLog>
