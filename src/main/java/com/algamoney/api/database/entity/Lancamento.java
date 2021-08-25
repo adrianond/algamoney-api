@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity
@@ -42,6 +43,6 @@ public class Lancamento implements Serializable {
     private Categoria categoria;
 
     @JoinColumn(name = "id_pessoa", referencedColumnName = "id")
-    @ManyToOne(targetEntity = Pessoa.class, fetch = FetchType.LAZY, cascade = CascadeType.ALL, optional = false)
+    @ManyToOne(targetEntity = Pessoa.class, fetch = FetchType.LAZY)
     private Pessoa pessoa;
 }

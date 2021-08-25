@@ -10,7 +10,17 @@
     <property name="floatType" value="float4" dbms="postgresql, h2"/>
     <property name="floatType" value="float" dbms="mysql, oracle, mssql"/>
 
-    <changeSet id= "20210503235500-1" author="adriano.dantas">
+    <changeSet id="20210226235500-1" author="adriano.dantas">
+        <createTable tableName="categoria">
+            <column name="id" type="bigint" autoIncrement="${autoIncrement}">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="nome" type="varchar(255)">
+                <constraints nullable="false" unique="true" uniqueConstraintName="const_nome"/>
+            </column>
+        </createTable>
+        <createSequence sequenceName="SEQ_CATEGORIA"/>
+
         <insert tableName="categoria">
             <column name="id" value="1"/>
             <column name="nome" value="Lazer"/>

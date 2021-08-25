@@ -29,8 +29,8 @@ public class LancamentoRequest {
     private String observacao;
 
     @NotNull(message = "Categoria é obrigatória")
-    private CategoriaRequest categoria;
+    private Long  codigoCategoria;
 
     @NotNull(message = "Pessoa é obrigatório")
-    private PessoaRequest pessoa;
+    private Long  codigoPessoa;
 }

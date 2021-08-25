@@ -1,0 +1,27 @@
+package com.algamoney.api.http;
+
+import com.algamoney.api.http.domain.request.PersonRequest;
+import com.algamoney.api.http.domain.response.PersonResponse;
+import com.algamoney.api.usecase.person.SalvarPessoa;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
+
+@RestController
+@RequestMapping(path = "/api/gateway/persons")
+@Api(tags = "ApiGateway")
+@AllArgsConstructor
+public class PersonApiGatewayWS {
+    private final SalvarPessoa salvarPessoa;
+
+    @ApiOperation(value = "Save Person")
+    @PostMapping()
+    @ResponseStatus(HttpStatus.CREATED)
+    public PersonResponse salvarPessoa(@Valid @RequestBody PersonRequest personRequest) {
+        return salvarPessoa.executar(personRequest);
+    }
+}

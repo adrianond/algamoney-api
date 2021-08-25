@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+
+
+    <property name="now" value="now()" dbms="h2"/>
+    <property name="now" value="sysdate" dbms="oracle"/>
+    <property name="floatType" value="float4" dbms="postgresql, h2"/>
+    <property name="floatType" value="float" dbms="mysql, oracle, mssql"/>
+
+    <changeSet id="20210717255500-1" author="adriano.dantas">
+        <createTable tableName="usuario_permissao">
+            <column name="codigo_usuario" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="codigo_permissao" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <addPrimaryKey tableName="usuario_permissao"
+                       columnNames="codigo_usuario, codigo_permissao"/>
+
+        <addForeignKeyConstraint baseTableName="usuario_permissao"
+                                 baseColumnNames="codigo_usuario"
+                                 constraintName="fk_codigo_usuario"
+                                 referencedTableName="usuario"
+                                 referencedColumnNames="codigo"/>
+
+        <addForeignKeyConstraint baseTableName="usuario_permissao"
+                                 baseColumnNames="codigo_permissao"
+                                 constraintName="fk_permissao_usuario"
+                                 referencedTableName="permissao"
+                                 referencedColumnNames="codigo"/>
+        <!--admin-->
+        <insert tableName="usuario_permissao">
+            <column name="codigo_usuario" value="1"/>
+            <column name="codigo_permissao" value="1"/>
+        </insert>
+        <insert tableName="usuario_permissao">
+            <column name="codigo_usuario" value="1"/>
+            <column name="codigo_permissao" value="2"/>
+        </insert>
+        <insert tableName="usuario_permissao">
+            <column name="codigo_usuario" value="1"/>
+            <column name="codigo_permissao" value="3"/>
+        </insert>
+        <insert tableName="usuario_permissao">
+            <column name="codigo_usuario" value="1"/>
+            <column name="codigo_permissao" value="4"/>
+        </insert>
+        <insert tableName="usuario_permissao">
+            <column name="codigo_usuario" value="1"/>
+            <column name="codigo_permissao" value="5"/>
+        </insert>
+        <insert tableName="usuario_permissao">
+            <column name="codigo_usuario" value="1"/>
+            <column name="codigo_permissao" value="6"/>
+        </insert>
+        <insert tableName="usuario_permissao">
+            <column name="codigo_usuario" value="1"/>
+            <column name="codigo_permissao" value="7"/>
+        </insert>
+        <insert tableName="usuario_permissao">
+            <column name="codigo_usuario" value="1"/>
+            <column name="codigo_permissao" value="8"/>
+        </insert>
+
+        <!--maria-->
+        <insert tableName="usuario_permissao">
+            <column name="codigo_usuario" value="2"/>
+            <column name="codigo_permissao" value="2"/>
+        </insert>
+        <insert tableName="usuario_permissao">
+            <column name="codigo_usuario" value="2"/>
+            <column name="codigo_permissao" value="5"/>
+        </insert>
+        <insert tableName="usuario_permissao">
+            <column name="codigo_usuario" value="2"/>
+            <column name="codigo_permissao" value="8"/>
+        </insert>
+    </changeSet>
+
+</databaseChangeLog>

@@ -1,4 +1,3 @@
-/*
 package com.algamoney.api.http;
 
 import com.algamoney.api.event.RecursoCriadoEvent;
@@ -6,10 +5,8 @@ import com.algamoney.api.http.domain.PessoaDTO;
 import com.algamoney.api.http.domain.request.PessoaRequest;
 import com.algamoney.api.http.domain.response.PessoaResponse;
 import com.algamoney.api.usecase.pessoa.AdicionaPessoa;
-import com.algamoney.api.usecase.pessoa.ConsultaPessoa;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
 import lombok.AllArgsConstructor;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.http.HttpStatus;
@@ -35,4 +32,4 @@ public class TelefoneWS {
         return new PessoaResponse(pessoaSalva);
     }
 }
-*/
+

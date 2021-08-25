@@ -17,7 +17,7 @@ spring:
   datasource:
     url: jdbc:oracle:thin:@10.20.1.111:1522:OMNIDEV
     username: WSALGAMONEY
-    password: omnidev
+    password: omnidevs
     driver-class-name: oracle.jdbc.OracleDriver
   jpa:
     properties:
@@ -55,4 +55,7 @@ app:
           dlx: algamoney.event.save.phone.dlx
           dlq: algamoney.event.save.phone.dlq
           declare: true
-
+api:
+  gateway:
+    person:
+      url: https://gsdktzz0lb.execute-api.us-east-1.amazonaws.com/dev

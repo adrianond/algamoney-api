@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+
+
+    <property name="now" value="now()" dbms="h2"/>
+    <property name="now" value="sysdate" dbms="oracle"/>
+    <property name="floatType" value="float4" dbms="postgresql, h2"/>
+    <property name="floatType" value="float" dbms="mysql, oracle, mssql"/>
+
+    <changeSet id="20210717235500-1" author="adriano.dantas">
+        <createTable tableName="usuario">
+            <column name="codigo" type="bigint">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="nome" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="email" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="senha" type="varchar(4000)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <insert tableName="usuario">
+            <column name="codigo" value="1"/>
+            <column name="email" value="admin@algamoney.com"/>
+            <column name="nome" value="Administrador"/>
+            <column name="senha" value="$2a$10$T8Fpc6FuRen2uLodDyfDOu/P1OWJddQMU8TXYXF6REd8gpu17Y.KK"/>
+        </insert>
+        <insert tableName="usuario">
+            <column name="codigo" value="2"/>
+            <column name="email" value="maria.silva@algamoney.com"/>
+            <column name="nome" value="Maria Silva"/>
+            <column name="senha" value="$2a$10$KOqOqNEolW5ruidavXnJaeP.x5SVGV5NiyldQ.q27lAru/dfE3gDe"/>
+        </insert>
+    </changeSet>
+
+</databaseChangeLog>

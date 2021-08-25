@@ -1,19 +1,21 @@
 package com.algamoney.api.http.domain;
 
 import com.algamoney.api.database.entity.enumeration.TipoLancamento;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Setter
 @Getter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class LancamentoDTO {
     private Long id;
     private String descricao;
-    private LocalDateTime dataVencimento;
-    private LocalDateTime dataPagamento;
+    private String dataVencimento;
+    private String dataPagamento;
     private BigDecimal valor;
     private TipoLancamento tipoLancamento;
     private String observacao;
