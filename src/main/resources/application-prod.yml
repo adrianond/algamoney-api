@@ -57,7 +57,7 @@ app:
           declare: true
     security:
       seguranca:
-        enableHttps: false
+        enableHttps: true
 api:
   gateway:
     person:
