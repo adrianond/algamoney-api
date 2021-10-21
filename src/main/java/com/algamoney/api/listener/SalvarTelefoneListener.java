@@ -4,7 +4,7 @@ package com.algamoney.api.listener;
 import com.algamoney.api.config.amqp.EventMessage;
 import com.algamoney.api.config.amqp.domain.SalvarTelefonePessoa;
 import com.algamoney.api.exception.PessoaNotFoundException;
-import com.algamoney.api.usecase.telefone.SalvarTelefone;
+import com.algamoney.api.usecase.telefone.CadastrarTelefone;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
@@ -22,7 +22,7 @@ import static com.algamoney.api.config.amqp.Queues.SALVA_TELEFONE_PESSOA_QUEUE;
 @RequiredArgsConstructor
 public class SalvarTelefoneListener {
     private final ObjectMapper objectMapper;
-    private final SalvarTelefone salvarTelefone;
+    private final CadastrarTelefone cadastrarTelefone;
 
     @RabbitListener(queues = SALVA_TELEFONE_PESSOA_QUEUE)
     public void dequeue(final Message message) {
@@ -52,6 +52,6 @@ public class SalvarTelefoneListener {
     }
 
     private void execute(SalvarTelefonePessoa message) {
-        salvarTelefone.executar(message);
+        cadastrarTelefone.executar(message);
     }
 }

@@ -44,11 +44,8 @@ public class Pessoa implements Serializable {
     @OneToMany(mappedBy = "pessoa", targetEntity = Telefone.class, fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Telefone> telefones = new ArrayList<>();
 
-    public void adicionaTelefone(Telefone telefone) {
+    public void adicionaTelefone(Telefone telefone, int sequencia) {
         telefone.setPessoa(this);
-        int sequencia = telefones.stream()
-                .mapToInt(Telefone::getSequencia)
-                .max().orElse(0) + 1;
         telefone.setTelefoneId(sequencia, telefone.getPessoa());
         telefones.add(telefone);
     }

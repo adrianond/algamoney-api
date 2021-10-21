@@ -11,26 +11,39 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 
 @Component
 @AllArgsConstructor
-public class SalvarTelefone {
+public class CadastrarTelefone {
     private final PessoaRepositoryFacade pessoaRepositoryFacade;
+
+    public void executar(Pessoa pessoa, List<TelefoneRequest> telefones) {
+        if (!CollectionUtils.isEmpty(telefones)) {
+            pessoa.getTelefones().clear();
+            buildTelefones(pessoa, telefones);
+        }
+    }
 
     @Transactional
     public void executar(SalvarTelefonePessoa salvarTelefonePessoa) {
-        Pessoa pessoa = pessoaRepositoryFacade.findById(salvarTelefonePessoa.getId());
-        if (!CollectionUtils.isEmpty(salvarTelefonePessoa.getTelefones()))
+        if (!CollectionUtils.isEmpty(salvarTelefonePessoa.getTelefones())) {
+            Pessoa pessoa = pessoaRepositoryFacade.findById(salvarTelefonePessoa.getId());
             buildTelefones(pessoa, salvarTelefonePessoa.getTelefones());
+        }
     }
 
-    private void buildTelefones(Pessoa pessoa, List<TelefoneRequest> telefones) {
-        telefones.stream()
-                .map(this::getTelefone)
-                .forEach(telefone -> pessoa.adicionaTelefone(telefone));
+    private void buildTelefones(Pessoa pessoa, List<TelefoneRequest> telefonesRequests) {
+        AtomicInteger sequencia = new AtomicInteger(telefonesRequests.stream()
+                .mapToInt(TelefoneRequest::getSequencia)
+                .max().orElse(0) + 1);
+
+        telefonesRequests.stream()
+                .map(this::buildTelefone)
+                .forEach(telefone -> pessoa.adicionaTelefone(telefone, sequencia.getAndIncrement()));
     }
 
-    private Telefone getTelefone(TelefoneRequest telefoneRequest) {
+    private Telefone buildTelefone(TelefoneRequest telefoneRequest) {
         Telefone telefone = new Telefone();
         telefone.setCategoria(telefoneRequest.getCategoriaTelefone());
         telefone.setRamal(telefoneRequest.getRamal());

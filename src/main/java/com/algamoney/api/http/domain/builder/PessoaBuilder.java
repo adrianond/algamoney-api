@@ -6,10 +6,12 @@ import com.algamoney.api.database.entity.embedded.Endereco;
 import com.algamoney.api.http.domain.EnderecoDTO;
 import com.algamoney.api.http.domain.PessoaDTO;
 import com.algamoney.api.http.domain.TelefoneDTO;
+import com.algamoney.api.http.domain.TelefoneIdDTO;
 import com.algamoney.api.util.DateUtil;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -46,7 +48,7 @@ public class PessoaBuilder {
 
     private List<TelefoneDTO> buildTelefoneDTO(List<Telefone> telefones) {
         if (CollectionUtils.isEmpty(telefones))
-            return null;
+            return Collections.emptyList();
         return telefones.stream()
                 .map(this::setTelefone)
                 .collect(Collectors.toList());
@@ -54,6 +56,7 @@ public class PessoaBuilder {
 
     private TelefoneDTO setTelefone(Telefone telefone) {
         TelefoneDTO telefoneDTO = new TelefoneDTO();
+        telefoneDTO.setId(new TelefoneIdDTO(telefone.getId().getPessoa(), telefone.getId().getSequencia()));
         telefoneDTO.setNumero(telefone.getNumero());
         if (!telefone.getCategoria().equals(CELULAR) && telefone.getRamal() != null)
             telefoneDTO.setRamal(telefone.getRamal());

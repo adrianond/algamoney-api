@@ -20,7 +20,7 @@ public class UsuarioWS {
     @ApiOperation(value = "Get user's permissions")
     @GetMapping(path = "/user/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public ConsultaPermissoesUsuarioResponse consultaCategoria(@ApiParam("id") @PathVariable("codigo") Long codigo) {
+    public ConsultaPermissoesUsuarioResponse consultaPermissoes(@ApiParam("id") @PathVariable("codigo") Long codigo) {
        return new ConsultaPermissoesUsuarioResponse(consultaPermissoesUsuario.executar(codigo));
     }
 }

@@ -9,8 +9,10 @@ import javax.validation.constraints.Size;
 @Getter
 @Setter
 public class TelefoneRequest {
+    private Long id;
     @Size(min = 11, message = "Telefone deve conter 11 digitos")
     private String numero;
     private String ramal;
     private CategoriaTelefone categoriaTelefone;
+    private int sequencia;
 }

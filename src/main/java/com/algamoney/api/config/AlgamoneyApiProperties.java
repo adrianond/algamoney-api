@@ -11,11 +11,12 @@ import org.springframework.context.annotation.Configuration;
 @NoArgsConstructor
 @Configuration
 @ConfigurationProperties(
-        prefix = "app.algamoney.security"
+        prefix = "app.algamoney"
 )
-public class AlgamoneyApiPropoertie {
+public class AlgamoneyApiProperties {
 
     private Seguranca seguranca;
+    private Person person;
 
     @Data
     @AllArgsConstructor
@@ -23,5 +24,13 @@ public class AlgamoneyApiPropoertie {
     public static class Seguranca {
 
         private boolean enableHttps;
+    }
+
+    @Data
+    @AllArgsConstructor
+    @NoArgsConstructor
+    public static class Person {
+
+        private String url;
     }
 }

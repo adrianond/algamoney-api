@@ -6,6 +6,7 @@ import lombok.Setter;
 @Setter
 @Getter
 public class TelefoneDTO {
+    private TelefoneIdDTO id;
     private String numero;
     private String ramal;
 }

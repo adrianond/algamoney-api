@@ -35,7 +35,9 @@ public class CategoriaWS {
     @GetMapping(path = "/category/{id}")
     @PreAuthorize("hasAuthority('ROLE_PESQUISAR_CATEGORIA') and #oauth2.hasScope('read')")
     @ResponseStatus(HttpStatus.OK)
-    public ConsultaCategoriaResponse consultaCategoria(@ApiParam("id") @PathVariable("id") Long id) {
+    public ConsultaCategoriaResponse consultaCategoria(@ApiParam("id") @PathVariable("id") Long id,
+                                                       @ApiParam(required = true, value = "Authorization: Bearer <TOKEN>")
+                                                       @RequestHeader(value = "Authorization") String authorization) {
        return new ConsultaCategoriaResponse(consultaCategoria.executar(id));
     }
 
@@ -43,7 +45,7 @@ public class CategoriaWS {
     @GetMapping()
     @PreAuthorize("hasAuthority('ROLE_PESQUISAR_CATEGORIA') and #oauth2.hasScope('read')")
     @ResponseStatus(HttpStatus.OK)
-    public ConsultaCategoriasResponse consultaCategorias() {
+    public ConsultaCategoriasResponse consultaCategorias(@ApiParam(required = true, value = "Authorization: Bearer <TOKEN>") @RequestHeader(value = "Authorization") String authorization) {
        return new ConsultaCategoriasResponse(consultaCategorias.executar());
     }
 

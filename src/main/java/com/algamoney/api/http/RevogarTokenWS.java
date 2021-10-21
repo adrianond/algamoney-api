@@ -1,6 +1,6 @@
 package com.algamoney.api.http;
 
-import com.algamoney.api.config.AlgamoneyApiPropoertie;
+import com.algamoney.api.config.AlgamoneyApiProperties;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,14 +19,14 @@ import javax.servlet.http.HttpServletResponse;
 public class RevogarTokenWS {
 
     @Autowired
-    private AlgamoneyApiPropoertie algamoneyApiPropoertie;
+    private AlgamoneyApiProperties algamoneyApiProperties;
 
     @ApiOperation("Revoke access token")
     @DeleteMapping("/revoke")
     public void revoke(HttpServletRequest req, HttpServletResponse resp) {
         Cookie cookie = new Cookie("refreshToken", null);
         cookie.setHttpOnly(true);
-        cookie.setSecure(algamoneyApiPropoertie.getSeguranca().isEnableHttps());
+        cookie.setSecure(algamoneyApiProperties.getSeguranca().isEnableHttps());
         cookie.setPath(req.getContextPath() + "/oauth/token");
         cookie.setMaxAge(0);//expirar o cookie agora!
 

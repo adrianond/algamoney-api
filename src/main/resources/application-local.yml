@@ -11,13 +11,13 @@ server:
 # Oracle settings and Pool Connection
 spring:
   profiles:
-    active: local
+    active: oauth-security #basic-security
   application:
     name: algamoney-api
   datasource:
     url: jdbc:oracle:thin:@10.20.1.111:1522:OMNIDEV
     username: WSALGAMONEY
-    password: omnidevs
+    password: omnidev
     driver-class-name: oracle.jdbc.OracleDriver
   jpa:
     properties:
@@ -55,10 +55,15 @@ app:
           dlx: algamoney.event.save.phone.dlx
           dlq: algamoney.event.save.phone.dlq
           declare: true
-    security:
-      seguranca:
-        enableHttps: false
-api:
-  gateway:
+    seguranca:
+      enableHttps: false
     person:
       url: https://gsdktzz0lb.execute-api.us-east-1.amazonaws.com/dev
+logging:
+  level:
+    org:
+      springframework:
+        boot:
+          autoconfigure: ERROR
+
+
