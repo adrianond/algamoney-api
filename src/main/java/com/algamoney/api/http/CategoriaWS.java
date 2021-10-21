@@ -54,7 +54,9 @@ public class CategoriaWS {
     @PostMapping()
     @PreAuthorize("hasAuthority('ROLE_CADASTRAR_CATEGORIA') and #oauth2.hasScope('write')")
     @ResponseStatus(HttpStatus.CREATED)
-    public void adicionaCategoria(@Valid @RequestBody CategoriaRequest request, HttpServletResponse response) {
+    public void adicionaCategoria(@Valid @RequestBody CategoriaRequest request, HttpServletResponse response,
+                                  @ApiParam(required = true, value = "Authorization: Bearer <TOKEN>")
+                                  @RequestHeader(value = "Authorization") String authorization) {
         Categoria categoria = adicionaCategoria.executar(request);
         /**
          * para retornar no header da requisição o location do recurso criado

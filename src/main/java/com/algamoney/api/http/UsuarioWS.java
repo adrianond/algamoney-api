@@ -20,7 +20,9 @@ public class UsuarioWS {
     @ApiOperation(value = "Get user's permissions")
     @GetMapping(path = "/user/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public ConsultaPermissoesUsuarioResponse consultaPermissoes(@ApiParam("id") @PathVariable("codigo") Long codigo) {
+    public ConsultaPermissoesUsuarioResponse consultaPermissoes(@ApiParam("id") @PathVariable("codigo") Long codigo,
+                                                                @ApiParam(required = true, value = "Authorization: Bearer <TOKEN>")
+                                                                @RequestHeader(value = "Authorization") String authorization) {
        return new ConsultaPermissoesUsuarioResponse(consultaPermissoesUsuario.executar(codigo));
     }
 }

@@ -23,7 +23,9 @@ public class TelefoneWS {
     @PostMapping(path = "/{id}/phone")
     @ResponseStatus(HttpStatus.OK)
     public void salvarTelefone(@ApiParam("id") @PathVariable("id") Long id,
-                               @Valid @RequestBody List<TelefoneRequest> telefones) {
+                               @Valid @RequestBody List<TelefoneRequest> telefones,
+                               @ApiParam(required = true, value = "Authorization: Bearer <TOKEN>")
+                               @RequestHeader(value = "Authorization") String authorization) {
         salvarTelefoneAssincrono.executar(id, telefones);
     }
 }

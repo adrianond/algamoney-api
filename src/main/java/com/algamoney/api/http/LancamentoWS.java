@@ -38,14 +38,18 @@ public class LancamentoWS {
     @ApiOperation(value = "Save new Entry")
     @PostMapping(path = "/lancamento")
     @ResponseStatus(HttpStatus.CREATED)
-    public LancamentoResponse salvarLancamento(@Valid @RequestBody LancamentoRequest request) {
+    public LancamentoResponse salvarLancamento(@Valid @RequestBody LancamentoRequest request,
+                                               @ApiParam(required = true, value = "Authorization: Bearer <TOKEN>")
+                                               @RequestHeader(value = "Authorization") String authorization) {
         return new LancamentoResponse(salvarLancamento.executar(request));
     }
 
     @ApiOperation(value = "Delete a Entry")
     @DeleteMapping(path = "/lancamento/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void excluirLancamento(@ApiParam @PathVariable("id") Long id) {
+    public void excluirLancamento(@ApiParam @PathVariable("id") Long id,
+                                  @ApiParam(required = true, value = "Authorization: Bearer <TOKEN>")
+                                  @RequestHeader(value = "Authorization") String authorization) {
         excluirLancamento.executar(id);
 
     }
@@ -53,14 +57,17 @@ public class LancamentoWS {
     @ApiOperation(value = "Get a Entry")
     @GetMapping(path = "/lancamento/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public LancamentoResponse consultarLancamento(@ApiParam @PathVariable("id") Long id) {
+    public LancamentoResponse consultarLancamento(@ApiParam @PathVariable("id") Long id,
+                                                  @ApiParam(required = true, value = "Authorization: Bearer <TOKEN>")
+                                                  @RequestHeader(value = "Authorization") String authorization) {
         return new LancamentoResponse(consultarLancamento.executar(id));
     }
 
     @ApiOperation(value = "Get Entries")
     @GetMapping()
     @ResponseStatus(HttpStatus.OK)
-    public LancamentosResponse consultarLancamentos() {
+    public LancamentosResponse consultarLancamentos(@ApiParam(required = true, value = "Authorization: Bearer <TOKEN>")
+                                                    @RequestHeader(value = "Authorization") String authorization) {
         return new LancamentosResponse(consultarLancamentos.executar());
     }
 
@@ -70,19 +77,25 @@ public class LancamentoWS {
     public LancamentosPageResponse pesquisar(Pageable pageable,
                                              @RequestParam(value = "dataVencimentoDe", required = false)  @DateTimeFormat(iso = ISO.DATE) LocalDate dataVencimentoDe,
                                              @RequestParam(value = "dataVencimentoAte", required = false) @DateTimeFormat(iso = ISO.DATE) LocalDate dataVencimentoAte,
-                                             @RequestParam(value = "tipoLancamento", required = false) TipoLancamento tipoLancamento) {
+                                             @RequestParam(value = "tipoLancamento", required = false) TipoLancamento tipoLancamento,
+                                             @ApiParam(required = true, value = "Authorization: Bearer <TOKEN>")
+                                                 @RequestHeader(value = "Authorization") String authorization) {
         return new LancamentosPageResponse(consultarLancamentos.executarPaginacaoQueryDsl(pageable, dataVencimentoDe, dataVencimentoAte, tipoLancamento));
     }
 
     @ApiOperation(value = "Get Entries paginated v2")
     @GetMapping(path = "/paginated/v2")
-    public LancamentosPageResponse pesquisar(LancamentoFilter lancamentoFilter, Pageable pageable) {
+    public LancamentosPageResponse pesquisar(LancamentoFilter lancamentoFilter, Pageable pageable,
+                                             @ApiParam(required = true, value = "Authorization: Bearer <TOKEN>")
+                                             @RequestHeader(value = "Authorization") String authorization) {
         return new LancamentosPageResponse(consultarLancamentos.executarPaginacao(lancamentoFilter, pageable));
     }
 
     @GetMapping(path = "/paginated/v2", params = "resumo")
     @PreAuthorize("hasAuthority('ROLE_PESQUISAR_LANCAMENTO') and #oauth2.hasScope('read')")
-    public ResumoLancamentosPageResponse resumir(LancamentoFilter lancamentoFilter, Pageable pageable) {
+    public ResumoLancamentosPageResponse resumir(LancamentoFilter lancamentoFilter, Pageable pageable,
+                                                 @ApiParam(required = true, value = "Authorization: Bearer <TOKEN>")
+                                                 @RequestHeader(value = "Authorization") String authorization) {
         return new ResumoLancamentosPageResponse(consultarLancamentos.resumir(lancamentoFilter, pageable));
     }
 }

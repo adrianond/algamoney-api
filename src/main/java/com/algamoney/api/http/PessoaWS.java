@@ -43,7 +43,9 @@ public class PessoaWS {
     @ApiOperation(value = "Get persom by id")
     @GetMapping(path = "/person/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public PessoaResponse consultaPessoa(@ApiParam("id") @PathVariable("id") Long id) {
+    public PessoaResponse consultaPessoa(@ApiParam("id") @PathVariable("id") Long id,
+                                         @ApiParam(required = true, value = "Authorization: Bearer <TOKEN>")
+                                         @RequestHeader(value = "Authorization") String authorization) {
         return new PessoaResponse(consultaPessoa.executar(id));
     }
 
@@ -51,7 +53,9 @@ public class PessoaWS {
     @ApiOperation(value = "Delete person by id")
     @DeleteMapping(path = "/person/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void excluirPessoa(@ApiParam @PathVariable("id") Long id) {
+    public void excluirPessoa(@ApiParam @PathVariable("id") Long id,
+                              @ApiParam(required = true, value = "Authorization: Bearer <TOKEN>")
+                              @RequestHeader(value = "Authorization") String authorization) {
         excluirPessoa.executar(id);
     }
 
@@ -68,7 +72,8 @@ public class PessoaWS {
     @PutMapping(path = "/person/{id}/ativo")
     @ResponseStatus(HttpStatus.OK)
     public PessoaResponse alterarPropriedadeAtivo(@ApiParam @PathVariable("id") Long id,
-                                                  @RequestBody Boolean ativo) {
+                                                  @RequestBody Boolean ativo,
+                                                  @ApiParam(required = true, value = "Authorization: Bearer <TOKEN>") @RequestHeader(value = "Authorization") String authorization) {
         return new PessoaResponse(atualizarPessoa.executar(id, ativo));
     }
 }
