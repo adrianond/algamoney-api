@@ -38,9 +38,9 @@ public class LancamentoWS {
     @ApiOperation(value = "Save new Entry")
     @PostMapping(path = "/lancamento")
     @ResponseStatus(HttpStatus.CREATED)
-    public LancamentoResponse salvarLancamento(@Valid @RequestBody LancamentoRequest request,
-                                               @ApiParam(required = true, value = "Authorization: Bearer <TOKEN>")
-                                               @RequestHeader(value = "Authorization") String authorization) {
+    public LancamentoResponse salvarLancamento(@Valid @RequestBody LancamentoRequest request
+                                              /* @ApiParam(required = true, value = "Authorization: Bearer <TOKEN>")
+                                               @RequestHeader(value = "Authorization") String authorization*/) {
         return new LancamentoResponse(salvarLancamento.executar(request));
     }
 
@@ -66,8 +66,8 @@ public class LancamentoWS {
     @ApiOperation(value = "Get Entries")
     @GetMapping()
     @ResponseStatus(HttpStatus.OK)
-    public LancamentosResponse consultarLancamentos(@ApiParam(required = true, value = "Authorization: Bearer <TOKEN>")
-                                                    @RequestHeader(value = "Authorization") String authorization) {
+    public LancamentosResponse consultarLancamentos(/*@ApiParam(required = true, value = "Authorization: Bearer <TOKEN>")
+                                                    @RequestHeader(value = "Authorization") String authorization*/) {
         return new LancamentosResponse(consultarLancamentos.executar());
     }
 
@@ -78,9 +78,10 @@ public class LancamentoWS {
                                              @RequestParam(value = "dataVencimentoDe", required = false)  @DateTimeFormat(iso = ISO.DATE) LocalDate dataVencimentoDe,
                                              @RequestParam(value = "dataVencimentoAte", required = false) @DateTimeFormat(iso = ISO.DATE) LocalDate dataVencimentoAte,
                                              @RequestParam(value = "tipoLancamento", required = false) TipoLancamento tipoLancamento,
-                                             @ApiParam(required = true, value = "Authorization: Bearer <TOKEN>")
-                                                 @RequestHeader(value = "Authorization") String authorization) {
-        return new LancamentosPageResponse(consultarLancamentos.executarPaginacaoQueryDsl(pageable, dataVencimentoDe, dataVencimentoAte, tipoLancamento));
+                                             @RequestParam(value = "descricao", required = false) String descricao
+                                             /*@ApiParam(required = true, value = "Authorization: Bearer <TOKEN>")
+                                                 @RequestHeader(value = "Authorization") String authorization*/) {
+        return new LancamentosPageResponse(consultarLancamentos.executarPaginacaoQueryDsl(pageable, dataVencimentoDe, dataVencimentoAte, tipoLancamento, descricao));
     }
 
     @ApiOperation(value = "Get Entries paginated v2")

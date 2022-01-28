@@ -14,6 +14,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -41,7 +42,7 @@ public class ConsultarLancamentos {
     }
 
     public Page<LancamentoDTO> executarPaginacaoQueryDsl(Pageable pageable, LocalDate dataVencimentoDe,
-                                                 LocalDate dataVencimentoAte, TipoLancamento tipoLancamento) {
+                                                 LocalDate dataVencimentoAte, TipoLancamento tipoLancamento, String descricao) {
         BooleanBuilder predicate = new BooleanBuilder();
 
         if (null != dataVencimentoDe && null != dataVencimentoAte)
@@ -50,6 +51,9 @@ public class ConsultarLancamentos {
 
         if (null != tipoLancamento)
             predicate.and(QLancamento.lancamento.tipoLancamento.eq(tipoLancamento));
+
+        if (StringUtils.hasText(descricao))
+            predicate.and(QLancamento.lancamento.descricao.eq(descricao));
 
         return build(lancamentoQueryDslRepositoryFacade.findAll(predicate, pageable));
     }
