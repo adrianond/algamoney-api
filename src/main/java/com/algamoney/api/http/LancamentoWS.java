@@ -26,7 +26,7 @@ import javax.validation.Valid;
 import java.time.LocalDate;
 
 @RestController
-@RequestMapping(path = "/api/lancamentos")
+@RequestMapping(path = "/api/entries")
 @Api(tags = "Entries")
 @AllArgsConstructor
 public class LancamentoWS {
@@ -36,7 +36,7 @@ public class LancamentoWS {
     private final ConsultarLancamentos consultarLancamentos;
 
     @ApiOperation(value = "Save new Entry")
-    @PostMapping(path = "/lancamento")
+    @PostMapping(path = "/entry")
     @ResponseStatus(HttpStatus.CREATED)
     public LancamentoResponse salvarLancamento(@Valid @RequestBody LancamentoRequest request
                                               /* @ApiParam(required = true, value = "Authorization: Bearer <TOKEN>")
@@ -45,17 +45,17 @@ public class LancamentoWS {
     }
 
     @ApiOperation(value = "Delete a Entry")
-    @DeleteMapping(path = "/lancamento/{id}")
+    @DeleteMapping(path = "/entry/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void excluirLancamento(@ApiParam @PathVariable("id") Long id,
-                                  @ApiParam(required = true, value = "Authorization: Bearer <TOKEN>")
-                                  @RequestHeader(value = "Authorization") String authorization) {
+    public void excluirLancamento(@ApiParam @PathVariable("id") Long id
+                                  /*@ApiParam(required = true, value = "Authorization: Bearer <TOKEN>")
+                                  @RequestHeader(value = "Authorization") String authorization*/) {
         excluirLancamento.executar(id);
 
     }
 
     @ApiOperation(value = "Get a Entry")
-    @GetMapping(path = "/lancamento/{id}")
+    @GetMapping(path = "/entry/{id}")
     @ResponseStatus(HttpStatus.OK)
     public LancamentoResponse consultarLancamento(@ApiParam @PathVariable("id") Long id,
                                                   @ApiParam(required = true, value = "Authorization: Bearer <TOKEN>")

@@ -29,20 +29,12 @@ import static org.springframework.http.HttpStatus.BAD_REQUEST;
 public class AlgamoneyExceptionHandler extends ResponseEntityExceptionHandler {
     private MessageSource messageSource;
 
-    /*@Override
-    protected ResponseEntity<Object> handleHttpMessageNotReadable(HttpMessageNotReadableException ex,
-                                                                  HttpHeaders headers, HttpStatus status, WebRequest request) {
-
-        String mensagemUsuario = messageSource.getMessage("mensagem.invalida", null, LocaleContextHolder.getLocale());
-        String mensagemDesenvolvedor = ex.getCause().toString();
-        return handleExceptionInternal(ex, new Erro(mensagemUsuario, mensagemDesenvolvedor), headers, HttpStatus.BAD_REQUEST, request);
-    }*/
-
     @ExceptionHandler(Exception.class)
-    public final ResponseEntity<Erro> handleAllExceptions(Exception ex, WebRequest request) {
+    public final ResponseEntity<ErrorResponse> handleAllExceptions(Exception ex, WebRequest request) {
         ResponseStatus annotationResponse = getResponseAnnotation(ex.getClass());
         HttpStatus httpStatus = HttpStatus.INTERNAL_SERVER_ERROR;
         String status = httpStatus.name();
+        int httpStatusCode = httpStatus.value();
 
         if(annotationResponse != null) {
             httpStatus = annotationResponse.value();
@@ -50,12 +42,13 @@ public class AlgamoneyExceptionHandler extends ResponseEntityExceptionHandler {
                 status = httpStatus.name();
             else
                 status = annotationResponse.reason();
+            httpStatusCode = annotationResponse.value().value();
         }else {
             log.error(ex.getMessage(), ex);
         }
-
-        return new ResponseEntity<>(new Erro(status, ex.getMessage(), ex.getCause().toString()), httpStatus);
+        return new ResponseEntity<>(new ErrorResponse(status, ex.getMessage(), httpStatusCode), httpStatus);
     }
+
     private ResponseStatus getResponseAnnotation(Class<?> exceptionClass) {
         return AnnotationUtils.findAnnotation(exceptionClass, ResponseStatus.class);
     }
@@ -77,15 +70,15 @@ public class AlgamoneyExceptionHandler extends ResponseEntityExceptionHandler {
 
     @Getter
     @NoArgsConstructor
-    public static class Erro {
+    public static class ErrorResponse {
         private String status;
-        private String mensagemUsuario;
-        private String mensagemDesenvolvedor;
+        private String mensagem;
+        private int httpStatusCode;
 
-        public Erro(String status, String mensagemUsuario, String mensagemDesenvolvedor) {
+        public ErrorResponse(String status, String mensagem, int httpStatusCode) {
             this.status = status;
-            this.mensagemUsuario = mensagemUsuario;
-            this.mensagemDesenvolvedor = mensagemDesenvolvedor;
+            this.mensagem = mensagem;
+            this.httpStatusCode = httpStatusCode;
         }
     }
 }

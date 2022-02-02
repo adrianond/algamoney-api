@@ -9,7 +9,13 @@ class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.csrf().disable().httpBasic().disable();
-        http.headers().frameOptions().disable();
+        http.cors()
+                .and()
+                    .csrf()
+                .and()
+                    .httpBasic()
+                .and().
+                    headers().frameOptions()
+                .disable();
     }
 }

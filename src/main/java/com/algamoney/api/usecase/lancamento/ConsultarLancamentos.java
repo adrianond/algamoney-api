@@ -53,7 +53,7 @@ public class ConsultarLancamentos {
             predicate.and(QLancamento.lancamento.tipoLancamento.eq(tipoLancamento));
 
         if (StringUtils.hasText(descricao))
-            predicate.and(QLancamento.lancamento.descricao.eq(descricao));
+            predicate.and(QLancamento.lancamento.descricao.equalsIgnoreCase(descricao));
 
         return build(lancamentoQueryDslRepositoryFacade.findAll(predicate, pageable));
     }

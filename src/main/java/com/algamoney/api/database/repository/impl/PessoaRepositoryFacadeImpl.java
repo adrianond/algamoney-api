@@ -3,8 +3,13 @@ package com.algamoney.api.database.repository.impl;
 import com.algamoney.api.database.entity.Pessoa;
 import com.algamoney.api.database.repository.PessoaRepositoryFacade;
 import com.algamoney.api.exception.PessoaNotFoundException;
+import com.querydsl.core.types.Predicate;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 @AllArgsConstructor
@@ -22,7 +27,17 @@ public class PessoaRepositoryFacadeImpl implements PessoaRepositoryFacade {
     }
 
     @Override
+    public List<Pessoa> findAll() {
+        return repository.findAll();
+    }
+
+    @Override
     public void delete(Pessoa pessoa) {
         repository.delete(pessoa);
+    }
+
+    @Override
+    public Page<Pessoa> findAll(Predicate predicate, Pageable pageable) {
+        return repository.findAll(predicate, pageable);
     }
 }

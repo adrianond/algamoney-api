@@ -4,15 +4,15 @@ import com.algamoney.api.event.RecursoCriadoEvent;
 import com.algamoney.api.http.domain.PessoaDTO;
 import com.algamoney.api.http.domain.request.PessoaRequest;
 import com.algamoney.api.http.domain.response.PessoaResponse;
-import com.algamoney.api.usecase.pessoa.AtualizarPessoa;
-import com.algamoney.api.usecase.pessoa.CadastrarPessoa;
-import com.algamoney.api.usecase.pessoa.ConsultaPessoa;
-import com.algamoney.api.usecase.pessoa.ExcluirPessoa;
+import com.algamoney.api.http.domain.response.PessoasPageResponse;
+import com.algamoney.api.http.domain.response.PessoasResponse;
+import com.algamoney.api.usecase.pessoa.*;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import lombok.AllArgsConstructor;
 import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -28,6 +28,7 @@ public class PessoaWS {
     private final ConsultaPessoa consultaPessoa;
     private final ExcluirPessoa excluirPessoa;
     private final AtualizarPessoa atualizarPessoa;
+    private final ConsultaPessoas consultaPessoas;
     private final ApplicationEventPublisher publisher;
 
     @ApiOperation("Save a new Person")
@@ -49,13 +50,31 @@ public class PessoaWS {
         return new PessoaResponse(consultaPessoa.executar(id));
     }
 
+    @ApiOperation(value = "Get persons ")
+    @GetMapping()
+    @ResponseStatus(HttpStatus.OK)
+    public PessoasResponse consultaPessoas(/*@ApiParam(required = true, value = "Authorization: Bearer <TOKEN>")
+                                         @RequestHeader(value = "Authorization") String authorization**/) {
+        return new PessoasResponse(consultaPessoas.executar());
+    }
+
+    @ApiOperation(value = "Get persons paginated ")
+    @GetMapping(path = "/paginated")
+    @ResponseStatus(HttpStatus.OK)
+    public PessoasPageResponse consultaPessoasComPaginacao(Pageable pageable,
+                                         @RequestParam(value = "nome", required = false) String nome
+                                         /*@ApiParam(required = true, value = "Authorization: Bearer <TOKEN>")
+                                         @RequestHeader(value = "Authorization") String authorization**/) {
+        return new PessoasPageResponse(consultaPessoas.executarComPaginacao(pageable, nome));
+    }
+
 
     @ApiOperation(value = "Delete person by id")
     @DeleteMapping(path = "/person/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void excluirPessoa(@ApiParam @PathVariable("id") Long id,
-                              @ApiParam(required = true, value = "Authorization: Bearer <TOKEN>")
-                              @RequestHeader(value = "Authorization") String authorization) {
+    public void excluirPessoa(@ApiParam @PathVariable("id") Long id
+                              /*@ApiParam(required = true, value = "Authorization: Bearer <TOKEN>")
+                              @RequestHeader(value = "Authorization") String authorization*/) {
         excluirPessoa.executar(id);
     }
 

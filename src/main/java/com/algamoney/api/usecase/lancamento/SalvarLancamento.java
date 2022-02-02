@@ -29,8 +29,8 @@ public class SalvarLancamento {
 
     private Lancamento build(LancamentoRequest request) {
         Lancamento lancamento = new Lancamento();
-        lancamento.setDataPagamento(LocalDateTime.now());
-        lancamento.setDataVencimento(LocalDateTime.now());
+        lancamento.setDataPagamento(request.getDataPagamento());
+        lancamento.setDataVencimento(request.getDataVencimento());
         lancamento.setDescricao(request.getDescricao());
         lancamento.setObservacao(request.getObservacao());
         lancamento.setTipoLancamento(request.getTipoLancamento());
