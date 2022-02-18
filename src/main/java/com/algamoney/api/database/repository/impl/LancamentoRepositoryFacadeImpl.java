@@ -2,6 +2,7 @@ package com.algamoney.api.database.repository.impl;
 
 import com.algamoney.api.database.entity.Lancamento;
 import com.algamoney.api.database.repository.LancamentoRepositoryFacade;
+import com.algamoney.api.exception.LancamentoNotFoundException;
 import com.algamoney.api.http.domain.LancamentoDTO;
 import com.algamoney.api.http.domain.ResumoLancamentoDTO;
 import com.algamoney.api.http.domain.builder.LancamentoBuilder;
@@ -30,6 +31,7 @@ public class LancamentoRepositoryFacadeImpl implements LancamentoRepositoryFacad
     @PersistenceContext
     private EntityManager manager;
     private final LancamentoBuilder lancamentoBuilder;
+    private final LancamentoRepository repository;
 
     @Override
     public Page<LancamentoDTO> filtrar(LancamentoFilter lancamentoFilter, Pageable pageable) {
@@ -121,5 +123,30 @@ public class LancamentoRepositoryFacadeImpl implements LancamentoRepositoryFacad
 
         criteria.select(builder.count(root));
         return manager.createQuery(criteria).getSingleResult();
+    }
+
+    @Override
+    public Lancamento save(Lancamento lancamento) {
+        return repository.save(lancamento);
+    }
+
+    @Override
+    public Lancamento findById(Long id) {
+        return repository.findById(id).orElseThrow(() -> new LancamentoNotFoundException("Lançamento não encontrado"));
+    }
+
+    @Override
+    public void delete(Lancamento lancamento) {
+        repository.delete(lancamento);
+    }
+
+    @Override
+    public List<Lancamento> findAll() {
+        return repository.findAll();
+    }
+
+    @Override
+    public Page<Lancamento> findAll(com.querydsl.core.types.Predicate predicate, Pageable pageable) {
+        return repository.findAll(predicate,pageable);
     }
 }

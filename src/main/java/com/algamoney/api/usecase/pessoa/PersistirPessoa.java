@@ -16,29 +16,28 @@ import java.time.LocalDateTime;
 @Component
 @AllArgsConstructor
 @Transactional
-public class CadastrarPessoa {
+public class PersistirPessoa {
     private final PessoaRepositoryFacade pessoaRepositoryFacade;
     private final PessoaBuilder pessoaBuilder;
     private final CadastrarEndereco cadastrarEndereco;
     private final CadastrarTelefone cadastrarTelefone;
 
-    public PessoaDTO salvar(PessoaRequest request) {
-        Pessoa pessoa = new Pessoa();
+    public PessoaDTO executar(PessoaRequest request) {
+        return build(null, request);
+    }
+
+    public PessoaDTO executar(Long idPessoa, PessoaRequest request) {
+        return build(pessoaRepositoryFacade.findById(idPessoa), request);
+    }
+
+    public PessoaDTO build(Pessoa pessoa, PessoaRequest request) {
+        if (null == pessoa)
+            pessoa = new Pessoa();
+
         pessoa.setNome(request.getNome());
         pessoa.setAtivo(request.isAtivo());
         pessoa.setDataCadastro(LocalDateTime.now());
-        return executar(pessoa, request);
-    }
 
-    public PessoaDTO atualizar(Long idPessoa, PessoaRequest request) {
-        Pessoa pessoa = pessoaRepositoryFacade.findById(idPessoa);
-        pessoa.setNome(request.getNome());
-        pessoa.setAtivo(request.isAtivo());
-        pessoa.setDataAtualizacao(LocalDateTime.now());
-        return executar(pessoa, request);
-    }
-
-    public PessoaDTO executar(Pessoa pessoa, PessoaRequest request) {
         cadastrarEndereco.executar(pessoa, request.getEndereco());
         Pessoa p = pessoaRepositoryFacade.add(pessoa);
         cadastrarTelefone.executar(p, request.getTelefones());

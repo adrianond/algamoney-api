@@ -24,19 +24,19 @@ import javax.validation.Valid;
 @Api(tags = "Person")
 @AllArgsConstructor
 public class PessoaWS {
-    private final CadastrarPessoa cadastrarPessoa;
+    private final PersistirPessoa persistirPessoa;
     private final ConsultaPessoa consultaPessoa;
     private final ExcluirPessoa excluirPessoa;
-    private final AtualizarPessoa atualizarPessoa;
+    private final AtualizarStatusPessoa atualizarStatusPessoa;
     private final ConsultaPessoas consultaPessoas;
     private final ApplicationEventPublisher publisher;
 
     @ApiOperation("Save a new Person")
     @PostMapping()
     @ResponseStatus(HttpStatus.CREATED)
-    public PessoaResponse add(@Valid @RequestBody PessoaRequest pessoaRequest, HttpServletResponse response,
-                              @ApiParam(required = true, value = "Authorization: Bearer <TOKEN>") @RequestHeader(value = "Authorization") String authorization) {
-        PessoaDTO pessoaSalva = cadastrarPessoa.salvar(pessoaRequest);
+    public PessoaResponse add(@Valid @RequestBody PessoaRequest pessoaRequest, HttpServletResponse response
+                             /* @ApiParam(required = true, value = "Authorization: Bearer <TOKEN>") @RequestHeader(value = "Authorization") String authorization*/) {
+        PessoaDTO pessoaSalva = persistirPessoa.executar(pessoaRequest);
         publisher.publishEvent(new RecursoCriadoEvent(this, response, pessoaSalva.getId()));
         return new PessoaResponse(pessoaSalva);
     }
@@ -82,17 +82,17 @@ public class PessoaWS {
     @PutMapping(path = "/person/{id}")
     @ResponseStatus(HttpStatus.OK)
     public PessoaResponse alterarDadosPessoa(@ApiParam @PathVariable("id") Long id,
-                                             @Valid @RequestBody PessoaRequest request,
-                                             @ApiParam(required = true, value = "Authorization: Bearer <TOKEN>") @RequestHeader(value = "Authorization") String authorization) {
-        return new PessoaResponse(cadastrarPessoa.atualizar(id, request));
+                                             @Valid @RequestBody PessoaRequest request
+                                             /*@ApiParam(required = true, value = "Authorization: Bearer <TOKEN>") @RequestHeader(value = "Authorization") String authorization*/) {
+        return new PessoaResponse(persistirPessoa.executar(id, request));
     }
 
     @ApiOperation(value = "Update propertie person active")
     @PutMapping(path = "/person/{id}/ativo")
     @ResponseStatus(HttpStatus.OK)
     public PessoaResponse alterarPropriedadeAtivo(@ApiParam @PathVariable("id") Long id,
-                                                  @RequestBody Boolean ativo,
-                                                  @ApiParam(required = true, value = "Authorization: Bearer <TOKEN>") @RequestHeader(value = "Authorization") String authorization) {
-        return new PessoaResponse(atualizarPessoa.executar(id, ativo));
+                                                  @RequestBody Boolean ativo
+                                                  /*@ApiParam(required = true, value = "Authorization: Bearer <TOKEN>") @RequestHeader(value = "Authorization") String authorization*/) {
+        return new PessoaResponse(atualizarStatusPessoa.executar(id, ativo));
     }
 }

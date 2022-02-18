@@ -25,10 +25,10 @@ public class Lancamento implements Serializable {
     private String descricao;
 
     @Column(name = "data_vencimento")
-    private LocalDateTime dataVencimento;
+    private LocalDate dataVencimento;
 
-    @Column(name = "data_pagamento")
-    private LocalDateTime dataPagamento;
+    @Column(name = "data_recebimento_pagamento")
+    private LocalDate dataRecebimentoPagamento;
 
     private BigDecimal valor;
 

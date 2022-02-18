@@ -15,9 +15,9 @@ public class LancamentoDTO {
     private Long id;
     private String descricao;
     private String dataVencimento;
-    private String dataPagamento;
+    private String dataRecebimentoPagamento;
     private BigDecimal valor;
-    private TipoLancamento tipoLancamento;
+    private TipoLancamento tipo;
     private String observacao;
     private CategoriaDTO categoria;
     private PessoaDTO pessoa;

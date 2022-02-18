@@ -11,5 +11,7 @@
     <include file="db/changelog/20210717235500_added_entity_usuario.xml"/>
     <include file="db/changelog/20210717245500_added_entity_permissao.xml"/>
     <include file="db/changelog/20210717255500_added_entity_usuario_permissao.xml"/>
+    <include file="db/changelog/20220207194500_rename_column_entity_lancamento.xml"/>
+    <include file="db/changelog/20220208194500_alter_column_entity_lancamento.xml"/>
 
 </databaseChangeLog>

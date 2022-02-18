@@ -10,7 +10,7 @@ import com.algamoney.api.http.domain.response.ResumoLancamentosPageResponse;
 import com.algamoney.api.usecase.lancamento.ConsultarLancamento;
 import com.algamoney.api.usecase.lancamento.ConsultarLancamentos;
 import com.algamoney.api.usecase.lancamento.ExcluirLancamento;
-import com.algamoney.api.usecase.lancamento.SalvarLancamento;
+import com.algamoney.api.usecase.lancamento.PersistirLancamento;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -30,18 +30,25 @@ import java.time.LocalDate;
 @Api(tags = "Entries")
 @AllArgsConstructor
 public class LancamentoWS {
-    private final SalvarLancamento salvarLancamento;
+    private final PersistirLancamento persistirLancamento;
     private final ExcluirLancamento excluirLancamento;
     private final ConsultarLancamento consultarLancamento;
     private final ConsultarLancamentos consultarLancamentos;
 
     @ApiOperation(value = "Save new Entry")
-    @PostMapping(path = "/entry")
+    @PostMapping()
     @ResponseStatus(HttpStatus.CREATED)
     public LancamentoResponse salvarLancamento(@Valid @RequestBody LancamentoRequest request
                                               /* @ApiParam(required = true, value = "Authorization: Bearer <TOKEN>")
                                                @RequestHeader(value = "Authorization") String authorization*/) {
-        return new LancamentoResponse(salvarLancamento.executar(request));
+        return new LancamentoResponse(persistirLancamento.executar(request));
+    }
+
+    @ApiOperation(value = "Update entry")
+    @PutMapping(path = "/entry/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public void alterarLancamento(@ApiParam @PathVariable("id") Long id, @RequestBody LancamentoRequest request) {
+        persistirLancamento.executar(id, request);
     }
 
     @ApiOperation(value = "Delete a Entry")

@@ -19,5 +19,5 @@ public class PessoaDTO {
     private String dataCadastro;
     private String dataAtualizacao;
     private EnderecoDTO endereco;
-    private List<TelefoneDTO> telefoneDTO;
+    private List<TelefoneDTO> telefones;
 }

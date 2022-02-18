@@ -28,7 +28,7 @@ public class PessoaBuilder {
                 .ativo(pessoa.isAtivo())
                 .dataCadastro(DateUtil.formatLocalDateTime(pessoa.getDataCadastro()))
                 .dataAtualizacao(DateUtil.formatLocalDateTime(pessoa.getDataAtualizacao()))
-                .telefoneDTO(buildTelefoneDTO(pessoa.getTelefones()))
+                .telefones(buildTelefoneDTO(pessoa.getTelefones()))
                 .build();
     }
 

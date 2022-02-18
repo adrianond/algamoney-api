@@ -22,17 +22,14 @@ public class LancamentoBuilder {
 
         BeanUtils.copyProperties(lancamento.getCategoria(), categoriaDTO);
         lancamentoDTO.setValor(lancamento.getValor());
-        lancamentoDTO.setTipoLancamento(lancamento.getTipoLancamento());
+        lancamentoDTO.setTipo(lancamento.getTipoLancamento());
         lancamentoDTO.setDescricao(lancamento.getDescricao());
         lancamentoDTO.setId(lancamento.getId());
         lancamentoDTO.setObservacao(lancamento.getObservacao());
-        lancamentoDTO.setDataVencimento(formatLocalDateTime(lancamento.getDataVencimento()));
-        lancamentoDTO.setDataPagamento(formatLocalDateTime(lancamento.getDataPagamento()));
+        lancamentoDTO.setDataVencimento(formatLocalDate(lancamento.getDataVencimento()));
+        lancamentoDTO.setDataRecebimentoPagamento(formatLocalDate(lancamento.getDataRecebimentoPagamento()));
         lancamentoDTO.setCategoria(categoriaDTO);
         lancamentoDTO.setPessoa(pessoaBuilder.buildPessoaDTO(lancamento.getPessoa()));
         return lancamentoDTO;
     }
-/*
-    public ResumoLancamentoDTO build(ResumoLancamentoDTO resumoLancamentoDTO) {
-    }*/
 }

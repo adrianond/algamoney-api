@@ -43,9 +43,9 @@ public class CategoriaWS {
 
     @ApiOperation(value = "Get categories")
     @GetMapping()
-    @PreAuthorize("hasAuthority('ROLE_PESQUISAR_CATEGORIA') and #oauth2.hasScope('read')")
+    //@PreAuthorize("hasAuthority('ROLE_PESQUISAR_CATEGORIA') and #oauth2.hasScope('read')")
     @ResponseStatus(HttpStatus.OK)
-    public ConsultaCategoriasResponse consultaCategorias(@ApiParam(required = true, value = "Authorization: Bearer <TOKEN>") @RequestHeader(value = "Authorization") String authorization) {
+    public ConsultaCategoriasResponse consultaCategorias(/*@ApiParam(required = true, value = "Authorization: Bearer <TOKEN>") @RequestHeader(value = "Authorization") String authorization***/) {
        return new ConsultaCategoriasResponse(consultaCategorias.executar());
     }
 

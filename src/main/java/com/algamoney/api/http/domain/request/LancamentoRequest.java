@@ -17,28 +17,27 @@ public class LancamentoRequest {
     @NotBlank(message = "Descrição é obrigatório")
     private String descricao;
 
-    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss", iso = DateTimeFormat.ISO.DATE_TIME)
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
-    @NotNull(message = "Data do pagamento é obrigatório")
-    private LocalDateTime dataPagamento;
+    @DateTimeFormat(pattern = "dd-MM-yyyy", iso = DateTimeFormat.ISO.DATE_TIME)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
+    @NotNull(message = "Data do recebimento/pagamento é obrigatório")
+    private LocalDate dataRecebimentoPagamento;
 
-    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss", iso = DateTimeFormat.ISO.DATE_TIME)
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
+    @DateTimeFormat(pattern = "dd-MM-yyyy", iso = DateTimeFormat.ISO.DATE_TIME)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
     @NotNull(message = "Data do vencimento é obrigatório")
-    private LocalDateTime dataVencimento;
+    private LocalDate dataVencimento;
 
     @NotNull(message = "Valor é obrigatório")
     private BigDecimal valor;
 
     @NotNull(message = "Tipo do lançamento é obrigatório")
-    private TipoLancamento tipoLancamento;
+    private TipoLancamento tipo;
 
-    @NotNull(message = "Observacao é obrigatória")
     private String observacao;
 
     @NotNull(message = "Categoria é obrigatória")
-    private Long  codigoCategoria;
+    private Long  idCategoria;
 
     @NotNull(message = "Pessoa é obrigatório")
-    private Long  codigoPessoa;
+    private Long  idPessoa;
 }

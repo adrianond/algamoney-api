@@ -30,7 +30,7 @@ public class ConsultaPessoas {
         BooleanBuilder predicate = new BooleanBuilder();
 
         if (StringUtils.hasText(nome))
-            predicate.and(QPessoa.pessoa.nome.equalsIgnoreCase(nome));
+            predicate.and(QPessoa.pessoa.nome.containsIgnoreCase(nome));
 
         return pessoaRepositoryFacade.findAll(predicate, pageable)
                 .map(pessoa -> pessoaBuilder.buildPessoaDTO(pessoa));

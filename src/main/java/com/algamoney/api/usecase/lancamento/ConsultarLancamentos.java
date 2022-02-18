@@ -3,7 +3,6 @@ package com.algamoney.api.usecase.lancamento;
 import com.algamoney.api.database.entity.Lancamento;
 import com.algamoney.api.database.entity.QLancamento;
 import com.algamoney.api.database.entity.enumeration.TipoLancamento;
-import com.algamoney.api.database.repository.LancamentoQueryDslRepositoryFacade;
 import com.algamoney.api.database.repository.LancamentoRepositoryFacade;
 import com.algamoney.api.http.domain.LancamentoDTO;
 import com.algamoney.api.http.domain.ResumoLancamentoDTO;
@@ -23,12 +22,12 @@ import java.util.stream.Collectors;
 @Component
 @AllArgsConstructor
 public class ConsultarLancamentos {
-    private final LancamentoQueryDslRepositoryFacade lancamentoQueryDslRepositoryFacade;
+    //private final LancamentoQueryDslRepositoryFacade lancamentoQueryDslRepositoryFacade;
     private final LancamentoRepositoryFacade lancamentoRepositoryFacade;
     private final LancamentoBuilder lancamentoBuilder;
 
     public List<LancamentoDTO> executar() {
-        return lancamentoQueryDslRepositoryFacade.findAll().stream()
+        return lancamentoRepositoryFacade.findAll().stream()
                 .map(lancamento -> lancamentoBuilder.build(lancamento))
                 .collect(Collectors.toList());
     }
@@ -46,8 +45,7 @@ public class ConsultarLancamentos {
         BooleanBuilder predicate = new BooleanBuilder();
 
         if (null != dataVencimentoDe && null != dataVencimentoAte)
-            predicate.and(QLancamento.lancamento.dataVencimento.between(dataVencimentoDe.atTime(0, 0, 0),
-                    dataVencimentoAte.atTime(23, 59, 59)));
+            predicate.and(QLancamento.lancamento.dataVencimento.between(dataVencimentoDe, dataVencimentoAte));
 
         if (null != tipoLancamento)
             predicate.and(QLancamento.lancamento.tipoLancamento.eq(tipoLancamento));
@@ -55,7 +53,7 @@ public class ConsultarLancamentos {
         if (StringUtils.hasText(descricao))
             predicate.and(QLancamento.lancamento.descricao.equalsIgnoreCase(descricao));
 
-        return build(lancamentoQueryDslRepositoryFacade.findAll(predicate, pageable));
+        return build(lancamentoRepositoryFacade.findAll(predicate, pageable));
     }
 
     private Page<LancamentoDTO> build(Page<Lancamento> lancamentos) {
