@@ -1,7 +1,7 @@
 package com.algamoney.api.usecase.person;
 
 import com.algamoney.api.config.AlgamoneyApiProperties;
-import com.algamoney.api.config.AlgamoneyConfiguration;
+import com.algamoney.api.config.AlgamoneyBeanConfiguration;
 import com.algamoney.api.http.domain.request.PersonRequest;
 import com.algamoney.api.http.domain.response.PersonResponse;
 import lombok.AllArgsConstructor;
@@ -13,7 +13,7 @@ import org.springframework.web.client.RestTemplate;
 @AllArgsConstructor
 public class SalvarPessoa {
     private final AlgamoneyApiProperties algamoneyApiProperties;
-    private final AlgamoneyConfiguration algamoneyConfiguration;
+    private final AlgamoneyBeanConfiguration algamoneyBeanConfiguration;
     private static final String API_GATEWAY_CREATE_PERSON = "/person";
 
     public PersonResponse executar(PersonRequest personRequest) {
@@ -24,7 +24,7 @@ public class SalvarPessoa {
 
     private PersonResponse executePost(String url, HttpEntity<PersonRequest> entity) {
         PersonResponse response;
-        RestTemplate restTemplate = algamoneyConfiguration.restTemplate();
+        RestTemplate restTemplate = algamoneyBeanConfiguration.restTemplate();
         response = restTemplate.postForEntity(url, entity, PersonResponse.class).getBody();
         return response != null ? response : null;
     }

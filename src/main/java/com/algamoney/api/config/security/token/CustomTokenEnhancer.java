@@ -1,3 +1,4 @@
+/*
 package com.algamoney.api.config.security.token;
 
 import com.algamoney.api.config.security.UsuarioSistema;
@@ -23,3 +24,4 @@ public class CustomTokenEnhancer implements TokenEnhancer {
     }
 
 }
+*/

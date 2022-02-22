@@ -1,6 +1,6 @@
 package com.algamoney.api.config.security;
 
-import com.algamoney.api.config.security.token.CustomTokenEnhancer;
+//import com.algamoney.api.config.security.token.CustomTokenEnhancer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -13,6 +13,7 @@ import org.springframework.security.oauth2.config.annotation.web.configurers.Aut
 import org.springframework.security.oauth2.provider.token.TokenEnhancer;
 import org.springframework.security.oauth2.provider.token.TokenEnhancerChain;
 import org.springframework.security.oauth2.provider.token.TokenStore;
+import org.springframework.security.oauth2.provider.token.store.InMemoryTokenStore;
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
 import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
 
@@ -23,9 +24,12 @@ import java.util.Arrays;
 @EnableAuthorizationServer
 public class AutorizationServerConfig extends AuthorizationServerConfigurerAdapter {
 
-    //Interface que gerencia a autenticação, obtém o usuário e senha
+    /**
+     * Interface que gerencia a autenticação, obtém o usuário e senha
+     */
     @Autowired
     private AuthenticationManager authenticationManager;
+
 
     /**
      * Importante não gerar um token com um período muito longo de expiração, pois se ele for
@@ -40,9 +44,9 @@ public class AutorizationServerConfig extends AuthorizationServerConfigurerAdapt
                     .secret("@ngul@r0")
                     .scopes("read", "write")
                     .authorizedGrantTypes("password", "refresh_token")
-                    .accessTokenValiditySeconds(40)
+                    .accessTokenValiditySeconds(1800)
                     .refreshTokenValiditySeconds(3600 * 24)
-                //adiciona um novo cliente que pode apenas fazer leitura
+                    //adiciona um novo cliente que pode apenas fazer leitura
                 .and()
                     .withClient("mobile")
                     .secret("m0b1l30")
@@ -52,22 +56,13 @@ public class AutorizationServerConfig extends AuthorizationServerConfigurerAdapt
                     .refreshTokenValiditySeconds(3600 * 24);
     }
 
-
     @Override
     public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
-        //retorna o nome do usuario no token gerado
-        TokenEnhancerChain tokenEnhancerChain = new TokenEnhancerChain();
-        tokenEnhancerChain.setTokenEnhancers(Arrays.asList(tokenEnhancer(), accessTokenConverter()));
         endpoints
                 .tokenStore(tokenStore())
                 .accessTokenConverter(accessTokenConverter())
                 .reuseRefreshTokens(false)
                 .authenticationManager(authenticationManager);
-    }
-
-    @Bean
-    public TokenEnhancer tokenEnhancer() {
-        return new CustomTokenEnhancer();
     }
 
     @Bean
@@ -77,9 +72,9 @@ public class AutorizationServerConfig extends AuthorizationServerConfigurerAdapt
         return accessTokenConverter;
     }
 
-
     @Bean
     public TokenStore tokenStore() {
         return new JwtTokenStore(accessTokenConverter());
     }
 }
+

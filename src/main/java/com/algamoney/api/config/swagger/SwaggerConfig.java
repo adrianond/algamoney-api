@@ -1,3 +1,4 @@
+/*
 package com.algamoney.api.config.swagger;
 
 import lombok.extern.slf4j.Slf4j;
@@ -29,4 +30,4 @@ public class SwaggerConfig {
                 .description("Documentação da API").version("1.0")
                 .build();
     }
-}
+}*/

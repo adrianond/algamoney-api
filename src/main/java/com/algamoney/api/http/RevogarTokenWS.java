@@ -25,9 +25,9 @@ public class RevogarTokenWS {
 
     @ApiOperation("Revoke access token")
     @DeleteMapping("/revoke")
-    public void revoke(HttpServletRequest req, HttpServletResponse resp,
-                       @ApiParam(required = true, value = "Authorization: Bearer <TOKEN>")
-                       @RequestHeader(value = "Authorization") String authorization) {
+    public void revoke(HttpServletRequest req, HttpServletResponse resp
+                      /* @ApiParam(required = true, value = "Authorization: Bearer <TOKEN>")
+                       @RequestHeader(value = "Authorization") String authorization*/) {
         Cookie cookie = new Cookie("refreshToken", null);
         cookie.setHttpOnly(true);
         cookie.setSecure(algamoneyApiProperties.getSeguranca().isEnableHttps());

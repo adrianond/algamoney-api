@@ -18,12 +18,14 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+
 /**
  * classe responsável por intercepitar o retorno da resposta do refresh token e inseri - lo em cookie,
  * ningúem tem acesso ao refresh token que está dentro do cookie (http ou https)
  * OAuth2AccessToken - objeto que retorna o refresh token, é o objeto que desejo intercepitar
  * ResponseBodyAdvice  - interface que contém os métodos para intercepitar o retorno da resposta
  */
+
 @ControllerAdvice
 public class RefreshTokenPostProcessor implements ResponseBodyAdvice<OAuth2AccessToken> {
 
@@ -34,6 +36,7 @@ public class RefreshTokenPostProcessor implements ResponseBodyAdvice<OAuth2Acces
     public boolean supports(MethodParameter returnType, Class<? extends HttpMessageConverter<?>> converterType) {
         return returnType.getMethod().getName().equals("postAccessToken");
     }
+
 
     /**
      * Método que intercepta a resposta para inserir o refresh token no cookie, este método será executado quando o método
@@ -46,6 +49,7 @@ public class RefreshTokenPostProcessor implements ResponseBodyAdvice<OAuth2Acces
      * @param response
      * @return
      */
+
     @Override
     public OAuth2AccessToken beforeBodyWrite(OAuth2AccessToken body, MethodParameter returnType,
                                              MediaType selectedContentType, Class<? extends HttpMessageConverter<?>> selectedConverterType,
@@ -63,10 +67,12 @@ public class RefreshTokenPostProcessor implements ResponseBodyAdvice<OAuth2Acces
         return body;
     }
 
+
     /**
      * remove o refresh token do corpo da requisição
      * @param token
      */
+
     private void removerRefreshTokenDoBody(DefaultOAuth2AccessToken token) {
         token.setRefreshToken(null);
     }
@@ -82,3 +88,4 @@ public class RefreshTokenPostProcessor implements ResponseBodyAdvice<OAuth2Acces
         resp.addCookie(refreshTokenCookie);
     }
 }
+

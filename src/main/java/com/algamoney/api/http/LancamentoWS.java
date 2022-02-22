@@ -19,6 +19,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.format.annotation.DateTimeFormat.ISO;
 import org.springframework.http.HttpStatus;
+//import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
@@ -36,6 +37,7 @@ public class LancamentoWS {
     private final ConsultarLancamentos consultarLancamentos;
 
     @ApiOperation(value = "Save new Entry")
+    @PreAuthorize("hasAuthority('ROLE_CADASTRAR_LANCAMENTO') and #oauth2.hasScope('write')")
     @PostMapping()
     @ResponseStatus(HttpStatus.CREATED)
     public LancamentoResponse salvarLancamento(@Valid @RequestBody LancamentoRequest request
@@ -52,6 +54,7 @@ public class LancamentoWS {
     }
 
     @ApiOperation(value = "Delete a Entry")
+    @PreAuthorize("hasAuthority('ROLE_REMOVER_LANCAMENTO') and #oauth2.hasScope('write')")
     @DeleteMapping(path = "/entry/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void excluirLancamento(@ApiParam @PathVariable("id") Long id
@@ -62,6 +65,7 @@ public class LancamentoWS {
     }
 
     @ApiOperation(value = "Get a Entry")
+    @PreAuthorize("hasAuthority('ROLE_PESQUISAR_LANCAMENTO') and #oauth2.hasScope('read')")
     @GetMapping(path = "/entry/{id}")
     @ResponseStatus(HttpStatus.OK)
     public LancamentoResponse consultarLancamento(@ApiParam @PathVariable("id") Long id,
@@ -71,6 +75,7 @@ public class LancamentoWS {
     }
 
     @ApiOperation(value = "Get Entries")
+    @PreAuthorize("hasAuthority('ROLE_PESQUISAR_LANCAMENTO') and #oauth2.hasScope('read')")
     @GetMapping()
     @ResponseStatus(HttpStatus.OK)
     public LancamentosResponse consultarLancamentos(/*@ApiParam(required = true, value = "Authorization: Bearer <TOKEN>")
@@ -79,6 +84,7 @@ public class LancamentoWS {
     }
 
     @ApiOperation(value = "Get Entries paginated v1")
+    @PreAuthorize("hasAuthority('ROLE_PESQUISAR_LANCAMENTO') and #oauth2.hasScope('read')")
     @GetMapping(path = "/paginated/v1")
     @ResponseStatus(HttpStatus.OK)
     public LancamentosPageResponse pesquisar(Pageable pageable,
@@ -92,6 +98,7 @@ public class LancamentoWS {
     }
 
     @ApiOperation(value = "Get Entries paginated v2")
+    @PreAuthorize("hasAuthority('ROLE_PESQUISAR_LANCAMENTO') and #oauth2.hasScope('read')")
     @GetMapping(path = "/paginated/v2")
     public LancamentosPageResponse pesquisar(LancamentoFilter lancamentoFilter, Pageable pageable,
                                              @ApiParam(required = true, value = "Authorization: Bearer <TOKEN>")

@@ -12,9 +12,11 @@ import javax.servlet.http.HttpServletRequestWrapper;
 import java.io.IOException;
 import java.util.Map;
 
+
 /**
- * Filtro responsável por retirar o refresh token do cookie e inserir na requisição
+ * Filtro responsável por retirar o refresh token do cookie e inserir na requisição para gerar um novo access token através desse refresh token
  */
+
 @Component
 @Order(Ordered.HIGHEST_PRECEDENCE)
 public class RefreshTokenCookiePreProcessorFilter implements Filter {
@@ -68,3 +70,4 @@ public class RefreshTokenCookiePreProcessorFilter implements Filter {
 
     }
 }
+
