@@ -1,7 +1,6 @@
-# Oracle settings and Pool Connection
 spring:
   profiles:
-    active: prod
+    active: oauth-security
   application:
     name: algamoney-api
   datasource:

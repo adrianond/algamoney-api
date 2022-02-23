@@ -1,4 +1,3 @@
-/*
 package com.algamoney.api.config.security.token;
 
 import com.algamoney.api.config.security.UsuarioSistema;
@@ -10,6 +9,9 @@ import org.springframework.security.oauth2.provider.token.TokenEnhancer;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Insere o nome do usuario no token JWT
+ */
 public class CustomTokenEnhancer implements TokenEnhancer {
 
     @Override
@@ -24,4 +26,4 @@ public class CustomTokenEnhancer implements TokenEnhancer {
     }
 
 }
-*/
+

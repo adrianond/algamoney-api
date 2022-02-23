@@ -1,6 +1,6 @@
 package com.algamoney.api.config.security;
 
-//import com.algamoney.api.config.security.token.CustomTokenEnhancer;
+import com.algamoney.api.config.security.token.CustomTokenEnhancer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -13,12 +13,16 @@ import org.springframework.security.oauth2.config.annotation.web.configurers.Aut
 import org.springframework.security.oauth2.provider.token.TokenEnhancer;
 import org.springframework.security.oauth2.provider.token.TokenEnhancerChain;
 import org.springframework.security.oauth2.provider.token.TokenStore;
-import org.springframework.security.oauth2.provider.token.store.InMemoryTokenStore;
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
 import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
 
 import java.util.Arrays;
 
+/**
+ * configuracao para usar Oauth 2 (application-local.yml e application-prod.yml)
+ * se encontrar esse valor de profile 'oauth-security', o spring executa essa classe
+ * subindo a aplicação com oauth 2
+ */
 @Profile("oauth-security")
 @Configuration
 @EnableAuthorizationServer
@@ -58,9 +62,12 @@ public class AutorizationServerConfig extends AuthorizationServerConfigurerAdapt
 
     @Override
     public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
+       TokenEnhancerChain tokenEnhancerChain = new TokenEnhancerChain();
+       tokenEnhancerChain.setTokenEnhancers(Arrays.asList(tokenEnhancer(), accessTokenConverter()));
+
         endpoints
                 .tokenStore(tokenStore())
-                .accessTokenConverter(accessTokenConverter())
+                .tokenEnhancer(tokenEnhancerChain)
                 .reuseRefreshTokens(false)
                 .authenticationManager(authenticationManager);
     }
@@ -75,6 +82,11 @@ public class AutorizationServerConfig extends AuthorizationServerConfigurerAdapt
     @Bean
     public TokenStore tokenStore() {
         return new JwtTokenStore(accessTokenConverter());
+    }
+
+    @Bean
+    public TokenEnhancer tokenEnhancer() {
+        return new CustomTokenEnhancer();
     }
 }
 
