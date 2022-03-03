@@ -19,7 +19,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.format.annotation.DateTimeFormat.ISO;
 import org.springframework.http.HttpStatus;
-//import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
@@ -75,7 +74,7 @@ public class LancamentoWS {
     }
 
     @ApiOperation(value = "Get Entries")
-    @PreAuthorize("hasAuthority('ROLE_PESQUISAR_LANCAMENTO') and #oauth2.hasScope('read')")
+    //@PreAuthorize("hasAuthority('ROLE_PESQUISAR_LANCAMENTO') and #oauth2.hasScope('read')")
     @GetMapping()
     @ResponseStatus(HttpStatus.OK)
     public LancamentosResponse consultarLancamentos(/*@ApiParam(required = true, value = "Authorization: Bearer <TOKEN>")
@@ -84,7 +83,7 @@ public class LancamentoWS {
     }
 
     @ApiOperation(value = "Get Entries paginated v1")
-    @PreAuthorize("hasAuthority('ROLE_PESQUISAR_LANCAMENTO') and #oauth2.hasScope('read')")
+    //@PreAuthorize("hasAuthority('ROLE_PESQUISAR_LANCAMENTO') and #oauth2.hasScope('read')")
     @GetMapping(path = "/paginated/v1")
     @ResponseStatus(HttpStatus.OK)
     public LancamentosPageResponse pesquisar(Pageable pageable,

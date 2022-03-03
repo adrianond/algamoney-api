@@ -13,23 +13,5 @@ public class CustomSecurityConfig extends WebSecurityConfigurerAdapter {
     protected AuthenticationManager authenticationManager() throws Exception {
         return super.authenticationManager();
     }
-
-
-    /**
-     * Desabilita Oauth2 para o swagger
-     * @param web
-     * @throws Exception
-     */
-
-   /* @Override
-    public void configure(WebSecurity web) throws Exception {
-        web.ignoring().antMatchers("/v2/api-docs",
-                "/configuration/ui",
-                "/swagger-resources/**",
-                "/configuration/security",
-                "/swagger-ui.html",
-                "/webjars/**");
-    }*/
-
 }
 
