@@ -36,35 +36,37 @@ public class LancamentoWS {
     private final ConsultarLancamentos consultarLancamentos;
 
     @ApiOperation(value = "Save new Entry")
-    @PreAuthorize("hasAuthority('ROLE_CADASTRAR_LANCAMENTO') and #oauth2.hasScope('write')")
+    //@PreAuthorize("hasAuthority('ROLE_CADASTRAR_LANCAMENTO') and #oauth2.hasScope('write')")
     @PostMapping()
     @ResponseStatus(HttpStatus.CREATED)
-    public LancamentoResponse salvarLancamento(@Valid @RequestBody LancamentoRequest request
-                                              /* @ApiParam(required = true, value = "Authorization: Bearer <TOKEN>")
-                                               @RequestHeader(value = "Authorization") String authorization*/) {
+    public LancamentoResponse salvarLancamento(@Valid @RequestBody LancamentoRequest request,
+                                               @ApiParam(required = true, value = "Authorization: Bearer <TOKEN>")
+                                               @RequestHeader(value = "Authorization") String authorization) {
         return new LancamentoResponse(persistirLancamento.executar(request));
     }
 
     @ApiOperation(value = "Update entry")
     @PutMapping(path = "/entry/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public void alterarLancamento(@ApiParam @PathVariable("id") Long id, @RequestBody LancamentoRequest request) {
+    public void alterarLancamento(@ApiParam @PathVariable("id") Long id,
+                                  @RequestBody LancamentoRequest request,
+                                  @ApiParam(required = true, value = "Authorization: Bearer <TOKEN>")
+                                  @RequestHeader(value = "Authorization") String authorization) {
         persistirLancamento.executar(id, request);
     }
 
     @ApiOperation(value = "Delete a Entry")
-    @PreAuthorize("hasAuthority('ROLE_REMOVER_LANCAMENTO') and #oauth2.hasScope('write')")
+    //@PreAuthorize("hasAuthority('ROLE_REMOVER_LANCAMENTO') and #oauth2.hasScope('write')")
     @DeleteMapping(path = "/entry/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void excluirLancamento(@ApiParam @PathVariable("id") Long id
-                                  /*@ApiParam(required = true, value = "Authorization: Bearer <TOKEN>")
-                                  @RequestHeader(value = "Authorization") String authorization*/) {
+    public void excluirLancamento(@ApiParam @PathVariable("id") Long id,
+                                  @ApiParam(required = true, value = "Authorization: Bearer <TOKEN>")
+                                  @RequestHeader(value = "Authorization") String authorization) {
         excluirLancamento.executar(id);
-
     }
 
     @ApiOperation(value = "Get a Entry")
-    @PreAuthorize("hasAuthority('ROLE_PESQUISAR_LANCAMENTO') and #oauth2.hasScope('read')")
+    //@PreAuthorize("hasAuthority('ROLE_PESQUISAR_LANCAMENTO') and #oauth2.hasScope('read')")
     @GetMapping(path = "/entry/{id}")
     @ResponseStatus(HttpStatus.OK)
     public LancamentoResponse consultarLancamento(@ApiParam @PathVariable("id") Long id,
@@ -77,8 +79,8 @@ public class LancamentoWS {
     //@PreAuthorize("hasAuthority('ROLE_PESQUISAR_LANCAMENTO') and #oauth2.hasScope('read')")
     @GetMapping()
     @ResponseStatus(HttpStatus.OK)
-    public LancamentosResponse consultarLancamentos(/*@ApiParam(required = true, value = "Authorization: Bearer <TOKEN>")
-                                                    @RequestHeader(value = "Authorization") String authorization*/) {
+    public LancamentosResponse consultarLancamentos(@ApiParam(required = true, value = "Authorization: Bearer <TOKEN>")
+                                                    @RequestHeader(value = "Authorization") String authorization) {
         return new LancamentosResponse(consultarLancamentos.executar());
     }
 
@@ -90,14 +92,14 @@ public class LancamentoWS {
                                              @RequestParam(value = "dataVencimentoDe", required = false)  @DateTimeFormat(iso = ISO.DATE) LocalDate dataVencimentoDe,
                                              @RequestParam(value = "dataVencimentoAte", required = false) @DateTimeFormat(iso = ISO.DATE) LocalDate dataVencimentoAte,
                                              @RequestParam(value = "tipoLancamento", required = false) TipoLancamento tipoLancamento,
-                                             @RequestParam(value = "descricao", required = false) String descricao
-                                             /*@ApiParam(required = true, value = "Authorization: Bearer <TOKEN>")
-                                                 @RequestHeader(value = "Authorization") String authorization*/) {
+                                             @RequestParam(value = "descricao", required = false) String descricao,
+                                             @ApiParam(required = true, value = "Authorization: Bearer <TOKEN>")
+                                             @RequestHeader(value = "Authorization") String authorization) {
         return new LancamentosPageResponse(consultarLancamentos.executarPaginacaoQueryDsl(pageable, dataVencimentoDe, dataVencimentoAte, tipoLancamento, descricao));
     }
 
     @ApiOperation(value = "Get Entries paginated v2")
-    @PreAuthorize("hasAuthority('ROLE_PESQUISAR_LANCAMENTO') and #oauth2.hasScope('read')")
+    //@PreAuthorize("hasAuthority('ROLE_PESQUISAR_LANCAMENTO') and #oauth2.hasScope('read')")
     @GetMapping(path = "/paginated/v2")
     public LancamentosPageResponse pesquisar(LancamentoFilter lancamentoFilter, Pageable pageable,
                                              @ApiParam(required = true, value = "Authorization: Bearer <TOKEN>")
@@ -106,7 +108,7 @@ public class LancamentoWS {
     }
 
     @GetMapping(path = "/paginated/v2", params = "resumo")
-    @PreAuthorize("hasAuthority('ROLE_PESQUISAR_LANCAMENTO') and #oauth2.hasScope('read')")
+    //@PreAuthorize("hasAuthority('ROLE_PESQUISAR_LANCAMENTO') and #oauth2.hasScope('read')")
     public ResumoLancamentosPageResponse resumir(LancamentoFilter lancamentoFilter, Pageable pageable,
                                                  @ApiParam(required = true, value = "Authorization: Bearer <TOKEN>")
                                                  @RequestHeader(value = "Authorization") String authorization) {

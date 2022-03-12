@@ -30,7 +30,7 @@ spring:
     change-log: classpath:db/changelog/master.xml
   jackson:
     deserialization:
-      fail-on-unknown-properties: true
+      fail-on-unknown-properties: false
   rabbitmq:
     addresses: 192.168.0.60 #localhost
     port: 5672
