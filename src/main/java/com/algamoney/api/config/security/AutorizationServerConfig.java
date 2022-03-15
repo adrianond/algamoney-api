@@ -6,6 +6,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.jwt.crypto.sign.RsaVerifier;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurerAdapter;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
@@ -48,7 +49,7 @@ public class AutorizationServerConfig extends AuthorizationServerConfigurerAdapt
                     .secret("@ngul@r0")
                     .scopes("read", "write")
                     .authorizedGrantTypes("password", "refresh_token")
-                    .accessTokenValiditySeconds(1800)
+                    .accessTokenValiditySeconds(10)
                     .refreshTokenValiditySeconds(3600 * 24)
                     //adiciona um novo cliente que pode apenas fazer leitura
                 .and()

@@ -25,7 +25,13 @@ public class CorsFilter implements Filter  {
     @Override
     public void doFilter(ServletRequest req, ServletResponse res, FilterChain chain) throws IOException, ServletException {
         final HttpServletResponse response = (HttpServletResponse) res;
-        response.setHeader("Access-Control-Allow-Origin", "*");
+        /**
+         *uso esse header pois na geracao do token e do refresh token no front eu envio 'withCredentials: true' na requisição
+         */
+        response.setHeader("Access-Control-Allow-Credentials", "true");
+        //TODO - CRIAR PARAMETRIZAÇÃO PARA ORIGEN (FILE .YML)
+        response.setHeader("Access-Control-Allow-Origin", "http://localhost:4200");
+        response.setHeader("Access-Control-Allow-Origin", "http://localhost:4300");
         response.setHeader("Access-Control-Allow-Methods", "POST, PUT, GET, OPTIONS, DELETE");
         response.setHeader("Access-Control-Allow-Headers", "x-requested-with, authorization");
         response.setHeader("Access-Control-Max-Age", "3600");
