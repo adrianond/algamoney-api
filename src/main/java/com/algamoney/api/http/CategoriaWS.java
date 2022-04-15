@@ -32,7 +32,7 @@ public class CategoriaWS {
 
     @ApiOperation(value = "Get category")
     @GetMapping(path = "/category/{id}")
-    //@PreAuthorize("hasAuthority('ROLE_PESQUISAR_CATEGORIA') and #oauth2.hasScope('read')")
+    @PreAuthorize("hasAuthority('ROLE_PESQUISAR_CATEGORIA') and #oauth2.hasScope('read')")
     @ResponseStatus(HttpStatus.OK)
     public ConsultaCategoriaResponse consultaCategoria(@ApiParam("id") @PathVariable("id") Long id,
                                                        @ApiParam(required = true, value = "Authorization: Bearer <TOKEN>")
@@ -42,16 +42,16 @@ public class CategoriaWS {
 
     @ApiOperation(value = "Get categories")
     @GetMapping()
-    //@PreAuthorize("hasAuthority('ROLE_PESQUISAR_CATEGORIA') and #oauth2.hasScope('read')")
+    @PreAuthorize("hasAuthority('ROLE_PESQUISAR_CATEGORIA') and #oauth2.hasScope('read')")
     @ResponseStatus(HttpStatus.OK)
-    public ConsultaCategoriasResponse consultaCategorias(/*@ApiParam(required = true, value = "Authorization: Bearer <TOKEN>") @RequestHeader(value = "Authorization") String authorization*/) {
+    public ConsultaCategoriasResponse consultaCategorias(@ApiParam(required = true, value = "Authorization: Bearer <TOKEN>") @RequestHeader(value = "Authorization") String authorization) {
        return new ConsultaCategoriasResponse(consultaCategorias.executar());
     }
 
 
     @ApiOperation(value = "Add new category")
     @PostMapping()
-   // @PreAuthorize("hasAuthority('ROLE_CADASTRAR_CATEGORIA') and #oauth2.hasScope('write')")
+    @PreAuthorize("hasAuthority('ROLE_CADASTRAR_CATEGORIA') and #oauth2.hasScope('write')")
     @ResponseStatus(HttpStatus.CREATED)
     public void adicionaCategoria(@Valid @RequestBody CategoriaRequest request, HttpServletResponse response,
                                   @ApiParam(required = true, value = "Authorization: Bearer <TOKEN>")

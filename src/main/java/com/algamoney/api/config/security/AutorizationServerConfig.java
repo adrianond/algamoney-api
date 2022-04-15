@@ -49,7 +49,7 @@ public class AutorizationServerConfig extends AuthorizationServerConfigurerAdapt
                     .secret("@ngul@r0")
                     .scopes("read", "write")
                     .authorizedGrantTypes("password", "refresh_token")
-                    .accessTokenValiditySeconds(10)
+                    .accessTokenValiditySeconds(60)
                     .refreshTokenValiditySeconds(3600 * 24)
                     //adiciona um novo cliente que pode apenas fazer leitura
                 .and()

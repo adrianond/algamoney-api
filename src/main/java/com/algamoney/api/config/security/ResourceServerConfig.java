@@ -45,6 +45,7 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
                 /*.antMatchers("/api/entries/**").permitAll()
                 .antMatchers("/api/persons/**").permitAll()
                 .antMatchers("/api/categories/**").permitAll()*/
+
                 .antMatchers("/v2/api-docs",
                     "/configuration/ui",
                     "/swagger-resources/**",
@@ -55,7 +56,7 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
                     .and()
                 .exceptionHandling().accessDeniedHandler(accessDeniedHandler())
                 .authenticationEntryPoint(authenticationEntryPoint())
-                    .and()
+                   .and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                     .and()
                 .csrf().disable();

@@ -9,6 +9,7 @@ import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
+
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,6 +37,11 @@ public class AlgamoneyExceptionHandler extends ResponseEntityExceptionHandler {
         HttpStatus httpStatus = HttpStatus.INTERNAL_SERVER_ERROR;
         String status = httpStatus.name();
         int httpStatusCode = httpStatus.value();
+
+        if (ex instanceof AccessDeniedException) {
+            httpStatusCode = HttpStatus.FORBIDDEN.value();
+            status = HttpStatus.FORBIDDEN.name();
+        }
 
         if(annotationResponse != null) {
             httpStatus = annotationResponse.value();

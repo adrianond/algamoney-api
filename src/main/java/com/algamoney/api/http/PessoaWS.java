@@ -53,8 +53,8 @@ public class PessoaWS {
     @ApiOperation(value = "Get persons ")
     @GetMapping()
     @ResponseStatus(HttpStatus.OK)
-    public PessoasResponse consultaPessoas(/*@ApiParam(required = true, value = "Authorization: Bearer <TOKEN>")
-                                         @RequestHeader(value = "Authorization") String authorization*/) {
+    public PessoasResponse consultaPessoas(@ApiParam(required = true, value = "Authorization: Bearer <TOKEN>")
+                                         @RequestHeader(value = "Authorization") String authorization) {
         return new PessoasResponse(consultaPessoas.executar());
     }
 
