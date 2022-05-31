@@ -3,10 +3,7 @@ package com.algamoney.api.http;
 import com.algamoney.api.database.entity.enumeration.TipoLancamento;
 import com.algamoney.api.http.domain.request.LancamentoFilter;
 import com.algamoney.api.http.domain.request.LancamentoRequest;
-import com.algamoney.api.http.domain.response.LancamentoResponse;
-import com.algamoney.api.http.domain.response.LancamentosPageResponse;
-import com.algamoney.api.http.domain.response.LancamentosResponse;
-import com.algamoney.api.http.domain.response.ResumoLancamentosPageResponse;
+import com.algamoney.api.http.domain.response.*;
 import com.algamoney.api.usecase.lancamento.ConsultarLancamento;
 import com.algamoney.api.usecase.lancamento.ConsultarLancamentos;
 import com.algamoney.api.usecase.lancamento.ExcluirLancamento;
@@ -114,5 +111,31 @@ public class LancamentoWS {
                                                  @ApiParam(required = true, value = "Authorization: Bearer <TOKEN>")
                                                  @RequestHeader(value = "Authorization") String authorization) {
         return new ResumoLancamentosPageResponse(consultarLancamentos.resumir(lancamentoFilter, pageable));
+    }
+
+    @ApiOperation(value = "Get estatistics entries by category")
+    @PreAuthorize("hasAuthority('ROLE_PESQUISAR_LANCAMENTO') and #oauth2.hasScope('read')")
+    @GetMapping(path = "/estatisticas/por-categoria")
+    public LancamentoEstatisticaPorCategoriaResponse porCategoria(Pageable pageable,
+                                                                  @RequestHeader(value = "Authorization") String authorization) {
+        return new LancamentoEstatisticaPorCategoriaResponse(this.consultarLancamentos.executarPorCategoria(pageable, LocalDate.now()));
+    }
+
+    @ApiOperation(value = "Get estatistics entries by day")
+    @PreAuthorize("hasAuthority('ROLE_PESQUISAR_LANCAMENTO') and #oauth2.hasScope('read')")
+    @GetMapping(path = "/estatisticas/por-dia")
+    public LancamentoEstatisticaPorDiaResponse porDia(Pageable pageable,
+                                                      @RequestHeader(value = "Authorization") String authorization) {
+        return new LancamentoEstatisticaPorDiaResponse(this.consultarLancamentos.executarPorDia(pageable, LocalDate.now()));
+    }
+
+    @ApiOperation(value = "Get estatistics entries by person")
+    @PreAuthorize("hasAuthority('ROLE_PESQUISAR_LANCAMENTO') and #oauth2.hasScope('read')")
+    @GetMapping(path = "/estatisticas/por-pessoa")
+    public LancamentoEstatisticaPorPessoaResponse porDia(Pageable pageable,
+                                                         @RequestParam(value = "dataVencimentoDe")  @DateTimeFormat(iso = ISO.DATE) LocalDate dataVencimentoDe,
+                                                         @RequestParam(value = "dataVencimentoAte") @DateTimeFormat(iso = ISO.DATE) LocalDate dataVencimentoAte,
+                                                         @RequestHeader(value = "Authorization") String authorization) {
+        return new LancamentoEstatisticaPorPessoaResponse(this.consultarLancamentos.executarPorPessoa(pageable, dataVencimentoDe, dataVencimentoAte));
     }
 }

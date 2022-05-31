@@ -41,7 +41,7 @@ public class PessoaWS {
         return new PessoaResponse(pessoaSalva);
     }
 
-    @ApiOperation(value = "Get persom by id")
+    @ApiOperation(value = "Get person by id")
     @GetMapping(path = "/person/{id}")
     @ResponseStatus(HttpStatus.OK)
     public PessoaResponse consultaPessoa(@ApiParam("id") @PathVariable("id") Long id,

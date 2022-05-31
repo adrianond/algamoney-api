@@ -14,7 +14,7 @@ import java.time.format.DateTimeFormatter;
 
 @Getter
 public class LancamentoRequest {
-    @NotBlank(message = "Descrição é obrigatório")
+    //@NotBlank(message = "Descrição é obrigatório")
     private String descricao;
 
     @DateTimeFormat(pattern = "dd-MM-yyyy", iso = DateTimeFormat.ISO.DATE_TIME)

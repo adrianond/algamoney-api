@@ -31,12 +31,13 @@ public class PersistirPessoa {
     }
 
     public PessoaDTO build(Pessoa pessoa, PessoaRequest request) {
-        if (null == pessoa)
+        if (null == pessoa) {
             pessoa = new Pessoa();
-
+            pessoa.setDataCadastro(LocalDateTime.now());
+        }
         pessoa.setNome(request.getNome());
         pessoa.setAtivo(request.isAtivo());
-        pessoa.setDataCadastro(LocalDateTime.now());
+        pessoa.setDataAtualizacao(LocalDateTime.now());
 
         cadastrarEndereco.executar(pessoa, request.getEndereco());
         Pessoa p = pessoaRepositoryFacade.add(pessoa);
