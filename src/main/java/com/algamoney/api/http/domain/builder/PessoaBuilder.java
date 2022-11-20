@@ -1,13 +1,10 @@
 package com.algamoney.api.http.domain.builder;
 
+import com.algamoney.api.database.entity.Contato;
 import com.algamoney.api.database.entity.Pessoa;
 import com.algamoney.api.database.entity.Telefone;
 import com.algamoney.api.database.entity.embedded.Endereco;
-import com.algamoney.api.http.domain.EnderecoDTO;
-import com.algamoney.api.http.domain.PessoaDTO;
-import com.algamoney.api.http.domain.TelefoneDTO;
-import com.algamoney.api.http.domain.TelefoneIdDTO;
-import com.algamoney.api.util.DateUtil;
+import com.algamoney.api.http.domain.*;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 
@@ -24,12 +21,32 @@ public class PessoaBuilder {
         return PessoaDTO.builder()
                 .id(pessoa.getId())
                 .nome(pessoa.getNome())
-                .endereco(buildEnderecoDTO(pessoa.getEndereco()))
+                .enderecoDTO(buildEnderecoDTO(pessoa.getEndereco()))
                 .ativo(pessoa.isAtivo())
-                .dataCadastro(DateUtil.formatLocalDateTime(pessoa.getDataCadastro()))
-                .dataAtualizacao(DateUtil.formatLocalDateTime(pessoa.getDataAtualizacao()))
+                .dataCadastro(pessoa.getDataCadastro())
+                .dataAtualizacao(pessoa.getDataAtualizacao())
                 .telefones(buildTelefoneDTO(pessoa.getTelefones()))
+                .contatos(buildContatod(pessoa.getContatos()))
                 .build();
+    }
+
+    public String getNomePessoa(Pessoa pessoa) {
+        return pessoa.getNome();
+    }
+
+    private List<ContatoDTO> buildContatod(List<Contato> contatos) {
+        if (CollectionUtils.isEmpty(contatos))
+            return Collections.emptyList();
+
+        return contatos.stream().map(contato -> {
+            ContatoDTO contatoDTO = new ContatoDTO();
+            contatoDTO.setId(contato.getId());
+            contatoDTO.setNome(contato.getNome());
+            contatoDTO.setEmail(contato.getEmail());
+            contatoDTO.setTelefone(contato.getTelefone());
+            return contatoDTO;
+
+        }).collect(Collectors.toList());
     }
 
     private EnderecoDTO buildEnderecoDTO(Endereco endereco) {
@@ -58,6 +75,7 @@ public class PessoaBuilder {
         TelefoneDTO telefoneDTO = new TelefoneDTO();
         telefoneDTO.setId(new TelefoneIdDTO(telefone.getId().getPessoa(), telefone.getId().getSequencia()));
         telefoneDTO.setNumero(telefone.getNumero());
+        telefoneDTO.setCategoriaTelefone(telefone.getCategoria());
         if (!telefone.getCategoria().equals(CELULAR) && telefone.getRamal() != null)
             telefoneDTO.setRamal(telefone.getRamal());
         return telefoneDTO;

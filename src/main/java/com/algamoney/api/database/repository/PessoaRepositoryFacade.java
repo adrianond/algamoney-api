@@ -17,4 +17,6 @@ public interface PessoaRepositoryFacade {
     void delete(Pessoa pessoa);
 
     Page<Pessoa> findAll(Predicate predicate, Pageable pageable);
+
+    void saveAll(List<Pessoa> cargaPessoaDTOList);
 }

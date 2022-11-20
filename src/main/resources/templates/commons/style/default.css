@@ -1,0 +1,48 @@
+html, body {
+    margin: 0px;
+}
+* {
+    font-size: 12px;
+    font-family: Arial, Helvetica, sans-serif;
+}
+.logo {
+    padding: 20px;
+    height: 52px;
+}
+table {
+    width: 100%;
+    border-collapse: collapse;
+    page-break-inside:avoid; /* - Dont broken element the page*/
+}
+table, th, td {
+    border: 1px solid black;
+}
+th {
+    background-color: #CCC;
+    text-align: center;
+}
+th, td {
+    padding: 5px;
+}
+.noBorder {
+    border: none;
+}
+span {
+  font-size: 18px;
+  font-weight: 700;
+}
+@page {
+    size: A4;
+    margin: 63mm 5mm 50mm 5mm;
+    @top-center {content: element(header)}      /* Header */
+    @bottom-center {content: element(footer)}   /* Enpied */
+}
+#header {
+    position: running(header);
+}
+#footer {
+    position: running(footer);
+    border-top: 2px solid black;
+}
+#pagenumber:before {content: counter(page);}
+#pagecount:before {content: counter(pages);}

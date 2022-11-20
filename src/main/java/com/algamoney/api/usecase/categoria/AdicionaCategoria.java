@@ -12,6 +12,6 @@ public class AdicionaCategoria {
     private final CategoriaRepositoryFacade categoriaRepositoryFacade;
 
     public Categoria executar(CategoriaRequest request) {
-       return categoriaRepositoryFacade.save(new Categoria(request.getNome()));
+       return categoriaRepositoryFacade.save(new Categoria(request.getCategoriaDTO().getNome()));
     }
 }

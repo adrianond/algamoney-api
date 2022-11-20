@@ -40,4 +40,9 @@ public class PessoaRepositoryFacadeImpl implements PessoaRepositoryFacade {
     public Page<Pessoa> findAll(Predicate predicate, Pageable pageable) {
         return repository.findAll(predicate, pageable);
     }
+
+    @Override
+    public void saveAll(List<Pessoa> cargaPessoaDTOList) {
+        repository.saveAll(cargaPessoaDTOList);
+    }
 }

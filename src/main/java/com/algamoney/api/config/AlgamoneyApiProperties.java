@@ -17,6 +17,8 @@ public class AlgamoneyApiProperties {
 
     private Seguranca seguranca;
     private Person person;
+    private Mail mail;
+    private S3 s3;
 
     @Data
     @AllArgsConstructor
@@ -33,4 +35,25 @@ public class AlgamoneyApiProperties {
 
         private String url;
     }
+
+    @Data
+    @NoArgsConstructor
+    public static class Mail {
+
+        private String host;
+        private Integer port;
+        private String username;
+        private String password;
+    }
+
+    @Data
+    @AllArgsConstructor
+    @NoArgsConstructor
+    public static class S3 {
+
+        private String accessKeyId;
+        private String secretAccessKey;
+        private String bucket = "aw-algamoney-files-dantas";
+    }
+
 }

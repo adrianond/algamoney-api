@@ -1,15 +1,18 @@
 package com.algamoney.api.database.entity;
 
 import com.algamoney.api.database.entity.enumeration.TipoLancamento;
+import com.algamoney.api.listener.LancamentoAnexoListener;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import org.codehaus.jackson.annotate.JsonIgnore;
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
+@EntityListeners(LancamentoAnexoListener.class)
 @Entity
 @EqualsAndHashCode(of = "id")
 @Data
@@ -27,13 +30,18 @@ public class Lancamento implements Serializable {
     private LocalDate dataVencimento;
 
     @Column(name = "data_recebimento_pagamento")
-    private LocalDate dataRecebimentoPagamento;
+    private LocalDate dataPagamento;
 
     private BigDecimal valor;
 
     @Enumerated(value = EnumType.STRING)
     @Column(name = "tipo_lancamento")
     private TipoLancamento tipoLancamento;
+
+    private String anexo;
+
+    @Transient
+    private String url;
 
     private String observacao;
 
@@ -44,4 +52,9 @@ public class Lancamento implements Serializable {
     @JoinColumn(name = "id_pessoa", referencedColumnName = "id")
     @ManyToOne(targetEntity = Pessoa.class, fetch = FetchType.LAZY)
     private Pessoa pessoa;
+
+    @JsonIgnore
+    public boolean isReceita() {
+        return TipoLancamento.RECEITA.equals(this.tipoLancamento);
+    }
 }

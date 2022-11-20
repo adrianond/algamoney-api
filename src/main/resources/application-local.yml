@@ -15,7 +15,7 @@ spring:
   application:
     name: algamoney-api
   datasource:
-    url: jdbc:oracle:thin:@10.20.1.111:1522:OMNIDEV
+    url: jdbc:oracle:thin:@10.20.1.113:1521:omni19c
     username: WSALGAMONEY
     password: omnidev
     driver-class-name: oracle.jdbc.OracleDriver
@@ -25,6 +25,11 @@ spring:
         dialect: org.hibernate.dialect.Oracle10gDialect
         show_sql: true
         format_sql: true
+        generate_statistics: false
+        order_inserts: true
+        order_updates: true
+        jdbc:
+          batch_size: 5
   liquibase:
     contexts: local
     change-log: classpath:db/changelog/master.xml
@@ -45,8 +50,10 @@ app:
         initialInterval: 60000 # 1min
         maxInterval: 120000 # 2min
         multiplier: 1 # linear, uma tentativa cada 'initialInterval'
-        retries: 6
-        consumers: 20
+        retries: 1
+        consumers: 1
+        maxConsumers: 10
+        default-message-converter: true
       bindings:
         -
           topic: algamoney.event.save.phone
@@ -55,15 +62,38 @@ app:
           dlx: algamoney.event.save.phone.dlx
           dlq: algamoney.event.save.phone.dlq
           declare: true
+        -
+          topic: algamoney.event.carga.pessoa
+          routing-key: algamoney.event.carga.pessoa
+          queue: algamoney.event.carga.pessoa.queue
+          dlx: algamoney.event.carga.pessoa.dlx
+          dlq: algamoney.event.carga.pessoa.dlq
+          declare: true
     seguranca:
       enableHttps: false
     person:
       url: https://gsdktzz0lb.execute-api.us-east-1.amazonaws.com/dev
+    mail:
+      host: smtp.mail.yahoo.com
+      port: 587
+      username: adrianond@yahoo.com.br
+      password: Tricolor_1992
+    scheduler:
+      efetuar-carga-pessoa:
+        enabled: false
+        cron: !!str "0 0 9 * * *"  # todos os dias as 9:00:00 (segundo 0, minuto 0, 9 horas, dia do mes, mes, dia da semanma)
+    job:
+      tamanhoLote: 5
+    s3:
+      accessKeyId: AKIA2XRSHTYWFB2HP776
+      secretAccessKey: 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
 logging:
   level:
     org:
       springframework:
         boot:
           autoconfigure: ERROR
-
+omni:
+  email:
+    url: https://dev-omni-email.dev-omnicfi.us-east-1.omniaws.io
 

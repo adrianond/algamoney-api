@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <style type="text/css">
+        <#include "/commons/style/default.css">
+    </style>
+</head>
+
+<body>
+<div id="footer">
+    <br />
+    <span>Omni Banco &#38; Financeira</span>
+    <span style="float:right">
+        <span id="pagenumber" /> /
+        <span id="pagecount" />
+    </span>
+    <table class="noBorder">
+        <tr>
+            <td class="noBorder">Em caso de dúvidas entre em contato conosco e informe o ID da transação que consta no comprovante.</td>
+        </tr>
+        <tr>
+            <td class="noBorder"><b>4004 3500</b> Capitais e regiões metropolitanas <b>0800 701 3500</b> Demais localidades</td>
+        </tr>
+        <tr>
+            <td class="noBorder">Atendimento de segunda a sábado das 8h às 20h.</td>
+        </tr>
+    </table>
+</div>
+
+<div>
+<table>
+    <tr>
+        <td style="width: 50%">
+            <h1>
+                Lançamentos por pessoa
+            </h1>
+        </td>
+        <td>
+            <img class="logo" src="${logoUrl! logoBase64! 'https://www.omni.com.br/assets/site/images/logo_omni.png'}" />
+        </td>
+    </tr>
+</table>
+</div>
+
+<table>
+    <tr>
+        <th style="text-align:left">Período</th>
+    </tr>
+    <tr>
+        <td>${dataInicial} até ${dataFinal}</td>
+    </tr>
+</table>
+<br /> <br />
+<table>
+    <tr>
+        <th>Tipo</th>
+        <th>Pessoa</th>
+        <th>Total</th>
+    </tr>
+    <#if listEstaticaPorPesoa??>
+    <#list listEstaticaPorPesoa as estaticaPorPesoa>
+    <tr>
+        <td>${estaticaPorPesoa.tipo}</td>
+        <td>${estaticaPorPesoa.nome}</td>
+        <td style="text-align:right">${estaticaPorPesoa.total}</td>
+    </tr>
+    </#list>
+    </#if>
+</table>
+</body>
+</html>

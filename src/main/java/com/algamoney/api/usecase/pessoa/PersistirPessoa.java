@@ -1,5 +1,6 @@
 package com.algamoney.api.usecase.pessoa;
 
+import com.algamoney.api.database.entity.Contato;
 import com.algamoney.api.database.entity.Pessoa;
 import com.algamoney.api.database.repository.PessoaRepositoryFacade;
 import com.algamoney.api.http.domain.PessoaDTO;
@@ -10,8 +11,11 @@ import com.algamoney.api.usecase.telefone.CadastrarTelefone;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.CollectionUtils;
 
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Component
 @AllArgsConstructor
@@ -31,17 +35,42 @@ public class PersistirPessoa {
     }
 
     public PessoaDTO build(Pessoa pessoa, PessoaRequest request) {
+        PessoaDTO pessoaDTO = request.getPessoaDTO();
         if (null == pessoa) {
             pessoa = new Pessoa();
             pessoa.setDataCadastro(LocalDateTime.now());
         }
-        pessoa.setNome(request.getNome());
-        pessoa.setAtivo(request.isAtivo());
+        pessoa.setNome(pessoaDTO.getNome());
+        pessoa.setAtivo(pessoaDTO.isAtivo());
         pessoa.setDataAtualizacao(LocalDateTime.now());
 
-        cadastrarEndereco.executar(pessoa, request.getEndereco());
+        cadastrarEndereco.executar(pessoa, pessoaDTO);
+        buildContatosPessoa(pessoa, pessoaDTO);
         Pessoa p = pessoaRepositoryFacade.add(pessoa);
-        cadastrarTelefone.executar(p, request.getTelefones());
+        cadastrarTelefone.executar(p, pessoaDTO);
         return pessoaBuilder.buildPessoaDTO(p);
     }
+
+    private void buildContatosPessoa(Pessoa pessoa, PessoaDTO pessoaDTO) {
+        if (CollectionUtils.isEmpty(pessoaDTO.getContatos()))
+            return;
+
+        pessoa.getContatos().clear();
+        pessoa.getContatos().addAll(getContatos(pessoa, pessoaDTO));
+    }
+
+    private List<Contato> getContatos(Pessoa pessoa, PessoaDTO pessoaDTO) {
+        return pessoaDTO.getContatos().stream()
+                .map(contatoDTO -> {
+                    Contato contato = new Contato();
+                    contato.setNome(contatoDTO.getNome());
+                    contato.setEmail(contatoDTO.getEmail());
+                    contato.setTelefone(contatoDTO.getTelefone());
+                    contato.setPessoa(pessoa);
+                    return contato;
+                }).collect(Collectors.toList());
+
+    }
+
+
 }

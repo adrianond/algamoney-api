@@ -1,5 +1,6 @@
 package com.algamoney.api.config.amqp;
 
+import com.algamoney.api.config.amqp.mapping.RabbitMQConfigurationProperties;
 import lombok.RequiredArgsConstructor;
 import org.springframework.amqp.rabbit.config.SimpleRabbitListenerContainerFactory;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;

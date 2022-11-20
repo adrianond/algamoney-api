@@ -4,10 +4,8 @@ import com.algamoney.api.database.entity.enumeration.TipoLancamento;
 import com.algamoney.api.http.domain.request.LancamentoFilter;
 import com.algamoney.api.http.domain.request.LancamentoRequest;
 import com.algamoney.api.http.domain.response.*;
-import com.algamoney.api.usecase.lancamento.ConsultarLancamento;
-import com.algamoney.api.usecase.lancamento.ConsultarLancamentos;
-import com.algamoney.api.usecase.lancamento.ExcluirLancamento;
-import com.algamoney.api.usecase.lancamento.PersistirLancamento;
+import com.algamoney.api.usecase.cloud.EnviarArquivoS3;
+import com.algamoney.api.usecase.lancamento.*;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -18,6 +16,7 @@ import org.springframework.format.annotation.DateTimeFormat.ISO;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 import java.time.LocalDate;
@@ -31,6 +30,10 @@ public class LancamentoWS {
     private final ExcluirLancamento excluirLancamento;
     private final ConsultarLancamento consultarLancamento;
     private final ConsultarLancamentos consultarLancamentos;
+    private final ConsultarLancamentosPorPessoa consultarLancamentosPorPessoa;
+    private final ConsultarLancamentosPorDia consultarLancamentosPorDia;
+    private final ConsultarLancamentosPorCategoria consultarLancamentosPorCategoria;
+    private final EnviarArquivoS3 enviarArquivoS3;
 
     @ApiOperation(value = "Save new Entry")
     @PreAuthorize("hasAuthority('ROLE_CADASTRAR_LANCAMENTO') and #oauth2.hasScope('write')")
@@ -87,7 +90,7 @@ public class LancamentoWS {
     @GetMapping(path = "/paginated/v1")
     @ResponseStatus(HttpStatus.OK)
     public LancamentosPageResponse pesquisar(Pageable pageable,
-                                             @RequestParam(value = "dataVencimentoDe", required = false)  @DateTimeFormat(iso = ISO.DATE) LocalDate dataVencimentoDe,
+                                             @RequestParam(value = "dataVencimentoDe", required = false) @DateTimeFormat(iso = ISO.DATE) LocalDate dataVencimentoDe,
                                              @RequestParam(value = "dataVencimentoAte", required = false) @DateTimeFormat(iso = ISO.DATE) LocalDate dataVencimentoAte,
                                              @RequestParam(value = "tipoLancamento", required = false) TipoLancamento tipoLancamento,
                                              @RequestParam(value = "descricao", required = false) String descricao,
@@ -113,29 +116,37 @@ public class LancamentoWS {
         return new ResumoLancamentosPageResponse(consultarLancamentos.resumir(lancamentoFilter, pageable));
     }
 
-    @ApiOperation(value = "Get estatistics entries by category")
+    @ApiOperation(value = "Get statistics entries by category")
     @PreAuthorize("hasAuthority('ROLE_PESQUISAR_LANCAMENTO') and #oauth2.hasScope('read')")
-    @GetMapping(path = "/estatisticas/por-categoria")
+    @GetMapping(path = "/estatistica/por-categoria")
     public LancamentoEstatisticaPorCategoriaResponse porCategoria(Pageable pageable,
                                                                   @RequestHeader(value = "Authorization") String authorization) {
-        return new LancamentoEstatisticaPorCategoriaResponse(this.consultarLancamentos.executarPorCategoria(pageable, LocalDate.now()));
+        return new LancamentoEstatisticaPorCategoriaResponse(this.consultarLancamentosPorCategoria.executar(pageable, LocalDate.now()));
     }
 
-    @ApiOperation(value = "Get estatistics entries by day")
+    @ApiOperation(value = "Get statistics entries by day")
     @PreAuthorize("hasAuthority('ROLE_PESQUISAR_LANCAMENTO') and #oauth2.hasScope('read')")
-    @GetMapping(path = "/estatisticas/por-dia")
+    @GetMapping(path = "/estatistica/por-dia")
     public LancamentoEstatisticaPorDiaResponse porDia(Pageable pageable,
                                                       @RequestHeader(value = "Authorization") String authorization) {
-        return new LancamentoEstatisticaPorDiaResponse(this.consultarLancamentos.executarPorDia(pageable, LocalDate.now()));
+        return new LancamentoEstatisticaPorDiaResponse(this.consultarLancamentosPorDia.executar(pageable, LocalDate.now()));
     }
 
-    @ApiOperation(value = "Get estatistics entries by person")
+    @ApiOperation(value = "Get statistics entries by person")
     @PreAuthorize("hasAuthority('ROLE_PESQUISAR_LANCAMENTO') and #oauth2.hasScope('read')")
-    @GetMapping(path = "/estatisticas/por-pessoa")
-    public LancamentoEstatisticaPorPessoaResponse porDia(Pageable pageable,
-                                                         @RequestParam(value = "dataVencimentoDe")  @DateTimeFormat(iso = ISO.DATE) LocalDate dataVencimentoDe,
-                                                         @RequestParam(value = "dataVencimentoAte") @DateTimeFormat(iso = ISO.DATE) LocalDate dataVencimentoAte,
+    @GetMapping(path = "/estatistica/por-pessoa")
+    public LancamentoEstatisticaPorPessoaResponse porPessoa(Pageable pageable,
+                                                            @RequestParam(value = "dataVencimentoDe") @DateTimeFormat(iso = ISO.DATE) LocalDate dataVencimentoDe,
+                                                            @RequestParam(value = "dataVencimentoAte") @DateTimeFormat(iso = ISO.DATE) LocalDate dataVencimentoAte,
                                                          @RequestHeader(value = "Authorization") String authorization) {
-        return new LancamentoEstatisticaPorPessoaResponse(this.consultarLancamentos.executarPorPessoa(pageable, dataVencimentoDe, dataVencimentoAte));
+        return new LancamentoEstatisticaPorPessoaResponse(this.consultarLancamentosPorPessoa.executar(pageable, dataVencimentoDe, dataVencimentoAte));
+    }
+
+    @PostMapping("upload/file")
+    @PreAuthorize("hasAuthority('ROLE_CADASTRAR_LANCAMENTO') and hasAuthority('SCOPE_write')")
+    public UploadFileResponse uploadFile(@RequestParam MultipartFile file)  {
+        String nome = enviarArquivoS3.salvarTemporariamente(file);
+
+        return new UploadFileResponse(nome, enviarArquivoS3.configurarUrl(nome));
     }
 }

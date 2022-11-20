@@ -1,10 +1,11 @@
 package com.algamoney.api.usecase.telefone;
 
-import com.algamoney.api.config.amqp.domain.SalvarTelefonePessoa;
+import com.algamoney.api.config.amqp.domain.SalvarTelefonePessoaMessage;
 import com.algamoney.api.database.entity.Pessoa;
 import com.algamoney.api.database.entity.Telefone;
 import com.algamoney.api.database.repository.PessoaRepositoryFacade;
-import com.algamoney.api.http.domain.request.TelefoneRequest;
+import com.algamoney.api.http.domain.PessoaDTO;
+import com.algamoney.api.http.domain.TelefoneDTO;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,7 +19,8 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class CadastrarTelefone {
     private final PessoaRepositoryFacade pessoaRepositoryFacade;
 
-    public void executar(Pessoa pessoa, List<TelefoneRequest> telefones) {
+    public void executar(Pessoa pessoa, PessoaDTO pessoaDTO) {
+        List<TelefoneDTO> telefones = pessoaDTO.getTelefones();
         if (!CollectionUtils.isEmpty(telefones)) {
             pessoa.getTelefones().clear();
             buildTelefones(pessoa, telefones);
@@ -26,28 +28,28 @@ public class CadastrarTelefone {
     }
 
     @Transactional
-    public void executar(SalvarTelefonePessoa salvarTelefonePessoa) {
-        if (!CollectionUtils.isEmpty(salvarTelefonePessoa.getTelefones())) {
-            Pessoa pessoa = pessoaRepositoryFacade.findById(salvarTelefonePessoa.getId());
-            buildTelefones(pessoa, salvarTelefonePessoa.getTelefones());
+    public void executar(SalvarTelefonePessoaMessage salvarTelefonePessoaMessage) {
+        if (!CollectionUtils.isEmpty(salvarTelefonePessoaMessage.getTelefones())) {
+            Pessoa pessoa = pessoaRepositoryFacade.findById(salvarTelefonePessoaMessage.getId());
+            buildTelefones(pessoa, salvarTelefonePessoaMessage.getTelefones());
         }
     }
 
-    private void buildTelefones(Pessoa pessoa, List<TelefoneRequest> telefonesRequests) {
-        AtomicInteger sequencia = new AtomicInteger(telefonesRequests.stream()
-                .mapToInt(TelefoneRequest::getSequencia)
+    private void buildTelefones(Pessoa pessoa,List<TelefoneDTO> telefoneDTOS) {
+        AtomicInteger sequencia = new AtomicInteger(telefoneDTOS.stream()
+                .mapToInt(TelefoneDTO::getSequencia)
                 .max().orElse(0) + 1);
 
-        telefonesRequests.stream()
+        telefoneDTOS.stream()
                 .map(this::buildTelefone)
                 .forEach(telefone -> pessoa.adicionaTelefone(telefone, sequencia.getAndIncrement()));
     }
 
-    private Telefone buildTelefone(TelefoneRequest telefoneRequest) {
+    private Telefone buildTelefone(TelefoneDTO telefoneDTO) {
         Telefone telefone = new Telefone();
-        telefone.setCategoria(telefoneRequest.getCategoriaTelefone());
-        telefone.setRamal(telefoneRequest.getRamal());
-        telefone.setNumero(telefoneRequest.getNumero());
+        telefone.setCategoria(telefoneDTO.getCategoriaTelefone());
+        telefone.setRamal(telefoneDTO.getRamal());
+        telefone.setNumero(telefoneDTO.getNumero());
         return telefone;
     }
 }

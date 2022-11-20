@@ -1,18 +1,16 @@
 package com.algamoney.api.http.domain.request;
 
+import com.algamoney.api.http.domain.PessoaDTO;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.validation.constraints.NotBlank;
-import java.util.ArrayList;
-import java.util.List;
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 
 @Getter
 @Setter
 public class PessoaRequest {
-    @NotBlank(message = "Nome é obrigatório")
-    private String nome;
-    private boolean ativo;
-    private EnderecoRequest endereco;
-    private List<TelefoneRequest> telefones = new ArrayList<>();
+    @NotNull
+    @Valid
+    private PessoaDTO pessoaDTO;
 }

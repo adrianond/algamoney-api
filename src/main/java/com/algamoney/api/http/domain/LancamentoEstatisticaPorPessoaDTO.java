@@ -12,6 +12,6 @@ import java.math.BigDecimal;
 @Getter
 public class LancamentoEstatisticaPorPessoaDTO {
     private TipoLancamento tipo;
-    private PessoaDTO pessoaDTO;
+    private String nome;
     private BigDecimal total;
 }

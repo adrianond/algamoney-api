@@ -1,4 +1,4 @@
-package com.algamoney.api.config.amqp;
+package com.algamoney.api.config.amqp.mapping;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -19,7 +19,6 @@ import java.util.Optional;
 public class RabbitMQConfigurationProperties {
 
     private List<Binding> bindings;
-    private List<Binding> bindingsCommon;
     private Config config;
 
     @Data
@@ -53,4 +52,3 @@ public class RabbitMQConfigurationProperties {
                 .findFirst();
     }
 }
-

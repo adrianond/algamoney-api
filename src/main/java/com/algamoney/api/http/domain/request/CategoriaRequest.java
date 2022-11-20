@@ -1,14 +1,16 @@
 package com.algamoney.api.http.domain.request;
 
+import com.algamoney.api.http.domain.CategoriaDTO;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.validation.constraints.NotBlank;
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 
 @Getter
 @Setter
 public class CategoriaRequest {
-    private Long id;
-    @NotBlank(message = "Nome da categoria é obrigatório")
-    private String nome;
+   @Valid
+   @NotNull (message = "Categoria é obrigatório")
+   private CategoriaDTO categoriaDTO;
 }

@@ -6,6 +6,8 @@ import com.algamoney.api.exception.UsuarioNotFoundException;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @AllArgsConstructor
 public class UsuarioRepositoryFacadeImpl implements UsuarioRepositoryFacade {
@@ -14,5 +16,10 @@ public class UsuarioRepositoryFacadeImpl implements UsuarioRepositoryFacade {
     @Override
     public Usuario findByCodigo(Long codigo) {
         return repository.findByCodigo(codigo).orElseThrow(() -> new UsuarioNotFoundException(String.format("Usuario não encontrada para o codigo %s:", codigo)));
+    }
+
+    @Override
+    public List<Usuario> findByPermissoesDescricao(String permissao) {
+        return repository.findByPermissoesDescricao(permissao);
     }
 }

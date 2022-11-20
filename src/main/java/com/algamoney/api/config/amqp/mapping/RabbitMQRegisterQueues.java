@@ -1,16 +1,14 @@
-package com.algamoney.api.config.amqp;
+package com.algamoney.api.config.amqp.mapping;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.amqp.core.*;
 import org.springframework.amqp.rabbit.core.RabbitAdmin;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Profile;
 
 import javax.annotation.PostConstruct;
 import java.util.HashMap;
 
 @Configuration
-@Profile({"local"})
 @RequiredArgsConstructor
 public class RabbitMQRegisterQueues {
 

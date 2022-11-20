@@ -10,7 +10,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.List;
 
 @RestController
 @RequestMapping(path = "/api/person")
@@ -20,13 +19,13 @@ public class TelefoneWS {
     private final SalvarTelefoneAssincrono salvarTelefoneAssincrono;
 
     @ApiOperation(value = "Save person phone number")
-    @PostMapping(path = "/{id}/phone")
+    @PostMapping(path = "/{id}/phones")
     @ResponseStatus(HttpStatus.OK)
     public void salvarTelefone(@ApiParam("id") @PathVariable("id") Long id,
-                               @Valid @RequestBody List<TelefoneRequest> telefones,
+                               @Valid @RequestBody TelefoneRequest request,
                                @ApiParam(required = true, value = "Authorization: Bearer <TOKEN>")
                                @RequestHeader(value = "Authorization") String authorization) {
-        salvarTelefoneAssincrono.executar(id, telefones);
+        salvarTelefoneAssincrono.executar(id, request.getTelefoneDTOList());
     }
 }
 
