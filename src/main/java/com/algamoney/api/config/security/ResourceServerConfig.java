@@ -27,8 +27,8 @@ import org.springframework.security.oauth2.provider.expression.OAuth2MethodSecur
 @Configuration
 @EnableWebSecurity
 @EnableResourceServer
-@EnableGlobalMethodSecurity(prePostEnabled = true)
 //habilita segurança nos métodos (validar qual ação pode ser realizada)
+@EnableGlobalMethodSecurity(prePostEnabled = true)
 public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
 
     @Autowired
@@ -78,10 +78,18 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
         return new RestAuthenticationEntryPoint();
     }
 
+    /**
+     * Senha foi encodada com PasswordEncoder
+     * @return
+     */
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
+    /**
+     * Handler para segurança dos métodos com Oauth2
+     * @return
+     */
     @Bean
     public MethodSecurityExpressionHandler createExpressionHandler() {
         return new OAuth2MethodSecurityExpressionHandler();

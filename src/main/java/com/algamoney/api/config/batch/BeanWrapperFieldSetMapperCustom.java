@@ -1,6 +1,5 @@
 package com.algamoney.api.config.batch;
 
-import lombok.var;
 import org.springframework.batch.item.file.mapping.BeanWrapperFieldSetMapper;
 import org.springframework.validation.DataBinder;
 
@@ -12,7 +11,7 @@ public class BeanWrapperFieldSetMapperCustom extends BeanWrapperFieldSetMapper {
 
     @Override
     protected void initBinder(DataBinder binder) {
-        var formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+    	DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         binder.registerCustomEditor(LocalDate.class, new PropertyEditorSupport() {
             @Override
             public void setAsText(String text) {

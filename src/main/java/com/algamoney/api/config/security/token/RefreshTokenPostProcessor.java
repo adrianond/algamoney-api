@@ -40,7 +40,7 @@ public class RefreshTokenPostProcessor implements ResponseBodyAdvice<OAuth2Acces
 
     /**
      * Método que intercepta a resposta para inserir o refresh token no cookie, este método será executado quando o método
-     * supports retornar true, ou seja, quando método for igual "postAccessToken" -> return returnType.getMethod().getName().equals("postAccessToken";
+     * supports retornar true, ou seja, quando método for igual "postAccessToken" -> return returnType.getMethod().getName().equals("postAccessToken");
      * @param body
      * @param returnType
      * @param selectedContentType
@@ -72,7 +72,6 @@ public class RefreshTokenPostProcessor implements ResponseBodyAdvice<OAuth2Acces
      * remove o refresh token do corpo da requisição
      * @param token
      */
-
     private void removerRefreshTokenDoBody(DefaultOAuth2AccessToken token) {
         token.setRefreshToken(null);
     }

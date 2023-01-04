@@ -3,7 +3,9 @@ package com.algamoney.api.usecase.batch;
 import com.algamoney.api.config.batch.CargaPessoaWriter;
 import com.algamoney.api.config.batch.JobLoggerListener;
 import com.algamoney.api.http.domain.CargaPessoaDTO;
-import lombok.var;
+
+
+
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
 import org.springframework.batch.core.configuration.annotation.JobBuilderFactory;
@@ -40,7 +42,7 @@ public class CargaPessoaJob {
 
 
     public Job executarJob() {
-        var jobRepository = context.getBean(JobRepository.class);
+    	JobRepository jobRepository = context.getBean(JobRepository.class);
         //TODO - implementar restart do job do ponto de falha
         return new JobBuilderFactory(jobRepository).get("cargaPessoaJob_"+ LocalDateTime.now())
                 .incrementer(new RunIdIncrementer())

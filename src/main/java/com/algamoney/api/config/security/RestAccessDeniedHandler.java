@@ -13,7 +13,7 @@ public class RestAccessDeniedHandler implements AccessDeniedHandler {
 
     @Override
     public void handle(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, AccessDeniedException e) {
-        log.error(e.getMessage(), e);
+        log.error("Usuário sem acesso {} {} ", e.getMessage(), e);
         throw new UsuarioAcessoNegadoException("Acesso Negado.");
 
     }

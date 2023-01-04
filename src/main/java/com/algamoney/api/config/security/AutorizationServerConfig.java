@@ -69,10 +69,15 @@ public class AutorizationServerConfig extends AuthorizationServerConfigurerAdapt
         endpoints
                 .tokenStore(tokenStore())
                 .tokenEnhancer(tokenEnhancerChain)
+                // para gerar um novo token com o refresh_token (enquanto usuario logado não expira o refresh token)
                 .reuseRefreshTokens(false)
                 .authenticationManager(authenticationManager);
     }
 
+    /**
+     * Retorna um token do tipo JWT
+     * @return
+     */
     @Bean
     public JwtAccessTokenConverter accessTokenConverter() {
         JwtAccessTokenConverter accessTokenConverter = new JwtAccessTokenConverter();
@@ -80,6 +85,10 @@ public class AutorizationServerConfig extends AuthorizationServerConfigurerAdapt
         return accessTokenConverter;
     }
 
+    /**
+     * Responsável por armazenar o token gerado para validação quando enviado pelo front
+     * @return
+     */
     @Bean
     public TokenStore tokenStore() {
         return new JwtTokenStore(accessTokenConverter());
