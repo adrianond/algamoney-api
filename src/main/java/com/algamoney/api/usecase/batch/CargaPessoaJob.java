@@ -21,7 +21,6 @@ import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
 
-//@Configuration
 @Component
 public class CargaPessoaJob {
 
@@ -42,7 +41,7 @@ public class CargaPessoaJob {
 
 
     public Job executarJob() {
-    	JobRepository jobRepository = context.getBean(JobRepository.class);
+        JobRepository jobRepository = context.getBean(JobRepository.class);
         //TODO - implementar restart do job do ponto de falha
         return new JobBuilderFactory(jobRepository).get("cargaPessoaJob_"+ LocalDateTime.now())
                 .incrementer(new RunIdIncrementer())
@@ -51,20 +50,6 @@ public class CargaPessoaJob {
                 .end()
                 .build();
     }
-
-
-
-   /* @Bean
-    public Job cargaPessoaJob() {
-        var jobRepository = context.getBean(JobRepository.class);
-        //TODO - implementar restart do job do ponto de falha
-        return new JobBuilderFactory(jobRepository).get("cargaPessoaJob_"+ LocalDateTime.now())
-                .incrementer(new RunIdIncrementer())
-                .listener(JobListenerFactoryBean.getListener(new JobLoggerListener()))
-                .flow(stepCarga())
-                .end()
-                .build();
-    }*/
 
 
     public Step stepCarga() {

@@ -1,3 +1,4 @@
+/*
 package com.algamoney.api.usecase.cloud;
 
 import com.algamoney.api.config.AlgamoneyApiProperties;
@@ -94,3 +95,4 @@ public class EnviarArquivoS3 {
 
 
 }
+*/

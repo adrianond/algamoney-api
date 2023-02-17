@@ -1,3 +1,4 @@
+/*
 package com.algamoney.api.listener;
 
 import com.algamoney.api.AlgamoneyApiApplication;
@@ -17,3 +18,4 @@ public class LancamentoAnexoListener {
         }
     }
 }
+*/

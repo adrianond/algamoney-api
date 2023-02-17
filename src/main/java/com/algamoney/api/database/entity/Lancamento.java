@@ -1,7 +1,6 @@
 package com.algamoney.api.database.entity;
 
 import com.algamoney.api.database.entity.enumeration.TipoLancamento;
-import com.algamoney.api.listener.LancamentoAnexoListener;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
@@ -12,7 +11,7 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
-@EntityListeners(LancamentoAnexoListener.class)
+//@EntityListeners(LancamentoAnexoListener.class)
 @Entity
 @EqualsAndHashCode(of = "id")
 @Data
@@ -20,8 +19,9 @@ import java.time.LocalDate;
 public class Lancamento implements Serializable {
 
     @Id
-    @SequenceGenerator(name = "SEQ_LANCAMENTO", sequenceName = "SEQ_LANCAMENTO", allocationSize = 1)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_LANCAMENTO")
+    /*@SequenceGenerator(name = "SEQ_LANCAMENTO", sequenceName = "SEQ_LANCAMENTO", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_LANCAMENTO")*/
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     private String descricao;
@@ -38,6 +38,7 @@ public class Lancamento implements Serializable {
     @Column(name = "tipo_lancamento")
     private TipoLancamento tipoLancamento;
 
+    @Transient
     private String anexo;
 
     @Transient

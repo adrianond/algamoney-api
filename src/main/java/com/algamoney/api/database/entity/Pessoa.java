@@ -21,8 +21,9 @@ import java.util.List;
 public class Pessoa implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    @SequenceGenerator(name = "SEQ_PESSOA", sequenceName = "SEQ_PESSOA", allocationSize = 1)
-    @GeneratedValue(generator = "SEQ_PESSOA", strategy = GenerationType.SEQUENCE)
+    /* @SequenceGenerator(name = "SEQ_PESSOA", sequenceName = "SEQ_PESSOA", allocationSize = 1)
+     @GeneratedValue(generator = "SEQ_PESSOA", strategy = GenerationType.SEQUENCE)*/
+    @GeneratedValue(strategy=GenerationType.AUTO)
     @Id
     private Long id;
 

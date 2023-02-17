@@ -16,8 +16,11 @@ public class Categoria implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
+    /* oracle sequence generator:
     @SequenceGenerator(name = "SEQ_CATEGORIA", sequenceName = "SEQ_CATEGORIA", allocationSize = 1)
     @GeneratedValue(generator = "SEQ_CATEGORIA",strategy = GenerationType.SEQUENCE)
+    */
+    @GeneratedValue(strategy=GenerationType.AUTO)
     private Long id;
 
     @Column(nullable = false)

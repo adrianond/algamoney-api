@@ -39,10 +39,8 @@ public class LancamentoRequest {
 
     @DateTimeFormat(pattern = "dd-MM-yyyy", iso = DateTimeFormat.ISO.DATE_TIME)
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
-    @NotNull(message = "Data do recebimento/pagamento é obrigatório")
     @ApiModelProperty(
             value = "Data de recebimento/pagamento",
-            required = true,
             dataType = "LocalDate",
             example = "02-01-2001"
     )

@@ -4,7 +4,7 @@ import com.algamoney.api.database.entity.enumeration.TipoLancamento;
 import com.algamoney.api.http.domain.request.LancamentoFilter;
 import com.algamoney.api.http.domain.request.LancamentoRequest;
 import com.algamoney.api.http.domain.response.*;
-import com.algamoney.api.usecase.cloud.EnviarArquivoS3;
+//import com.algamoney.api.usecase.cloud.EnviarArquivoS3;
 import com.algamoney.api.usecase.lancamento.*;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -33,7 +33,7 @@ public class LancamentoWS {
     private final ConsultarLancamentosPorPessoa consultarLancamentosPorPessoa;
     private final ConsultarLancamentosPorDia consultarLancamentosPorDia;
     private final ConsultarLancamentosPorCategoria consultarLancamentosPorCategoria;
-    private final EnviarArquivoS3 enviarArquivoS3;
+    //private final EnviarArquivoS3 enviarArquivoS3;
 
     @ApiOperation(value = "Save new Entry")
     @PreAuthorize("hasAuthority('ROLE_CADASTRAR_LANCAMENTO') and #oauth2.hasScope('write')")
@@ -53,7 +53,7 @@ public class LancamentoWS {
                                   @RequestBody LancamentoRequest request,
                                   @ApiParam(required = true, value = "Authorization: Bearer <TOKEN>")
                                   @RequestHeader(value = "Authorization") String authorization) {
-        persistirLancamento.executar(id, request);
+        //persistirLancamento.executar(id, request);
     }
 
     @ApiOperation(value = "Delete a Entry")
@@ -138,15 +138,16 @@ public class LancamentoWS {
     public LancamentoEstatisticaPorPessoaResponse porPessoa(Pageable pageable,
                                                             @RequestParam(value = "dataVencimentoDe") @DateTimeFormat(iso = ISO.DATE) LocalDate dataVencimentoDe,
                                                             @RequestParam(value = "dataVencimentoAte") @DateTimeFormat(iso = ISO.DATE) LocalDate dataVencimentoAte,
-                                                         @RequestHeader(value = "Authorization") String authorization) {
+                                                            @RequestHeader(value = "Authorization") String authorization) {
         return new LancamentoEstatisticaPorPessoaResponse(this.consultarLancamentosPorPessoa.executar(pageable, dataVencimentoDe, dataVencimentoAte));
     }
 
     @PostMapping("upload/file")
     @PreAuthorize("hasAuthority('ROLE_CADASTRAR_LANCAMENTO') and hasAuthority('SCOPE_write')")
     public UploadFileResponse uploadFile(@RequestParam MultipartFile file)  {
-        String nome = enviarArquivoS3.salvarTemporariamente(file);
+        //String nome = enviarArquivoS3.salvarTemporariamente(file);
 
-        return new UploadFileResponse(nome, enviarArquivoS3.configurarUrl(nome));
+        //return new UploadFileResponse(nome, enviarArquivoS3.configurarUrl(nome));
+        return null;
     }
 }

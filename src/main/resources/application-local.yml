@@ -1,6 +1,6 @@
 # Server Configuration
 server:
-  port: 8080
+  port: 8093
   undertow:
     worker-threads: 200
   servlet:
@@ -15,24 +15,45 @@ spring:
   application:
     name: algamoney-api
   datasource:
-    url: jdbc:oracle:thin:@10.20.1.113:1521:omni19c
-    username: WSALGAMONEY
-    password: omnidev
-    driver-class-name: oracle.jdbc.OracleDriver
+    #url: jdbc:oracle:thin:@10.20.1.113:1521:omni19c
+    url: jdbc:mysql://localhost:3306/algamoney?useTimezone=true&serverTimezone=UTC
+    #username: WSALGAMONEY
+    username: root
+    #password: omnidev
+    password:
+    #driver-class-name: oracle.jdbc.OracleDriver
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    hikari:
+      minimum-idle: 2 # numero maximo de conexoes inativas mantidas pelo KikariCP em um conjunto de conexoes (senao tiver ningem usando o sistema esse é o numero máximo de conexoes que ficarão em memoria aguardando para ser usado)
+      maximum-pool-size: 10 # maximo de conexóes que é aberta
+      pool-name: AlgamoneyApiPool
+      idle-timeout: 9000 # tempo ocioso para conexão, ou seja, tempo que uma conexão vai ficar ociosa após ser usada para após esse tempo essa conexao morrer
+      isolate-internal-queries: true
+      connection-test-query: SELECT 1 from DUAL
+      connection-timeout: 18000 # tempo maximo em milisegundos que um cliente irá aguardar por uma conexao (se em 18 segundos não tiver uma conexao disponivel ocorre erro de timeout)
   jpa:
     properties:
       hibernate:
-        dialect: org.hibernate.dialect.Oracle10gDialect
+        #dialect: org.hibernate.dialect.Oracle10gDialect
+        dialect: org.hibernate.dialect.MySQL5Dialect
         show_sql: true
         format_sql: true
         generate_statistics: false
         order_inserts: true
         order_updates: true
+        id: #MYSQL - não gerar sequence
+          new_generator_mappings: false
         jdbc:
           batch_size: 5
+  batch: #cria as tabelas default do spring batch
+    initialize-schema: ALWAYS
   liquibase:
     contexts: local
     change-log: classpath:db/changelog/master.xml
+  redis.cluster.enable: false
+  redis:
+    host: 192.168.0.60 #localhost
+    port: 6379
   jackson:
     deserialization:
       fail-on-unknown-properties: false
@@ -76,12 +97,14 @@ app:
     mail:
       host: smtp.mail.yahoo.com
       port: 587
-      username: adrianond@yahoo.com.br
-      password: Tricolor_1992
+      username: email@yahoo.com.br
+      password: senha
     scheduler:
       efetuar-carga-pessoa:
         enabled: false
         cron: !!str "0 0 9 * * *"  # todos os dias as 9:00:00 (segundo 0, minuto 0, 9 horas, dia do mes, mes, dia da semanma)
+      envio-email:
+        enabled: false
     job:
       tamanhoLote: 5
     s3:
@@ -93,7 +116,7 @@ logging:
       springframework:
         boot:
           autoconfigure: ERROR
-omni:
-  email:
-    url: https://dev-omni-email.dev-omnicfi.us-east-1.omniaws.io
+
+  web: DEBUG
+
 

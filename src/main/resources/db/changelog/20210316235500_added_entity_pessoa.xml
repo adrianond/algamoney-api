@@ -12,7 +12,10 @@
 
     <changeSet id="20211603235500-1" author="adriano.dantas">
         <createTable tableName="pessoa">
-            <column name="id" type="bigint" autoIncrement="${autoIncrement}">
+            <!-- <column name="id" type="bigint" autoIncrement="${autoIncrement}">
+                 <constraints primaryKey="true" nullable="false"/>
+             </column>-->
+            <column name="id" type="bigint" autoIncrement="true">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
             <column name="nome" type="varchar(255)">
@@ -34,7 +37,7 @@
             <column name="cidade" type="varchar(255)"/>
         </createTable>
 
-        <createSequence sequenceName="SEQ_PESSOA"/>
+        <!-- <createSequence sequenceName="SEQ_PESSOA"/>-->
     </changeSet>
 
 </databaseChangeLog>

@@ -13,11 +13,10 @@ import java.io.Serializable;
 @NoArgsConstructor
 @EqualsAndHashCode(of = "id")
 public class Contato implements Serializable {
-    private static final long serialVersionUID = 1L;
-
     @Id
-    @SequenceGenerator(name = "SEQ_CONTATO", sequenceName = "SEQ_CONTATO", allocationSize = 1)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_CONTATO")
+    /*@SequenceGenerator(name = "SEQ_CONTATO", sequenceName = "SEQ_CONTATO", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_CONTATO")*/
+    @GeneratedValue(strategy=GenerationType.AUTO)
     private Long id;
 
     @Column(name = "nome")

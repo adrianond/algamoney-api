@@ -12,7 +12,10 @@
 
     <changeSet id="20210405235500-1" author="adriano.dantas">
         <createTable tableName="lancamento">
-            <column name="id" type="bigint" autoIncrement="${autoIncrement}">
+            <!-- <column name="id" type="bigint" autoIncrement="${autoIncrement}">
+                 <constraints primaryKey="true" nullable="false"/>
+             </column>-->
+            <column name="id" type="bigint" autoIncrement="true">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
             <column name="descricao" type="varchar(255)">
@@ -21,9 +24,9 @@
             <column name="data_vencimento" type="date">
                 <constraints nullable="false"/>
             </column>
-            <column name="data_pagamento" type="date">
-                <constraints nullable="false"/>
-            </column>
+
+            <column name="data_recebimento_pagamento" type="date"/>
+
             <column name="valor" type="decimal(16,2)">
                 <constraints nullable="false"/>
             </column>
@@ -47,7 +50,7 @@
             </column>
         </createTable>
 
-        <createSequence sequenceName="SEQ_LANCAMENTO"/>
+        <!--<createSequence sequenceName="SEQ_LANCAMENTO"/>-->
     </changeSet>
 
 </databaseChangeLog>

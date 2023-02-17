@@ -23,7 +23,7 @@ public class LancamentoBuilder {
         lancamentoDTO.setObservacao(lancamento.getObservacao());
         lancamentoDTO.setDataVencimento(lancamento.getDataVencimento());
         lancamentoDTO.setDataRecebimentoPagamento(lancamento.getDataPagamento());
-        lancamentoDTO.setAnexo(lancamento.getAnexo());
+        //lancamentoDTO.setAnexo(lancamento.getAnexo());
         lancamentoDTO.setUrl(lancamento.getUrl());
         lancamentoDTO.setCategoria(categoriaDTO);
         lancamentoDTO.setPessoa(pessoaBuilder.buildPessoaDTO(lancamento.getPessoa()));

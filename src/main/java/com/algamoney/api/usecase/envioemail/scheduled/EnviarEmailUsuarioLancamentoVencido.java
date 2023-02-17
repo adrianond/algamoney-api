@@ -35,6 +35,9 @@ public class EnviarEmailUsuarioLancamentoVencido {
             return;
         }
         List<Usuario> destinatarios = usuarioRepositoryFacade.findByPermissoesDescricao(DESTINATARIOS);
-        mailer.avisarSobreLancamentosVencidos(vencidos, destinatarios);
+        if (CollectionUtils.isEmpty(destinatarios))
+            log.info("Não há destinatarios para envio de e-mail!");
+        else
+            mailer.avisarSobreLancamentosVencidos(vencidos, destinatarios);
     }
  }

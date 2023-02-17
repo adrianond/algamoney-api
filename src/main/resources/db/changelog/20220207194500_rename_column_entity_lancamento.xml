@@ -15,8 +15,9 @@
         Rename column data_pagamento to Lancamento.
     -->
     <changeSet id="20220207194500-1" author="db1-omni">
-       <renameColumn tableName="lancamento"
-                     oldColumnName="data_pagamento"
-                     newColumnName="data_recebimento_pagamento"/>
+        <renameColumn tableName="lancamento"
+                      oldColumnName="data_pagamento"
+                      newColumnName="data_recebimento_pagamento"
+                      columnDataType="date"/>
     </changeSet>
 </databaseChangeLog>

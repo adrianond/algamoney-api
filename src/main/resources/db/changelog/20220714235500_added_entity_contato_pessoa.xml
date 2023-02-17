@@ -12,7 +12,10 @@
 
     <changeSet id="20220714235500-1" author="adriano.dantas">
         <createTable tableName="contato_pessoa">
-            <column name="id" type="bigint" autoIncrement="${autoIncrement}">
+            <!-- <column name="id" type="bigint" autoIncrement="${autoIncrement}">
+                 <constraints primaryKey="true" nullable="false"/>
+             </column>-->
+            <column name="id" type="bigint" autoIncrement="true">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
             <column name="nome" type="varchar(255)">
