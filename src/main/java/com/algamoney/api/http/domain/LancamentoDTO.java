@@ -27,7 +27,7 @@ public class LancamentoDTO {
     private LocalDate dataRecebimentoPagamento;
 
     private BigDecimal valor;
-    private TipoLancamento tipo;
+    private TipoLancamento tipoLancamento;
     private String observacao;
     private CategoriaDTO categoria;
     private String anexo;

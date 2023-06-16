@@ -144,14 +144,14 @@
                                  referencedColumnNames="JOB_EXECUTION_ID"
         />
 
-        <!-- <createSequence sequenceName="BATCH_STEP_EXECUTION_SEQ" maxValue="9223372036854775807" cycle="false"/>
+         <createSequence sequenceName="BATCH_STEP_EXECUTION_SEQ" maxValue="9223372036854775807" cycle="false"/>
          <createSequence sequenceName="BATCH_JOB_EXECUTION_SEQ" maxValue="9223372036854775807" cycle="false"/>
-         <createSequence sequenceName="BATCH_JOB_SEQ" maxValue="9223372036854775807" cycle="false"/>-->
+         <createSequence sequenceName="BATCH_JOB_SEQ" maxValue="9223372036854775807" cycle="false"/>
 
         <rollback>
-            <!-- <dropSequence sequenceName="BATCH_STEP_EXECUTION_SEQ"/>
+             <dropSequence sequenceName="BATCH_STEP_EXECUTION_SEQ"/>
              <dropSequence sequenceName="BATCH_JOB_EXECUTION_SEQ"/>
-             <dropSequence sequenceName="BATCH_JOB_SEQ"/>-->
+             <dropSequence sequenceName="BATCH_JOB_SEQ"/>
             <dropTable tableName="BATCH_JOB_INSTANCE"/>
             <dropTable tableName="BATCH_JOB_EXECUTION"/>
             <dropTable tableName="BATCH_JOB_EXECUTION_PARAMS"/>

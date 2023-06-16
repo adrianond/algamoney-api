@@ -17,7 +17,7 @@ public class LancamentoBuilder {
         LancamentoDTO lancamentoDTO = new LancamentoDTO();
         BeanUtils.copyProperties(lancamento.getCategoria(), categoriaDTO);
         lancamentoDTO.setValor(lancamento.getValor());
-        lancamentoDTO.setTipo(lancamento.getTipoLancamento());
+        lancamentoDTO.setTipoLancamento(lancamento.getTipoLancamento());
         lancamentoDTO.setDescricao(lancamento.getDescricao());
         lancamentoDTO.setId(lancamento.getId());
         lancamentoDTO.setObservacao(lancamento.getObservacao());

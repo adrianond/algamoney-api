@@ -15,16 +15,16 @@ spring:
   application:
     name: algamoney-api
   datasource:
-    #url: jdbc:oracle:thin:@10.20.1.113:1521:omni19c
-    url: jdbc:mysql://localhost:3306/algamoney?useTimezone=true&serverTimezone=UTC
-    #username: WSALGAMONEY
-    username: root
-    #password: omnidev
-    password:
-    #driver-class-name: oracle.jdbc.OracleDriver
-    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:oracle:thin:@localhost:1521/xe
+    #url: jdbc:mysql://localhost:3306/algamoney?useTimezone=true&serverTimezone=UTC
+    username: system
+    #username: root mysql
+    password: system
+    #password: mysql
+    driver-class-name: oracle.jdbc.OracleDriver
+    #driver-class-name: com.mysql.cj.jdbc.Driver
     hikari:
-      minimum-idle: 2 # numero maximo de conexoes inativas mantidas pelo KikariCP em um conjunto de conexoes (senao tiver ningem usando o sistema esse é o numero máximo de conexoes que ficarão em memoria aguardando para ser usado)
+      minimum-idle: 2 # minimo de conexoes paradas mantidas pelo HikariCP em um pool de conexoes
       maximum-pool-size: 10 # maximo de conexóes que é aberta
       pool-name: AlgamoneyApiPool
       idle-timeout: 9000 # tempo ocioso para conexão, ou seja, tempo que uma conexão vai ficar ociosa após ser usada para após esse tempo essa conexao morrer
@@ -34,15 +34,15 @@ spring:
   jpa:
     properties:
       hibernate:
-        #dialect: org.hibernate.dialect.Oracle10gDialect
-        dialect: org.hibernate.dialect.MySQL5Dialect
+        dialect: org.hibernate.dialect.Oracle10gDialect
+        #dialect: org.hibernate.dialect.MySQL5Dialect
         show_sql: true
         format_sql: true
         generate_statistics: false
         order_inserts: true
         order_updates: true
-        id: #MYSQL - não gerar sequence
-          new_generator_mappings: false
+        #id: #MYSQL - não gerar sequence
+          #new_generator_mappings: false
         jdbc:
           batch_size: 5
   batch: #cria as tabelas default do spring batch
@@ -58,7 +58,7 @@ spring:
     deserialization:
       fail-on-unknown-properties: false
   rabbitmq:
-    addresses: 192.168.0.60 #localhost
+    addresses: localhost
     port: 5672
     username: adrianond
     password: secret

@@ -14,9 +14,9 @@ import java.io.Serializable;
 @EqualsAndHashCode(of = "id")
 public class Contato implements Serializable {
     @Id
-    /*@SequenceGenerator(name = "SEQ_CONTATO", sequenceName = "SEQ_CONTATO", allocationSize = 1)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_CONTATO")*/
-    @GeneratedValue(strategy=GenerationType.AUTO)
+    @SequenceGenerator(name = "SEQ_CONTATO", sequenceName = "SEQ_CONTATO", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_CONTATO")
+   // @GeneratedValue(strategy=GenerationType.AUTO) mysql
     private Long id;
 
     @Column(name = "nome")

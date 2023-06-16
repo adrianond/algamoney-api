@@ -6,9 +6,11 @@ import com.algamoney.api.database.repository.LancamentoRepositoryFacade;
 import com.algamoney.api.database.repository.PessoaRepositoryFacade;
 import com.algamoney.api.http.domain.LancamentoDTO;
 import com.algamoney.api.http.domain.builder.LancamentoBuilder;
+import com.algamoney.api.http.domain.mapper.LancamentoMapper;
 import com.algamoney.api.http.domain.request.LancamentoRequest;
-import com.algamoney.api.usecase.cloud.EnviarArquivoS3;
 import lombok.AllArgsConstructor;
+import org.mapstruct.Mapper;
+import org.mapstruct.factory.Mappers;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
@@ -21,10 +23,13 @@ public class PersistirLancamento {
     private final CategoriaRepositoryFacade categoriaRepositoryFacade;
     private final PessoaRepositoryFacade pessoaRepositoryFacade;
     private final LancamentoBuilder lancamentoBuilder;
-    private final EnviarArquivoS3 enviarArquivoS3;
+    //private final EnviarArquivoS3 enviarArquivoS3;
 
     public LancamentoDTO executar(LancamentoRequest request) {
         Lancamento lancamento = lancamentoRepositoryFacade.save(build(null, request));
+
+        LancamentoMapper mapper = Mappers.getMapper(LancamentoMapper.class);
+        //return mapper.lancamentoEntityToLancamentoDto(lancamento);
         return lancamentoBuilder.build(lancamento);
     }
 
@@ -39,12 +44,12 @@ public class PersistirLancamento {
         lancamento.setTipoLancamento(request.getTipo());
         lancamento.setValor(request.getValor());
 
-        if (StringUtils.hasText(request.getAnexo()) && !StringUtils.hasText(lancamento.getAnexo()))
+       /* if (StringUtils.hasText(request.getAnexo()) && !StringUtils.hasText(lancamento.getAnexo()))
             enviarArquivoS3.salvar(request.getAnexo());
         else if (!StringUtils.hasText(request.getAnexo()) && StringUtils.hasText(lancamento.getAnexo()))
             enviarArquivoS3.remover(lancamento.getAnexo());
         else if(StringUtils.hasText(request.getAnexo()) && !request.getAnexo().equals(lancamento.getAnexo()))
-            enviarArquivoS3.substituir(lancamento.getAnexo(), request.getAnexo());
+            enviarArquivoS3.substituir(lancamento.getAnexo(), request.getAnexo());*/
 
         lancamento.setAnexo(request.getAnexo());
         lancamento.setCategoria(categoriaRepositoryFacade.findById(request.getIdCategoria()));

@@ -19,9 +19,9 @@ import java.time.LocalDate;
 public class Lancamento implements Serializable {
 
     @Id
-    /*@SequenceGenerator(name = "SEQ_LANCAMENTO", sequenceName = "SEQ_LANCAMENTO", allocationSize = 1)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_LANCAMENTO")*/
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @SequenceGenerator(name = "SEQ_LANCAMENTO", sequenceName = "SEQ_LANCAMENTO", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_LANCAMENTO")
+    //@GeneratedValue(strategy = GenerationType.AUTO) mysql
     private Long id;
 
     private String descricao;
@@ -32,6 +32,7 @@ public class Lancamento implements Serializable {
     @Column(name = "data_recebimento_pagamento")
     private LocalDate dataPagamento;
 
+    @Column(name = "valor", scale = 2)
     private BigDecimal valor;
 
     @Enumerated(value = EnumType.STRING)
