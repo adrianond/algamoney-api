@@ -44,6 +44,10 @@
         </insert>
         <insert tableName="categoria">
             <column name="id" value="5"/>
+            <column name="nome" value="Investimento"/>
+        </insert>
+        <insert tableName="categoria">
+            <column name="id" value="6"/>
             <column name="nome" value="Outros"/>
         </insert>
     </changeSet>
