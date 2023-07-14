@@ -9,16 +9,14 @@ import com.algamoney.api.http.domain.builder.LancamentoBuilder;
 import com.algamoney.api.http.domain.mapper.LancamentoMapper;
 import com.algamoney.api.http.domain.request.LancamentoRequest;
 import lombok.AllArgsConstructor;
-import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.StringUtils;
 
 @Component
 @AllArgsConstructor
 @Transactional
-public class PersistirLancamento {
+public class PersistiLancamento {
     private final LancamentoRepositoryFacade lancamentoRepositoryFacade;
     private final CategoriaRepositoryFacade categoriaRepositoryFacade;
     private final PessoaRepositoryFacade pessoaRepositoryFacade;

@@ -16,7 +16,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 @Component
 @AllArgsConstructor
-public class CadastrarTelefone {
+public class CadastraTelefone {
     private final PessoaRepositoryFacade pessoaRepositoryFacade;
 
     public void executar(Pessoa pessoa, PessoaDTO pessoaDTO) {

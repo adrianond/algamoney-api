@@ -21,7 +21,7 @@ import java.util.stream.Collectors;
 
 @Component
 @AllArgsConstructor
-public class ConsultarLancamentosPorPessoa {
+public class ConsultaLancamentosPorPessoa {
     private final LancamentoRepositoryFacade lancamentoRepositoryFacade;
     private final PessoaBuilder pessoaBuilder;
 

@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 @AllArgsConstructor
-public class ExcluirPessoa {
+public class ExcluiPessoa {
     private PessoaRepositoryFacade pessoaRepositoryFacade;
 
     public void executar(Long id) {

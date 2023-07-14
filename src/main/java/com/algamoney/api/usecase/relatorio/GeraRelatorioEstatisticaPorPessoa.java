@@ -2,7 +2,7 @@ package com.algamoney.api.usecase.relatorio;
 
 import com.algamoney.api.http.domain.LancamentoEstatisticaPorPessoaDTO;
 import com.algamoney.api.http.domain.request.ReportRequest;
-import com.algamoney.api.usecase.lancamento.ConsultarLancamentosPorPessoa;
+import com.algamoney.api.usecase.lancamento.ConsultaLancamentosPorPessoa;
 import com.lowagie.text.DocumentException;
 import freemarker.template.TemplateException;
 import lombok.AllArgsConstructor;
@@ -21,15 +21,15 @@ import static com.algamoney.api.utils.AlgamoneyUtils.formatLocalDate;
 @Component
 @AllArgsConstructor
 @Slf4j
-public class GerarRelatorioEstatisticaPorPessoa {
-    private final ConsultarLancamentosPorPessoa consultarLancamentosPorPessoa;
-    private final GerarDocumentoPdf gerarDocumentoPdf;
+public class GeraRelatorioEstatisticaPorPessoa {
+    private final ConsultaLancamentosPorPessoa consultaLancamentosPorPessoa;
+    private final GeraDocumentoPdf geraDocumentoPdf;
 
     public InputStreamResource executar(LocalDate dataVencimentoDe, LocalDate dataVencimentoAte) throws DocumentException, TemplateException, IOException {
-        List<LancamentoEstatisticaPorPessoaDTO> list = consultarLancamentosPorPessoa.executarConsulta(Pageable.unpaged(), dataVencimentoDe, dataVencimentoAte);
+        List<LancamentoEstatisticaPorPessoaDTO> list = consultaLancamentosPorPessoa.executarConsulta(Pageable.unpaged(), dataVencimentoDe, dataVencimentoAte);
 
         try {
-            return gerarDocumentoPdf.executar("relatorio_estatistica_por_pessoa", buildReportRequest(dataVencimentoDe, dataVencimentoAte, list));
+            return geraDocumentoPdf.executar("relatorio_estatistica_por_pessoa", buildReportRequest(dataVencimentoDe, dataVencimentoAte, list));
         } catch (Exception e) {
             log.error("Erro ao gerar relatorio " + e);
             throw e;

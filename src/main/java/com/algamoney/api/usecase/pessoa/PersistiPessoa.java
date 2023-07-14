@@ -6,8 +6,8 @@ import com.algamoney.api.database.repository.PessoaRepositoryFacade;
 import com.algamoney.api.http.domain.PessoaDTO;
 import com.algamoney.api.http.domain.builder.PessoaBuilder;
 import com.algamoney.api.http.domain.request.PessoaRequest;
-import com.algamoney.api.usecase.endereco.CadastrarEndereco;
-import com.algamoney.api.usecase.telefone.CadastrarTelefone;
+import com.algamoney.api.usecase.endereco.CadastraEndereco;
+import com.algamoney.api.usecase.telefone.CadastraTelefone;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,11 +20,11 @@ import java.util.stream.Collectors;
 @Component
 @AllArgsConstructor
 @Transactional
-public class PersistirPessoa {
+public class PersistiPessoa {
     private final PessoaRepositoryFacade pessoaRepositoryFacade;
     private final PessoaBuilder pessoaBuilder;
-    private final CadastrarEndereco cadastrarEndereco;
-    private final CadastrarTelefone cadastrarTelefone;
+    private final CadastraEndereco cadastraEndereco;
+    private final CadastraTelefone cadastraTelefone;
 
     public PessoaDTO executar(PessoaRequest request) {
         return build(null, request);
@@ -44,10 +44,10 @@ public class PersistirPessoa {
         pessoa.setAtivo(pessoaDTO.isAtivo());
         pessoa.setDataAtualizacao(LocalDateTime.now());
 
-        cadastrarEndereco.executar(pessoa, pessoaDTO);
+        cadastraEndereco.executar(pessoa, pessoaDTO);
         buildContatosPessoa(pessoa, pessoaDTO);
         Pessoa p = pessoaRepositoryFacade.add(pessoa);
-        cadastrarTelefone.executar(p, pessoaDTO);
+        cadastraTelefone.executar(p, pessoaDTO);
         return pessoaBuilder.buildPessoaDTO(p);
     }
 

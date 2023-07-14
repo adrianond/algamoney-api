@@ -2,7 +2,7 @@ package com.algamoney.api.listener;
 
 import com.algamoney.api.config.amqp.EventMessage;
 import com.algamoney.api.config.amqp.domain.SalvarTelefonePessoaMessage;
-import com.algamoney.api.usecase.telefone.CadastrarTelefone;
+import com.algamoney.api.usecase.telefone.CadastraTelefone;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.AmqpRejectAndDontRequeueException;
@@ -18,7 +18,7 @@ import static com.algamoney.api.config.amqp.mapping.Queues.SALVA_TELEFONE_PESSOA
 @Slf4j
 @RequiredArgsConstructor
 public class SalvarTelefoneListener {
-    private final CadastrarTelefone cadastrarTelefone;
+    private final CadastraTelefone cadastraTelefone;
 
     @RabbitListener(queues = SALVA_TELEFONE_PESSOA_QUEUE)
     public void dequeue(final Message<EventMessage<SalvarTelefonePessoaMessage>> message) {
@@ -42,7 +42,7 @@ public class SalvarTelefoneListener {
 
     private void execute(EventMessage<SalvarTelefonePessoaMessage> message) {
         SalvarTelefonePessoaMessage salvarTelefonePessoaMessage = message.getContent().stream().findFirst().orElseThrow(() -> new RuntimeException("Mensagem sem content"));
-        cadastrarTelefone.executar(salvarTelefonePessoaMessage);
+        cadastraTelefone.executar(salvarTelefonePessoaMessage);
     }
 }
 

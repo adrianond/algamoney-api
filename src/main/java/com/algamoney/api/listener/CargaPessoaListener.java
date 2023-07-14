@@ -3,7 +3,7 @@ package com.algamoney.api.listener;
 
 import com.algamoney.api.config.amqp.EventMessage;
 import com.algamoney.api.http.domain.CargaPessoaDTO;
-import com.algamoney.api.usecase.pessoa.PersistirCargaPessoa;
+import com.algamoney.api.usecase.pessoa.PersistiCargaPessoa;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
@@ -25,7 +25,7 @@ import static com.algamoney.api.config.amqp.mapping.Queues.CARGA_PESSOA_QUEUE;
 @Slf4j
 @RequiredArgsConstructor
 public class CargaPessoaListener {
-    private final PersistirCargaPessoa persistirCargaPessoa;
+    private final PersistiCargaPessoa persistiCargaPessoa;
     private final ObjectMapper objectMapper;
 
     @RabbitListener(queues = CARGA_PESSOA_QUEUE, concurrency = "${app.algamoney.rabbit.config.consumers}")
@@ -58,7 +58,7 @@ public class CargaPessoaListener {
         if (CollectionUtils.isEmpty(list))
             new RuntimeException("Mensagem sem content");
 
-        persistirCargaPessoa.executar(list);
+        persistiCargaPessoa.executar(list);
     }
 }
 

@@ -16,7 +16,6 @@ import org.springframework.format.annotation.DateTimeFormat.ISO;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 import java.time.LocalDate;
@@ -26,13 +25,13 @@ import java.time.LocalDate;
 @Api(tags = "Entries")
 @AllArgsConstructor
 public class LancamentoWS {
-    private final PersistirLancamento persistirLancamento;
-    private final ExcluirLancamento excluirLancamento;
-    private final ConsultarLancamento consultarLancamento;
-    private final ConsultarLancamentos consultarLancamentos;
-    private final ConsultarLancamentosPorPessoa consultarLancamentosPorPessoa;
-    private final ConsultarLancamentosPorDia consultarLancamentosPorDia;
-    private final ConsultarLancamentosPorCategoria consultarLancamentosPorCategoria;
+    private final PersistiLancamento persistiLancamento;
+    private final ExcluiLancamento excluiLancamento;
+    private final ConsultaLancamento consultaLancamento;
+    private final ConsultaLancamentos consultarLancamentos;
+    private final ConsultaLancamentosPorPessoa consultaLancamentosPorPessoa;
+    private final ConsultaLancamentosPorDia consultaLancamentosPorDia;
+    private final ConsultaLancamentosPorCategoria consultaLancamentosPorCategoria;
     //private final EnviarArquivoS3 enviarArquivoS3;
 
     @ApiOperation(value = "Save new Entry")
@@ -42,7 +41,7 @@ public class LancamentoWS {
     public LancamentoResponse salvarLancamento(@Valid @RequestBody LancamentoRequest request,
                                                @ApiParam(required = true, value = "Authorization: Bearer <TOKEN>")
                                                @RequestHeader(value = "Authorization") String authorization) {
-        return new LancamentoResponse(persistirLancamento.executar(request));
+        return new LancamentoResponse(persistiLancamento.executar(request));
     }
 
     @ApiOperation(value = "Update entry")
@@ -63,7 +62,7 @@ public class LancamentoWS {
     public void excluirLancamento(@ApiParam @PathVariable("id") Long id,
                                   @ApiParam(required = true, value = "Authorization: Bearer <TOKEN>")
                                   @RequestHeader(value = "Authorization") String authorization) {
-        excluirLancamento.executar(id);
+        excluiLancamento.executar(id);
     }
 
     @ApiOperation(value = "Get a Entry")
@@ -73,7 +72,7 @@ public class LancamentoWS {
     public LancamentoResponse consultarLancamento(@ApiParam @PathVariable("id") Long id,
                                                   @ApiParam(required = true, value = "Authorization: Bearer <TOKEN>")
                                                   @RequestHeader(value = "Authorization") String authorization) {
-        return new LancamentoResponse(consultarLancamento.executar(id));
+        return new LancamentoResponse(consultaLancamento.executar(id));
     }
 
     @ApiOperation(value = "Get Entries")
@@ -121,7 +120,7 @@ public class LancamentoWS {
     @GetMapping(path = "/estatistica/por-categoria")
     public LancamentoEstatisticaPorCategoriaResponse porCategoria(Pageable pageable,
                                                                   @RequestHeader(value = "Authorization") String authorization) {
-        return new LancamentoEstatisticaPorCategoriaResponse(this.consultarLancamentosPorCategoria.executar(pageable, LocalDate.now()));
+        return new LancamentoEstatisticaPorCategoriaResponse(this.consultaLancamentosPorCategoria.executar(pageable, LocalDate.now()));
     }
 
     @ApiOperation(value = "Get statistics entries by day")
@@ -129,7 +128,7 @@ public class LancamentoWS {
     @GetMapping(path = "/estatistica/por-dia")
     public LancamentoEstatisticaPorDiaResponse porDia(Pageable pageable,
                                                       @RequestHeader(value = "Authorization") String authorization) {
-        return new LancamentoEstatisticaPorDiaResponse(this.consultarLancamentosPorDia.executar(pageable, LocalDate.now()));
+        return new LancamentoEstatisticaPorDiaResponse(this.consultaLancamentosPorDia.executar(pageable, LocalDate.now()));
     }
 
     @ApiOperation(value = "Get statistics entries by person")
@@ -139,15 +138,17 @@ public class LancamentoWS {
                                                             @RequestParam(value = "dataVencimentoDe") @DateTimeFormat(iso = ISO.DATE) LocalDate dataVencimentoDe,
                                                             @RequestParam(value = "dataVencimentoAte") @DateTimeFormat(iso = ISO.DATE) LocalDate dataVencimentoAte,
                                                             @RequestHeader(value = "Authorization") String authorization) {
-        return new LancamentoEstatisticaPorPessoaResponse(this.consultarLancamentosPorPessoa.executar(pageable, dataVencimentoDe, dataVencimentoAte));
+        return new LancamentoEstatisticaPorPessoaResponse(this.consultaLancamentosPorPessoa.executar(pageable, dataVencimentoDe, dataVencimentoAte));
     }
 
+    /*
     @PostMapping("upload/file")
     @PreAuthorize("hasAuthority('ROLE_CADASTRAR_LANCAMENTO') and hasAuthority('SCOPE_write')")
     public UploadFileResponse uploadFile(@RequestParam MultipartFile file)  {
-        //String nome = enviarArquivoS3.salvarTemporariamente(file);
+        String nome = enviarArquivoS3.salvarTemporariamente(file);
 
-        //return new UploadFileResponse(nome, enviarArquivoS3.configurarUrl(nome));
-        return null;
+        return new UploadFileResponse(nome, enviarArquivoS3.configurarUrl(nome));
     }
+    */
+
 }

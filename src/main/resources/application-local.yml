@@ -50,9 +50,10 @@ spring:
   liquibase:
     contexts: local
     change-log: classpath:db/changelog/master.xml
-  redis.cluster.enable: false
+  cache:
+    type: redis
   redis:
-    host: 192.168.0.60 #localhost
+    host: localhost
     port: 6379
   jackson:
     deserialization:
@@ -107,9 +108,9 @@ app:
         enabled: false
     job:
       tamanhoLote: 5
-    s3:
-      accessKeyId: AKIA2XRSHTYWFB2HP776
-      secretAccessKey: 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
+    #s3:
+     # accessKeyId:
+     # secretAccessKey:
 logging:
   level:
     org:

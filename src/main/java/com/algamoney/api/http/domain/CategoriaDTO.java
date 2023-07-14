@@ -8,12 +8,13 @@ import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-public class CategoriaDTO {
+public class CategoriaDTO implements Serializable {
     private Long id;
 
     @NotNull

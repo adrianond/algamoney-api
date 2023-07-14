@@ -1,3 +1,4 @@
+/*
 package com.algamoney.api.config;
 
 import com.amazonaws.auth.AWSCredentials;
@@ -54,3 +55,4 @@ public class S3Config {
         return amazonS3;
     }
 }
+*/

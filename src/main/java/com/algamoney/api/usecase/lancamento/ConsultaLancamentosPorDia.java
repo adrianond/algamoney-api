@@ -20,7 +20,7 @@ import java.util.stream.Collectors;
 
 @Component
 @AllArgsConstructor
-public class ConsultarLancamentosPorDia {
+public class ConsultaLancamentosPorDia {
     private final LancamentoRepositoryFacade lancamentoRepositoryFacade;
 
     public Page<LancamentoEstatisticaPorDiaDTO> executar(Pageable pageable, LocalDate mesReferencia) {

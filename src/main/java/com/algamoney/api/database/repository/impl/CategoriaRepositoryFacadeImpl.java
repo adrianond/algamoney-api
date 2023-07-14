@@ -27,4 +27,9 @@ public class CategoriaRepositoryFacadeImpl implements CategoriaRepositoryFacade 
     public List<Categoria> findAll() {
         return repository.findAll();
     }
+
+    @Override
+    public void delete(Categoria categoria) {
+        repository.delete(categoria);
+    }
 }

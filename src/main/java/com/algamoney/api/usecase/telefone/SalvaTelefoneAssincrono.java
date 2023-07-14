@@ -17,7 +17,7 @@ import java.util.List;
 @Component
 @AllArgsConstructor
 @Slf4j
-public class SalvarTelefoneAssincrono {
+public class SalvaTelefoneAssincrono {
     private final Postman sender;
 
     public void executar(Long id, List<TelefoneDTO> telefones) {

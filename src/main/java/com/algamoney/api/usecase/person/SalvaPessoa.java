@@ -11,7 +11,7 @@ import org.springframework.web.client.RestTemplate;
 
 @Component
 @AllArgsConstructor
-public class SalvarPessoa {
+public class SalvaPessoa {
     private final AlgamoneyApiProperties algamoneyApiProperties;
     private final AlgamoneyBeanConfiguration algamoneyBeanConfiguration;
     private static final String API_GATEWAY_CREATE_PERSON = "/person";

@@ -1,7 +1,7 @@
 package com.algamoney.api.http;
 
 import com.algamoney.api.http.domain.request.TelefoneRequest;
-import com.algamoney.api.usecase.telefone.SalvarTelefoneAssincrono;
+import com.algamoney.api.usecase.telefone.SalvaTelefoneAssincrono;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -16,7 +16,7 @@ import javax.validation.Valid;
 @Api(tags = "Phone")
 @AllArgsConstructor
 public class TelefoneWS {
-    private final SalvarTelefoneAssincrono salvarTelefoneAssincrono;
+    private final SalvaTelefoneAssincrono salvaTelefoneAssincrono;
 
     @ApiOperation(value = "Save person phone number")
     @PostMapping(path = "/{id}/phones")
@@ -25,7 +25,7 @@ public class TelefoneWS {
                                @Valid @RequestBody TelefoneRequest request,
                                @ApiParam(required = true, value = "Authorization: Bearer <TOKEN>")
                                @RequestHeader(value = "Authorization") String authorization) {
-        salvarTelefoneAssincrono.executar(id, request.getTelefoneDTOList());
+        salvaTelefoneAssincrono.executar(id, request.getTelefoneDTOList());
     }
 }
 

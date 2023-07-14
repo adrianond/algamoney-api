@@ -7,7 +7,7 @@ import com.algamoney.api.http.domain.PessoaDTO;
 import org.springframework.stereotype.Component;
 
 @Component
-public class CadastrarEndereco {
+public class CadastraEndereco {
 
     public void executar(Pessoa pessoa, PessoaDTO pessoaDTO) {
         EnderecoDTO enderecoDTO = pessoaDTO.getEnderecoDTO();

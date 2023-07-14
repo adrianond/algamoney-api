@@ -21,7 +21,7 @@ import java.util.Optional;
 
 @Service
 @AllArgsConstructor
-public class GerarDocumentoPdf {
+public class GeraDocumentoPdf {
 	private static final String TEMPLATE_DIR = "templates";
 	private static final String IMG_DIR = TEMPLATE_DIR + "/commons/img/";
 

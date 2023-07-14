@@ -1,7 +1,7 @@
 package com.algamoney.api.http;
 
 
-import com.algamoney.api.usecase.relatorio.GerarRelatorioEstatisticaPorPessoa;
+import com.algamoney.api.usecase.relatorio.GeraRelatorioEstatisticaPorPessoa;
 import lombok.AllArgsConstructor;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -17,13 +17,13 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @RequestMapping("api/report")
 public class ReportPdfWS {
-    private final GerarRelatorioEstatisticaPorPessoa gerarRelatorioEstatisticaPorPessoa;
+    private final GeraRelatorioEstatisticaPorPessoa geraRelatorioEstatisticaPorPessoa;
 
     @PostMapping(value = "/statistic/person/download", produces = MediaType.APPLICATION_PDF_VALUE)
     public InputStreamResource gerarRelatorioEstaticaPorPessoa(
             @RequestParam(value = "dataVencimentoDe") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dataVencimentoDe,
             @RequestParam(value = "dataVencimentoAte") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dataVencimentoAte) throws Exception {
 
-        return gerarRelatorioEstatisticaPorPessoa.executar(dataVencimentoDe, dataVencimentoAte);
+        return geraRelatorioEstatisticaPorPessoa.executar(dataVencimentoDe, dataVencimentoAte);
     }
 }

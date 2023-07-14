@@ -24,10 +24,10 @@ import javax.validation.Valid;
 @Api(tags = "Person")
 @AllArgsConstructor
 public class PessoaWS {
-    private final PersistirPessoa persistirPessoa;
+    private final PersistiPessoa persistiPessoa;
     private final ConsultaPessoa consultaPessoa;
-    private final ExcluirPessoa excluirPessoa;
-    private final AtualizarStatusPessoa atualizarStatusPessoa;
+    private final ExcluiPessoa excluiPessoa;
+    private final AtualizaStatusPessoa atualizaStatusPessoa;
     private final ConsultaPessoas consultaPessoas;
     private final ApplicationEventPublisher publisher;
 
@@ -36,7 +36,7 @@ public class PessoaWS {
     @ResponseStatus(HttpStatus.CREATED)
     public PessoaResponse add(@Valid @RequestBody PessoaRequest pessoaRequest, HttpServletResponse response,
                              @ApiParam(required = true, value = "Authorization: Bearer <TOKEN>") @RequestHeader(value = "Authorization") String authorization) {
-        PessoaDTO pessoaSalva = persistirPessoa.executar(pessoaRequest);
+        PessoaDTO pessoaSalva = persistiPessoa.executar(pessoaRequest);
         publisher.publishEvent(new RecursoCriadoEvent(this, response, pessoaSalva.getId()));
         return new PessoaResponse(pessoaSalva);
     }
@@ -75,7 +75,7 @@ public class PessoaWS {
     public void excluirPessoa(@ApiParam @PathVariable("id") Long id,
                               @ApiParam(required = true, value = "Authorization: Bearer <TOKEN>")
                               @RequestHeader(value = "Authorization") String authorization) {
-        excluirPessoa.executar(id);
+        excluiPessoa.executar(id);
     }
 
     @ApiOperation(value = "Update person by id")
@@ -85,7 +85,7 @@ public class PessoaWS {
                                              @Valid @RequestBody PessoaRequest request,
                                              @ApiParam(required = true, value = "Authorization: Bearer <TOKEN>")
                                              @RequestHeader(value = "Authorization") String authorization) {
-        return new PessoaResponse(persistirPessoa.executar(id, request));
+        return new PessoaResponse(persistiPessoa.executar(id, request));
     }
 
     @ApiOperation(value = "Update propertie person active")
@@ -95,6 +95,6 @@ public class PessoaWS {
                                                   @RequestBody Boolean ativo,
                                                   @ApiParam(required = true, value = "Authorization: Bearer <TOKEN>")
                                                   @RequestHeader(value = "Authorization") String authorization) {
-        return new PessoaResponse(atualizarStatusPessoa.executar(id, ativo));
+        return new PessoaResponse(atualizaStatusPessoa.executar(id, ativo));
     }
 }

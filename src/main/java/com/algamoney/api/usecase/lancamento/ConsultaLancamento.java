@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 @AllArgsConstructor
-public class ConsultarLancamento {
+public class ConsultaLancamento {
     private final LancamentoRepositoryFacade lancamentoRepositoryFacade;
     private final LancamentoBuilder lancamentoBuilder;
 

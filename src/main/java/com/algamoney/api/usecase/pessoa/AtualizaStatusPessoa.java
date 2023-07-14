@@ -11,7 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Component
 @AllArgsConstructor
 @Transactional
-public class AtualizarStatusPessoa {
+public class AtualizaStatusPessoa {
     private final PessoaRepositoryFacade pessoaRepositoryFacade;
     private final PessoaBuilder pessoaBuilder;
 

@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
 @Slf4j
 @Transactional
 @AllArgsConstructor
-public class PersistirCargaPessoa {
+public class PersistiCargaPessoa {
     private final PessoaRepositoryFacade pessoaRepositoryFacade;
 
     public void executar(Collection<CargaPessoaDTO> pessoaDTOCollection) {

@@ -8,7 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Component
 @AllArgsConstructor
-public class ExcluirLancamento {
+public class ExcluiLancamento {
     private final LancamentoRepositoryFacade lancamentoRepositoryFacade;
 
     @Transactional

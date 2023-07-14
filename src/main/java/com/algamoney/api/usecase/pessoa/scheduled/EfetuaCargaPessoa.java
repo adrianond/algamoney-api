@@ -17,7 +17,7 @@ import org.springframework.stereotype.Component;
 @AllArgsConstructor
 @Slf4j
 @ConditionalOnProperty(value = "app.algamoney.scheduler.efetuar-carga-pessoa.enabled", havingValue = "true")
-public class EfetuarCargaPessoa {
+public class EfetuaCargaPessoa {
     //private final Job cargaPessoaJob;
     private final JobLauncher jobLauncher;
     private final CargaPessoaJob cargaPessoaJob;
