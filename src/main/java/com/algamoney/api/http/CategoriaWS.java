@@ -35,52 +35,52 @@ public class CategoriaWS {
 
     @ApiOperation(value = "Get category")
     @GetMapping(path = "/category/{id}")
-    //@PreAuthorize("hasAuthority('ROLE_PESQUISAR_CATEGORIA') and #oauth2.hasScope('read')")
+    @PreAuthorize("hasAuthority('ROLE_PESQUISAR_CATEGORIA') and #oauth2.hasScope('read')")
     @ResponseStatus(HttpStatus.OK)
-    public ConsultaCategoriaResponse consultaCategoria(@ApiParam("id") @PathVariable("id") Long id/*,
+    public ConsultaCategoriaResponse consultaCategoria(@ApiParam("id") @PathVariable("id") Long id,
                                                        @ApiParam(required = true, value = "Authorization: Bearer <TOKEN>")
-                                                       @RequestHeader(value = "Authorization") String authorization*/) {
+                                                       @RequestHeader(value = "Authorization") String authorization) {
        return new ConsultaCategoriaResponse(consultaCategoria.executar(id));
     }
 
     @ApiOperation(value = "Get categories")
     @GetMapping()
-    //@PreAuthorize("hasAuthority('ROLE_PESQUISAR_CATEGORIA') and #oauth2.hasScope('read')")
+    @PreAuthorize("hasAuthority('ROLE_PESQUISAR_CATEGORIA') and #oauth2.hasScope('read')")
     @ResponseStatus(HttpStatus.OK)
-    public ConsultaCategoriasResponse consultaCategorias(/*@ApiParam(required = true, value = "Authorization: Bearer <TOKEN>") @RequestHeader(value = "Authorization") String authorization*/) {
+    public ConsultaCategoriasResponse consultaCategorias(@ApiParam(required = true, value = "Authorization: Bearer <TOKEN>") @RequestHeader(value = "Authorization") String authorization) {
        return new ConsultaCategoriasResponse(consultaCategorias.executar());
     }
 
 
     @ApiOperation(value = "Add new category")
     @PostMapping()
-    //@PreAuthorize("hasAuthority('ROLE_CADASTRAR_CATEGORIA') and #oauth2.hasScope('write')")
+    @PreAuthorize("hasAuthority('ROLE_CADASTRAR_CATEGORIA') and #oauth2.hasScope('write')")
     @ResponseStatus(HttpStatus.CREATED)
-    public AdicionaCategoriaResponse adicionaCategoria(@Valid @RequestBody CategoriaRequest request
-                                  /*@ApiParam(required = true, value = "Authorization: Bearer <TOKEN>")
-                                  @RequestHeader(value = "Authorization") String authorization*/) {
+    public AdicionaCategoriaResponse adicionaCategoria(@Valid @RequestBody CategoriaRequest request,
+                                  @ApiParam(required = true, value = "Authorization: Bearer <TOKEN>")
+                                  @RequestHeader(value = "Authorization") String authorization) {
         return new AdicionaCategoriaResponse(adicionaCategoria.executar(request));
 
     }
 
     @ApiOperation(value = "Update category")
     @PutMapping(path = "/category/{id}")
-    //@PreAuthorize("hasAuthority('ROLE_CADASTRAR_CATEGORIA') and #oauth2.hasScope('write')")
+    @PreAuthorize("hasAuthority('ROLE_CADASTRAR_CATEGORIA') and #oauth2.hasScope('write')")
     @ResponseStatus(HttpStatus.OK)
     public void alterarCategoria(@ApiParam @PathVariable("id") Long id,
-                                 @Valid @RequestBody CategoriaRequest request
-                                  /*@ApiParam(required = true, value = "Authorization: Bearer <TOKEN>")
-                                  @RequestHeader(value = "Authorization") String authorization*/) {
+                                 @Valid @RequestBody CategoriaRequest request,
+                                  @ApiParam(required = true, value = "Authorization: Bearer <TOKEN>")
+                                  @RequestHeader(value = "Authorization") String authorization) {
         alteraCategoria.executar(id, request);
     }
 
     @ApiOperation(value = "Delete a category")
-    //@PreAuthorize("hasAuthority('ROLE_REMOVER_CATEGORIA') and #oauth2.hasScope('write')")
+    @PreAuthorize("hasAuthority('ROLE_REMOVER_CATEGORIA') and #oauth2.hasScope('write')")
     @DeleteMapping(path = "/category/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void excluirCategoria(@ApiParam @PathVariable("id") Long id/*,
+    public void excluirCategoria(@ApiParam @PathVariable("id") Long id,
                                   @ApiParam(required = true, value = "Authorization: Bearer <TOKEN>")
-                                  @RequestHeader(value = "Authorization") String authorization*/) {
+                                  @RequestHeader(value = "Authorization") String authorization) {
         excluiCategoria.executar(id);
     }
 }

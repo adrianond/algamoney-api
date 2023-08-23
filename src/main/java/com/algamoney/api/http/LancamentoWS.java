@@ -16,6 +16,7 @@ import org.springframework.format.annotation.DateTimeFormat.ISO;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 import java.time.LocalDate;
@@ -141,14 +142,13 @@ public class LancamentoWS {
         return new LancamentoEstatisticaPorPessoaResponse(this.consultaLancamentosPorPessoa.executar(pageable, dataVencimentoDe, dataVencimentoAte));
     }
 
-    /*
-    @PostMapping("upload/file")
+
+   /* @PostMapping("upload/file")
     @PreAuthorize("hasAuthority('ROLE_CADASTRAR_LANCAMENTO') and hasAuthority('SCOPE_write')")
     public UploadFileResponse uploadFile(@RequestParam MultipartFile file)  {
         String nome = enviarArquivoS3.salvarTemporariamente(file);
 
         return new UploadFileResponse(nome, enviarArquivoS3.configurarUrl(nome));
-    }
-    */
+    }*/
 
 }
