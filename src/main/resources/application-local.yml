@@ -1,6 +1,6 @@
 # Server Configuration
 server:
-  port: 8093
+  port: 8080
   undertow:
     worker-threads: 200
   servlet:
