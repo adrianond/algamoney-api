@@ -19,7 +19,7 @@ spring:
     #url: jdbc:mysql://localhost:3306/algamoney?useTimezone=true&serverTimezone=UTC
     username: system
     #username: root mysql
-    password: system
+    password: admin
     #password: mysql
     driver-class-name: oracle.jdbc.OracleDriver
     #driver-class-name: com.mysql.cj.jdbc.Driver
@@ -96,10 +96,10 @@ app:
     person:
       url: https://gsdktzz0lb.execute-api.us-east-1.amazonaws.com/dev
     mail:
-      host: smtp.mail.yahoo.com
+      host: smtp.gmail.com
       port: 587
-      username: email@yahoo.com.br
-      password: senha
+      username:
+      password:
     scheduler:
       efetuar-carga-pessoa:
         enabled: false

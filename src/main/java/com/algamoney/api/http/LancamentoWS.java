@@ -39,9 +39,9 @@ public class LancamentoWS {
     @PreAuthorize("hasAuthority('ROLE_CADASTRAR_LANCAMENTO') and #oauth2.hasScope('write')")
     @PostMapping()
     @ResponseStatus(HttpStatus.CREATED)
-    public LancamentoResponse salvarLancamento(@Valid @RequestBody LancamentoRequest request,
+    public LancamentoResponse salvarLancamento(@Valid @RequestBody LancamentoRequest request/*,
                                                @ApiParam(required = true, value = "Authorization: Bearer <TOKEN>")
-                                               @RequestHeader(value = "Authorization") String authorization) {
+                                               @RequestHeader(value = "Authorization") String authorization*/) {
         return new LancamentoResponse(persistiLancamento.executar(request));
     }
 
@@ -53,7 +53,7 @@ public class LancamentoWS {
                                   @RequestBody LancamentoRequest request,
                                   @ApiParam(required = true, value = "Authorization: Bearer <TOKEN>")
                                   @RequestHeader(value = "Authorization") String authorization) {
-        //persistirLancamento.executar(id, request);
+        persistiLancamento.executar(id, request);
     }
 
     @ApiOperation(value = "Delete a Entry")
@@ -93,9 +93,9 @@ public class LancamentoWS {
                                              @RequestParam(value = "dataVencimentoDe", required = false) @DateTimeFormat(iso = ISO.DATE) LocalDate dataVencimentoDe,
                                              @RequestParam(value = "dataVencimentoAte", required = false) @DateTimeFormat(iso = ISO.DATE) LocalDate dataVencimentoAte,
                                              @RequestParam(value = "tipoLancamento", required = false) TipoLancamento tipoLancamento,
-                                             @RequestParam(value = "descricao", required = false) String descricao,
+                                             @RequestParam(value = "descricao", required = false) String descricao/*,
                                              @ApiParam(required = true, value = "Authorization: Bearer <TOKEN>")
-                                             @RequestHeader(value = "Authorization") String authorization) {
+                                             @RequestHeader(value = "Authorization") String authorization*/) {
         return new LancamentosPageResponse(consultarLancamentos.executarPaginacaoQueryDsl(pageable, dataVencimentoDe, dataVencimentoAte, tipoLancamento, descricao));
     }
 

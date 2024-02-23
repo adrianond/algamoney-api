@@ -25,8 +25,8 @@ public class EnviaEmailUsuarioLancamentoVencido {
     private final UsuarioRepositoryFacade usuarioRepositoryFacade;
     private final Mailer mailer;
 
-    @Scheduled(cron = "0 0 6 * * *")
-    //@Scheduled(fixedDelay = 5000)
+    //@Scheduled(cron = "0 0 6 * * *")
+    @Scheduled(fixedDelay = 5000)
     public void executar() {
         List<Lancamento> vencidos = lancamentoRepositoryFacade.findByDataVencimentoLessThanEqualAndDataPagamentoIsNull(LocalDate.now());
         log.info("Pesquisando por lançamentos vencidos para enviar email de aviso!");

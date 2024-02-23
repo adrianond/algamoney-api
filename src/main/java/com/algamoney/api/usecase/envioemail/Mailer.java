@@ -4,20 +4,18 @@ import com.algamoney.api.database.entity.Lancamento;
 import com.algamoney.api.database.entity.Usuario;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.mail.DefaultAuthenticator;
-import org.apache.commons.mail.HtmlEmail;
+import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Component;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
 
-import javax.mail.internet.MimeMessage;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.stream.Collectors;
+
 
 @Component
 @AllArgsConstructor
@@ -25,6 +23,7 @@ import java.util.stream.Collectors;
 public class Mailer {
     private final JavaMailSender mailSender;
     private final TemplateEngine thymeleaf;
+    private JavaMailSender emailSender;
 
 
     public void avisarSobreLancamentosVencidos(List<Lancamento> vencidos, List<Usuario> destinatarios) {
@@ -37,7 +36,7 @@ public class Mailer {
                 .map(u -> u.getEmail())
                 .collect(Collectors.toList());
 
-        this.enviarEmail("adriano.dantas@omni.com.br", emails, "Lançamentos vencidos", "aviso-lancamentos-vencidos", variaveis);
+        this.enviarEmail("", emails, "Lançamentos vencidos", "aviso-lancamentos-vencidos", variaveis);
     }
 
     public void enviarEmail(String remetente, List<String> destinatarios, String assunto, String template, Map<String, Object> variaveis) {
@@ -49,36 +48,12 @@ public class Mailer {
         String mensagem = thymeleaf.process(template, context);
 
         try {
-           /* MimeMessage mimeMessage = mailSender.createMimeMessage();
-
-            MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, "UTF-8");
-            helper.setFrom(remetente);
-            helper.setTo(destinatarios.toArray(new String[destinatarios.size()]));
-            helper.setSubject(assunto);
-            helper.setText(mensagem, true);
-
-            mailSender.send(mimeMessage);*/
-
-
-
-
-           /* HtmlEmail htmlEmail = new HtmlEmail();
-            htmlEmail.setHtmlMsg(mensagem);
-            htmlEmail.addTo("adrianond@yahoo.com.br");
-            htmlEmail.setSubject(assunto);
-            htmlEmail.setFrom("adrianond@yahoo.com.br");
-            htmlEmail.setHostName("smtp.mail.yahoo.com");
-            htmlEmail.setSmtpPort(587);
-            htmlEmail.setTLS(true);
-            htmlEmail.setSSL(true);
-            htmlEmail.setAuthenticator(new DefaultAuthenticator("adrianond@yahoo.com.br", "Tricolor_1992"));
-            htmlEmail.send();*/
-
-
-
-
-
-
+            SimpleMailMessage message = new SimpleMailMessage();
+            message.setFrom(remetente);
+            message.setTo("");
+            message.setSubject(assunto);
+            message.setText(mensagem);
+            emailSender.send(message);
 
             log.info("Envio de email de lançamentos vencidos concluido!");
         } catch (Exception e) {

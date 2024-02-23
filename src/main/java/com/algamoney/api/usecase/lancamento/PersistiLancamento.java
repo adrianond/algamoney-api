@@ -26,7 +26,7 @@ public class PersistiLancamento {
     public LancamentoDTO executar(LancamentoRequest request) {
         Lancamento lancamento = lancamentoRepositoryFacade.save(build(null, request));
 
-        LancamentoMapper mapper = Mappers.getMapper(LancamentoMapper.class);
+        //LancamentoMapper mapper = Mappers.getMapper(LancamentoMapper.class);
         //return mapper.lancamentoEntityToLancamentoDto(lancamento);
         return lancamentoBuilder.build(lancamento);
     }
@@ -49,7 +49,7 @@ public class PersistiLancamento {
         else if(StringUtils.hasText(request.getAnexo()) && !request.getAnexo().equals(lancamento.getAnexo()))
             enviarArquivoS3.substituir(lancamento.getAnexo(), request.getAnexo());*/
 
-        lancamento.setAnexo(request.getAnexo());
+        //lancamento.setAnexo(request.getAnexo());
         lancamento.setCategoria(categoriaRepositoryFacade.findById(request.getIdCategoria()));
         lancamento.setPessoa(pessoaRepositoryFacade.findById(request.getIdPessoa()));
         return lancamento;

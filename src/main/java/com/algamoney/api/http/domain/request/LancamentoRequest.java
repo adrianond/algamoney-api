@@ -46,7 +46,7 @@ public class LancamentoRequest {
     )
     private LocalDate dataRecebimentoPagamento;
 
-    @NotNull(message = "Valor é obrigatório")
+   @NotNull(message = "Valor é obrigatório")
     @ApiModelProperty(
             value = "Valor do lançamento",
             required = true,
@@ -77,10 +77,10 @@ public class LancamentoRequest {
     )
     private Long idCategoria;
 
-    @ApiModelProperty(
+   /* @ApiModelProperty(
             value = "Nome do arquivo a ser salvo por definitivo na AWS"
     )
-    private String anexo;
+    private String anexo;*/
 
     @NotNull(message = "Id pessoa é obrigatório")
     @ApiModelProperty(
