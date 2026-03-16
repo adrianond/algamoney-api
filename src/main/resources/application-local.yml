@@ -15,11 +15,11 @@ spring:
   application:
     name: algamoney-api
   datasource:
-    url: jdbc:oracle:thin:@localhost:1521/xe
+    url: jdbc:oracle:thin:@localhost:1521/XEPDB1
     #url: jdbc:mysql://localhost:3306/algamoney?useTimezone=true&serverTimezone=UTC
-    username: system
+    username: HR #ALGAMONEYAPI
     #username: root mysql
-    password: admin
+    password: teste #root
     #password: mysql
     driver-class-name: oracle.jdbc.OracleDriver
     #driver-class-name: com.mysql.cj.jdbc.Driver
@@ -61,9 +61,9 @@ spring:
   rabbitmq:
     addresses: localhost
     port: 5672
-    username: adrianond
-    password: secret
-    virtual-host: adrianond
+    username: guest
+    password: guest
+    #virtual-host: guest
 app:
   swagger.host: localhost:8080
   algamoney:

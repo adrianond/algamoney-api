@@ -47,12 +47,15 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
                 .antMatchers("/api/categories/**").permitAll()
                 .antMatchers("/api/report/**").permitAll()*/
 
-                .antMatchers("/v2/api-docs",
-                    "/configuration/ui",
-                    "/swagger-resources/**",
-                    "/configuration/security",
+                .antMatchers(
+                    "/v2/api-docs",
+                    "/v3/api-docs/**",
                     "/swagger-ui.html",
-                    "/webjars/**").permitAll()
+                    "/swagger-ui/**",
+                    "/swagger-resources/**",
+                    "/webjars/**",
+                    "/configuration/**").permitAll()
+                .antMatchers("/api/categories/**").permitAll()
                 .anyRequest().authenticated()
                     .and()
                 .exceptionHandling().accessDeniedHandler(accessDeniedHandler())

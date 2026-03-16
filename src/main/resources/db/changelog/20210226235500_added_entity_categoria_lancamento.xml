@@ -11,7 +11,7 @@
     <property name="floatType" value="float" dbms="mysql, oracle, mssql"/>
 
     <changeSet id="20210226235500-1" author="adriano.dantas">
-        <createTable tableName="categoria">
+        <createTable tableName="categoria_lancamento">
             <column name="id" type="bigint" autoIncrement="${autoIncrement}">
                  <constraints primaryKey="true" nullable="false"/>
              </column>
@@ -21,32 +21,32 @@
             </column>-->
 
             <column name="nome" type="varchar(255)">
-                <constraints nullable="false" unique="true" uniqueConstraintName="const_nome"/>
+                <constraints nullable="false" unique="true" uniqueConstraintName="const_nome_cat"/>
             </column>
         </createTable>
         <createSequence sequenceName="SEQ_CATEGORIA"/> <!-- comentar para mysql-->
 
-        <insert tableName="categoria">
+        <insert tableName="categoria_lancamento">
             <column name="id" value="1"/>
             <column name="nome" value="Lazer"/>
         </insert>
-        <insert tableName="categoria">
+        <insert tableName="categoria_lancamento">
             <column name="id" value="2"/>
             <column name="nome" value="Alimentação"/>
         </insert>
-        <insert tableName="categoria">
+        <insert tableName="categoria_lancamento">
             <column name="id" value="3"/>
             <column name="nome" value="Supermercado"/>
         </insert>
-        <insert tableName="categoria">
+        <insert tableName="categoria_lancamento">
             <column name="id" value="4"/>
             <column name="nome" value="Farmácia"/>
         </insert>
-        <insert tableName="categoria">
+        <insert tableName="categoria_lancamento">
             <column name="id" value="5"/>
             <column name="nome" value="Investimento"/>
         </insert>
-        <insert tableName="categoria">
+        <insert tableName="categoria_lancamento">
             <column name="id" value="6"/>
             <column name="nome" value="Outros"/>
         </insert>

@@ -1,6 +1,5 @@
 package com.algamoney.api.usecase.lancamento;
 
-import com.algamoney.api.database.entity.Lancamento;
 import com.algamoney.api.database.entity.QLancamento;
 import com.algamoney.api.database.entity.enumeration.TipoLancamento;
 import com.algamoney.api.database.repository.LancamentoRepositoryFacade;
@@ -27,7 +26,7 @@ public class ConsultaLancamentos {
 
     public List<LancamentoDTO> executar() {
         return lancamentoRepositoryFacade.findAll().stream()
-                .map(lancamento -> lancamentoBuilder.build(lancamento))
+                .map(lancamentoBuilder::build)
                 .collect(Collectors.toList());
     }
 
@@ -52,15 +51,7 @@ public class ConsultaLancamentos {
         if (StringUtils.hasText(descricao))
             predicate.and(QLancamento.lancamento.descricao.containsIgnoreCase(descricao));
 
-        return build(lancamentoRepositoryFacade.findAll(predicate, pageable));
-    }
-
-    private Page<LancamentoDTO> build(Page<Lancamento> lancamentos) {
-        return lancamentos
-                .map(this::buildDTO);
-    }
-
-    private LancamentoDTO buildDTO(Lancamento lancamento) {
-        return lancamentoBuilder.build(lancamento);
+        return lancamentoRepositoryFacade.findAll(predicate, pageable)
+                .map(lancamentoBuilder::build);
     }
 }

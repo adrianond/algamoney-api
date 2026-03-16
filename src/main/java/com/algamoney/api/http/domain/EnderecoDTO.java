@@ -1,10 +1,11 @@
 package com.algamoney.api.http.domain;
 
-import lombok.Builder;
-import lombok.Getter;
+import lombok.*;
 
 @Builder
-@Getter
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class EnderecoDTO {
     private String logradouro;
     private String numero;

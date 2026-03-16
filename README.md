@@ -10,3 +10,19 @@
 
 # gerar novo acess token com refresh token: 
 # usar mesma URL do login, mesma Authorization Basic, porém altera o Body-> grant_type:refresh_token
+
+# habilitar interface rabbit: rabbitmq-plugins.bat enable rabbitmq_management (executar na pasta C:\Program Files\RabbitMQ Server\rabbitmq_server-3.13.3\sbin)
+# iniciar servico: rabbitmq-server.bat (executar na pasta C:\Program Files\RabbitMQ Server\rabbitmq_server-3.13.3\sbin)
+# URL interface: http://localhost:15672
+# usuario padrao:
+# user: guest
+# senha: guest
+
+# REDIS - usando Redis do tporadowski
+# Iniciar redis: redis-server.exe (descompactado em C:\develop\redis)
+# testar: digitar no CMD "ping" deve retornar "pong"
+# verificar key na memoria do redis: redis-cli.exe
+# listar todas keys: keys *
+# ver valores de keys: get minhaChave
+
+

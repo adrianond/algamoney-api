@@ -8,10 +8,9 @@ import org.springframework.stereotype.Component;
 @Component
 @AllArgsConstructor
 public class ConsultaPermissoesUsuario {
-    private UsuarioRepositoryFacade usuarioRepositoryFacade;
+    private final UsuarioRepositoryFacade usuarioRepositoryFacade;
 
     public Usuario executar(Long codigo) {
-       Usuario usuario = usuarioRepositoryFacade.findByCodigo(codigo);
-       return usuario;
+        return usuarioRepositoryFacade.findByCodigo(codigo);
     }
 }

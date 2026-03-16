@@ -31,6 +31,7 @@ public class CategoriaWS {
     private final ExcluiCategoria excluiCategoria;
 
     private final AlteraCategoria alteraCategoria;
+    private final ConsultaCategoriasV2 consultaCategoriasV2;
     private final ApplicationEventPublisher publisher;
 
     @ApiOperation(value = "Get category")
@@ -45,10 +46,12 @@ public class CategoriaWS {
 
     @ApiOperation(value = "Get categories")
     @GetMapping()
-    @PreAuthorize("hasAuthority('ROLE_PESQUISAR_CATEGORIA') and #oauth2.hasScope('read')")
+   // @PreAuthorize("hasAuthority('ROLE_PESQUISAR_CATEGORIA') and #oauth2.hasScope('read')")
     @ResponseStatus(HttpStatus.OK)
-    public ConsultaCategoriasResponse consultaCategorias(@ApiParam(required = true, value = "Authorization: Bearer <TOKEN>") @RequestHeader(value = "Authorization") String authorization) {
-       return new ConsultaCategoriasResponse(consultaCategorias.executar());
+    public ConsultaCategoriasResponse consultaCategorias(/*@ApiParam(required = true, value = "Authorization: Bearer <TOKEN>") @RequestHeader(value = "Authorization") String authorization*/) {
+
+        return new ConsultaCategoriasResponse(consultaCategoriasV2.executar());
+        //return new ConsultaCategoriasResponse(consultaCategorias.executar());
     }
 
 

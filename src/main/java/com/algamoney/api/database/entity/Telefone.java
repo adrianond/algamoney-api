@@ -13,6 +13,7 @@ import java.io.Serializable;
 @EqualsAndHashCode(of = "id")
 @NoArgsConstructor
 @Data
+@Table(name = "telefone_contato")
 public class Telefone implements Serializable {
     private static final long serialVersionUID = 1L;
 

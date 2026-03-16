@@ -33,49 +33,33 @@ public class ConsultaLancamentosPorPessoa {
 
         Page<Lancamento> lancamentosPage = lancamentoRepositoryFacade.findAll(predicate, pageable);
 
-        adicionaLancamentosDespesa(list, lancamentosPage);
-        adicionaLancamentosReceita(list, lancamentosPage);
+        adicionaLancamentosPorTipo(list, lancamentosPage, TipoLancamento.DESPESA);
+        adicionaLancamentosPorTipo(list, lancamentosPage, TipoLancamento.RECEITA);
 
-       return list;
+        return list;
     }
 
-    public Page<LancamentoEstatisticaPorPessoaDTO> executar (Pageable pageable, LocalDate dataVencimentoDe, LocalDate dataVencimentoAte) {
-        List<LancamentoEstatisticaPorPessoaDTO> list = executarConsulta(pageable,  dataVencimentoDe, dataVencimentoAte);
+    public Page<LancamentoEstatisticaPorPessoaDTO> executar(Pageable pageable, LocalDate dataVencimentoDe, LocalDate dataVencimentoAte) {
+        List<LancamentoEstatisticaPorPessoaDTO> list = executarConsulta(pageable, dataVencimentoDe, dataVencimentoAte);
         final int start = (int) pageable.getOffset();
         final int end = Math.min((start + pageable.getPageSize()), list.size());
-        final Page<LancamentoEstatisticaPorPessoaDTO> page = new PageImpl<>(list.subList(start, end), pageable, list.size());
-        return page;
+        return new PageImpl<>(list.subList(start, end), pageable, list.size());
     }
 
-    private void adicionaLancamentosDespesa(List<LancamentoEstatisticaPorPessoaDTO> list, Page<Lancamento> lancamentosPage) {
+    private void adicionaLancamentosPorTipo(List<LancamentoEstatisticaPorPessoaDTO> list,
+                                             Page<Lancamento> lancamentosPage,
+                                             TipoLancamento tipo) {
         lancamentosPage.stream()
                 .filter(lancamento -> lancamento.getValor() != null
-                        && lancamento.getTipoLancamento().equals((TipoLancamento.DESPESA)))
+                        && lancamento.getTipoLancamento().equals(tipo))
                 .collect(Collectors.groupingBy(lancamento -> lancamento.getPessoa().getId()))
-                .forEach((key, lancamentos) ->
+                .forEach((pessoaId, lancamentos) ->
                         list.add(LancamentoEstatisticaPorPessoaDTO.builder()
-                                .total(lancamentos.stream().filter(lancamento -> lancamento.getPessoa().getId().equals(key))
-                                        .map(lancamento -> lancamento.getValor())
+                                .total(lancamentos.stream()
+                                        .map(Lancamento::getValor)
                                         .reduce(BigDecimal.ZERO, BigDecimal::add))
-                                .nome(pessoaBuilder.getNomePessoa(lancamentos.stream().filter(lancamento ->
-                                        lancamento.getPessoa().getId().equals(key)).findFirst().get().getPessoa()))
-                                .tipo(TipoLancamento.DESPESA)
-                                .build()));
-    }
-
-    private void adicionaLancamentosReceita(List<LancamentoEstatisticaPorPessoaDTO> list, Page<Lancamento> lancamentosPage) {
-        lancamentosPage.stream()
-                .filter(lancamento -> lancamento.getValor() != null
-                        && lancamento.getTipoLancamento().equals((TipoLancamento.RECEITA)))
-                .collect(Collectors.groupingBy(lancamento -> lancamento.getPessoa().getId()))
-                .forEach((key, lancamentos) ->
-                        list.add(LancamentoEstatisticaPorPessoaDTO.builder()
-                                .total(lancamentos.stream().filter(lancamento -> lancamento.getPessoa().getId().equals(key))
-                                        .map(lancamento -> lancamento.getValor())
-                                        .reduce(BigDecimal.ZERO, BigDecimal::add))
-                                .nome(pessoaBuilder.getNomePessoa(lancamentos.stream().filter(lancamento ->
-                                        lancamento.getPessoa().getId().equals(key)).findFirst().get().getPessoa()))
-                                .tipo(TipoLancamento.RECEITA)
+                                .nome(pessoaBuilder.getNomePessoa(lancamentos.get(0).getPessoa()))
+                                .tipo(tipo)
                                 .build()));
     }
 }

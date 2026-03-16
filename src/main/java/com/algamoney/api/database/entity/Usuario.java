@@ -8,7 +8,7 @@ import java.io.Serializable;
 import java.util.List;
 
 @Entity
-@Table(name = "usuario")
+@Table(name = "usuario_login")
 @NoArgsConstructor
 @Data
 public class Usuario implements Serializable  {

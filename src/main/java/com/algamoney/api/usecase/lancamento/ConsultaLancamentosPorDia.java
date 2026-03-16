@@ -8,7 +8,6 @@ import com.algamoney.api.http.domain.LancamentoEstatisticaPorDiaDTO;
 import com.querydsl.core.BooleanBuilder;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 
@@ -23,7 +22,7 @@ import java.util.stream.Collectors;
 public class ConsultaLancamentosPorDia {
     private final LancamentoRepositoryFacade lancamentoRepositoryFacade;
 
-    public Page<LancamentoEstatisticaPorDiaDTO> executar(Pageable pageable, LocalDate mesReferencia) {
+    public List<LancamentoEstatisticaPorDiaDTO> executar(Pageable pageable, LocalDate mesReferencia) {
         List<LancamentoEstatisticaPorDiaDTO> list = new ArrayList<>();
         BooleanBuilder predicate = new BooleanBuilder();
 
@@ -34,42 +33,26 @@ public class ConsultaLancamentosPorDia {
 
         Page<Lancamento> lancamentosPage = lancamentoRepositoryFacade.findAll(predicate, pageable);
 
-        adicionaLancamentosTipoDespesa(list, lancamentosPage);
-        adicionaLancamentosTipoReceita(list, lancamentosPage);
+        adicionaLancamentosPorTipo(list, lancamentosPage, TipoLancamento.DESPESA);
+        adicionaLancamentosPorTipo(list, lancamentosPage, TipoLancamento.RECEITA);
 
-        final int start = (int) pageable.getOffset();
-        final int end = Math.min((start + pageable.getPageSize()), list.size());
-        final Page<LancamentoEstatisticaPorDiaDTO> page = new PageImpl<>(list.subList(start, end), pageable, list.size());
-        return page;
+        return list;
     }
 
-    private void adicionaLancamentosTipoDespesa(List<LancamentoEstatisticaPorDiaDTO> list, Page<Lancamento> lancamentosPage) {
+    private void adicionaLancamentosPorTipo(List<LancamentoEstatisticaPorDiaDTO> list,
+                                             Page<Lancamento> lancamentosPage,
+                                             TipoLancamento tipo) {
         lancamentosPage.stream()
                 .filter(lancamento -> lancamento.getValor() != null
-                        && lancamento.getTipoLancamento().equals((TipoLancamento.DESPESA)))
-                .collect(Collectors.groupingBy(lancamento -> lancamento.getDataVencimento()))
-                .forEach((key, lancamentos) ->
+                        && lancamento.getTipoLancamento().equals(tipo))
+                .collect(Collectors.groupingBy(Lancamento::getDataVencimento))
+                .forEach((dia, lancamentos) ->
                         list.add(LancamentoEstatisticaPorDiaDTO.builder()
-                                .total(lancamentos.stream().filter(lancamento -> lancamento.getDataVencimento().equals(key))
-                                        .map(lancamento -> lancamento.getValor())
+                                .total(lancamentos.stream()
+                                        .map(Lancamento::getValor)
                                         .reduce(BigDecimal.ZERO, BigDecimal::add))
-                                .dia(key)
-                                .tipo(TipoLancamento.DESPESA)
-                                .build()));
-    }
-
-    private void adicionaLancamentosTipoReceita(List<LancamentoEstatisticaPorDiaDTO> list, Page<Lancamento> lancamentosPage) {
-        lancamentosPage.stream()
-                .filter(lancamento -> lancamento.getValor() != null
-                        && lancamento.getTipoLancamento().equals((TipoLancamento.RECEITA)))
-                .collect(Collectors.groupingBy(lancamento -> lancamento.getDataVencimento()))
-                .forEach((key, lancamentos) ->
-                        list.add(LancamentoEstatisticaPorDiaDTO.builder()
-                                .total(lancamentos.stream().filter(lancamento -> lancamento.getDataVencimento().equals(key))
-                                        .map(lancamento -> lancamento.getValor())
-                                        .reduce(BigDecimal.ZERO, BigDecimal::add))
-                                .dia(key)
-                                .tipo(TipoLancamento.RECEITA)
+                                .dia(dia)
+                                .tipo(tipo)
                                 .build()));
     }
 }

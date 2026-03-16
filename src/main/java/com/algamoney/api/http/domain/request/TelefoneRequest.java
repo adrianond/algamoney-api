@@ -1,15 +1,19 @@
 package com.algamoney.api.http.domain.request;
 
 import com.algamoney.api.http.domain.TelefoneDTO;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import java.util.List;
 
-@Getter
-@Setter
+@AllArgsConstructor
+@NoArgsConstructor
+@Data
+@Builder
 public class TelefoneRequest {
     @Valid
     @NotNull

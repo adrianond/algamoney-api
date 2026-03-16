@@ -11,7 +11,7 @@
     <property name="floatType" value="float" dbms="mysql, oracle, mssql"/>
 
     <changeSet id="20210717235500-1" author="adriano.dantas">
-        <createTable tableName="usuario">
+        <createTable tableName="usuario_login">
             <column name="codigo" type="bigint">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
@@ -26,13 +26,13 @@
             </column>
         </createTable>
 
-        <insert tableName="usuario">
+        <insert tableName="usuario_login">
             <column name="codigo" value="1"/>
             <column name="email" value="admin@algamoney.com"/>
             <column name="nome" value="Administrador"/>
             <column name="senha" value="$2a$10$T8Fpc6FuRen2uLodDyfDOu/P1OWJddQMU8TXYXF6REd8gpu17Y.KK"/>
         </insert>
-        <insert tableName="usuario">
+        <insert tableName="usuario_login">
             <column name="codigo" value="2"/>
             <column name="email" value="maria.silva@algamoney.com"/>
             <column name="nome" value="Maria Silva"/>

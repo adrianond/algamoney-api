@@ -4,7 +4,6 @@ import com.algamoney.api.database.entity.enumeration.TipoLancamento;
 import com.algamoney.api.http.domain.request.LancamentoFilter;
 import com.algamoney.api.http.domain.request.LancamentoRequest;
 import com.algamoney.api.http.domain.response.*;
-//import com.algamoney.api.usecase.cloud.EnviarArquivoS3;
 import com.algamoney.api.usecase.lancamento.*;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -16,7 +15,6 @@ import org.springframework.format.annotation.DateTimeFormat.ISO;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 import java.time.LocalDate;

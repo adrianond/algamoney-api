@@ -7,8 +7,6 @@ import com.algamoney.api.http.domain.CategoriaDTO;
 import com.algamoney.api.http.domain.LancamentoEstatisticaPorCategoriaDTO;
 import com.querydsl.core.BooleanBuilder;
 import lombok.AllArgsConstructor;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 
@@ -23,7 +21,7 @@ import java.util.stream.Collectors;
 public class ConsultaLancamentosPorCategoria {
     private final LancamentoRepositoryFacade lancamentoRepositoryFacade;
 
-    public Page<LancamentoEstatisticaPorCategoriaDTO> executar(Pageable pageable, LocalDate mesReferencia) {
+    public List<LancamentoEstatisticaPorCategoriaDTO> executar(Pageable pageable, LocalDate mesReferencia) {
         List<LancamentoEstatisticaPorCategoriaDTO> list = new ArrayList<>();
         BooleanBuilder predicate = new BooleanBuilder();
 
@@ -33,23 +31,17 @@ public class ConsultaLancamentosPorCategoria {
         predicate.and(QLancamento.lancamento.dataVencimento.between(primeiroDia, ultimoDia));
 
         lancamentoRepositoryFacade.findAll(predicate, pageable)
-                .stream().collect(Collectors.groupingBy(lancamento -> lancamento.getCategoria().getId()))
-                .forEach((key, lancamentos) ->
+                .stream()
+                .collect(Collectors.groupingBy(lancamento -> lancamento.getCategoria().getId()))
+                .forEach((categoriaId, lancamentos) ->
                         list.add(LancamentoEstatisticaPorCategoriaDTO.builder()
-                                .total(lancamentos.stream().filter(lancamento -> lancamento.getCategoria().getId().equals(key))
+                                .total(lancamentos.stream()
                                         .map(lancamento -> lancamento.getValor())
                                         .reduce(BigDecimal.ZERO, BigDecimal::add))
-                                .categoriaDTO(buildCategoria(lancamentos.stream()
-                                        .filter(lancamento ->
-                                                lancamento.getCategoria().getId().equals(key))
-                                        .findFirst().get().getCategoria()))
+                                .categoriaDTO(buildCategoria(lancamentos.get(0).getCategoria()))
                                 .build()));
 
-
-        final int start = (int) pageable.getOffset();
-        final int end = Math.min((start + pageable.getPageSize()), list.size());
-        final Page<LancamentoEstatisticaPorCategoriaDTO> page = new PageImpl<>(list.subList(start, end), pageable, list.size());
-        return page;
+        return list;
     }
 
     private CategoriaDTO buildCategoria(Categoria categoria) {

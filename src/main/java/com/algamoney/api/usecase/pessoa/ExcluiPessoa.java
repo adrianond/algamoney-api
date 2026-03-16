@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 @Component
 @AllArgsConstructor
 public class ExcluiPessoa {
-    private PessoaRepositoryFacade pessoaRepositoryFacade;
+    private final PessoaRepositoryFacade pessoaRepositoryFacade;
 
     public void executar(Long id) {
         Pessoa pessoa = pessoaRepositoryFacade.findById(id);

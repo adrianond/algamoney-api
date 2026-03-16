@@ -9,6 +9,7 @@ import java.io.Serializable;
 
 
 @Entity
+@Table(name = "categoria_lancamento")
 @NoArgsConstructor
 @Data
 @EqualsAndHashCode(of = "id")
@@ -16,7 +17,6 @@ public class Categoria implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
-
     @SequenceGenerator(name = "SEQ_CATEGORIA", sequenceName = "SEQ_CATEGORIA", allocationSize = 1)
     @GeneratedValue(generator = "SEQ_CATEGORIA",strategy = GenerationType.SEQUENCE)
     //@GeneratedValue(strategy=GenerationType.AUTO) mysql
