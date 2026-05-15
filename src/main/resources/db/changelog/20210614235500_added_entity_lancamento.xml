@@ -40,7 +40,7 @@
             <column name="id_categoria" type="bigint">
                 <constraints nullable="false"
                              foreignKeyName="fk_lancamento_categoria"
-                             referencedTableName="categoria"
+                             referencedTableName="categoria_lancamento"
                              referencedColumnNames="id"/>
             </column>
             <column name="id_pessoa" type="bigint">

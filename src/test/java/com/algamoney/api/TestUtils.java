@@ -21,7 +21,7 @@ public class TestUtils {
     }
 
     public static void decryptText() {
-        String text = "AQA4jdx4KTLWLnXrQiroG2dMph1x6QRUEdDKyVKOKJiIUcxP/FcA+b5+4taiazVksGh1fx6vBzpI2dSXXdFNFcm5/1FJi3OiAyk/XJLeMWNLFkkBTzlJzGHvy7UuFErXFI7fpQk5qQlNebgJFEUspARPGWuVtNQ4OzMD+raW1ErueBQLmc5apDjMKZu505LQ49IzmEfigSWiBIfSWPR8UlkTXs4dzQcRCrEsVkEdKsl/7AnmdP5YZqjSIl9j8m+IVXiB6GAimn79wXYaz2jb0zHTC1cEZN+Pf+YNBty0OmDocESdw1Li1hGL6KwGHreOhI+0pB9b125OUmUBgEPnjyYx9ikPiBXVsFQsJccvLLdyzzFZWAQTdy1y50kGemGlMPw=";
+        String text = "$2a$10$T8Fpc6FuRen2uLodDyfDOu/P1OWJddQMU8TXYXF6REd8gpu17Y.KK\n";
         String decryptedText = encryptDecryptText(text);
         System.out.println(decryptedText);
     }

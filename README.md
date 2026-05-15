@@ -26,3 +26,5 @@
 # ver valores de keys: get minhaChave
 
 
+# subir API no EC2 
+java -jar /home/ec2-user/algamoney-api-0.0.1-SNAPSHOT.jar --spring.profiles.active=oauth-security

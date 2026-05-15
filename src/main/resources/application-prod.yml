@@ -1,28 +1,55 @@
+# Server Configuration
+server:
+  port: 8080
+
 spring:
   profiles:
     active: oauth-security
   application:
     name: algamoney-api
   datasource:
-    url: mysql://bce3689b6e4066:470b3ea9@us-cdbr-east-05.cleardb.net/heroku_da8937e4ac7a78b?reconnect=true
+    url: jdbc:oracle:thin:@algamoney_tp?TNS_ADMIN=/home/ec2-user/wallet
+    username: ADMIN
+    password:
+    driver-class-name: oracle.jdbc.OracleDriver
+    hikari:
+      minimum-idle: 2 # minimo de conexoes paradas mantidas pelo HikariCP em um pool de conexoes
+      maximum-pool-size: 10 # maximo de conexóes que é aberta
+      pool-name: AlgamoneyApiPool
+      idle-timeout: 9000 # tempo ocioso para conexão, ou seja, tempo que uma conexão vai ficar ociosa após ser usada para após esse tempo essa conexao morrer
+      isolate-internal-queries: true
+      connection-test-query: SELECT 1 from DUAL
+      connection-timeout: 18000 # tempo maximo em milisegundos que um cliente irá aguardar por uma conexao (se em 18 segundos não tiver uma conexao disponivel ocorre erro de timeout)
   jpa:
     properties:
       hibernate:
         dialect: org.hibernate.dialect.Oracle10gDialect
         show_sql: true
         format_sql: true
+        generate_statistics: false
+        order_inserts: true
+        order_updates: true
+        jdbc:
+          batch_size: 5
+  batch: #cria as tabelas default do spring batch
+    initialize-schema: ALWAYS
   liquibase:
     contexts: local
     change-log: classpath:db/changelog/master.xml
+  cache:
+    type: redis
+  redis:
+    host: localhost
+    port: 6379
   jackson:
     deserialization:
-      fail-on-unknown-properties: true
+      fail-on-unknown-properties: false
   rabbitmq:
-    addresses: 192.168.0.60 #localhost
+    addresses: localhost
     port: 5672
-    username: adrianond
-    password: secret
-    virtual-host: adrianond
+    username: guest
+    password: guest
+    #virtual-host: guest
 app:
   swagger.host: localhost:8080
   algamoney:
@@ -31,8 +58,10 @@ app:
         initialInterval: 60000 # 1min
         maxInterval: 120000 # 2min
         multiplier: 1 # linear, uma tentativa cada 'initialInterval'
-        retries: 6
-        consumers: 20
+        retries: 1
+        consumers: 1
+        maxConsumers: 10
+        default-message-converter: true
       bindings:
         -
           topic: algamoney.event.save.phone
@@ -41,7 +70,38 @@ app:
           dlx: algamoney.event.save.phone.dlx
           dlq: algamoney.event.save.phone.dlq
           declare: true
+        -
+          topic: algamoney.event.carga.pessoa
+          routing-key: algamoney.event.carga.pessoa
+          queue: algamoney.event.carga.pessoa.queue
+          dlx: algamoney.event.carga.pessoa.dlx
+          dlq: algamoney.event.carga.pessoa.dlq
+          declare: true
     seguranca:
-      enableHttps: true
+      enableHttps: false
     person:
       url: https://gsdktzz0lb.execute-api.us-east-1.amazonaws.com/dev
+    mail:
+      host: smtp.gmail.com
+      port: 587
+      username:
+      password:
+    scheduler:
+      efetuar-carga-pessoa:
+        enabled: false
+        cron: !!str "0 0 9 * * *"  # todos os dias as 9:00:00 (segundo 0, minuto 0, 9 horas, dia do mes, mes, dia da semanma)
+      envio-email:
+        enabled: false
+    job:
+      tamanhoLote: 5
+      #s3:
+      # accessKeyId:
+      # secretAccessKey:
+logging:
+  level:
+    org:
+      springframework:
+        boot:
+          autoconfigure: ERROR
+
+  web: DEBUG
